@@ -2,7 +2,7 @@
 
 ## Quick Start
 
-```
+```shell
 # Assuming you are in the root of the project:
 
 # Install dependencies for server
