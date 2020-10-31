@@ -1,7 +1,10 @@
+import Homepage from "./Homepage/Homepage";
+import SearchBar from "./Components/SearchBar";
+
 function App() {
   return (
     <div>
-      <p>hello world</p>
+      <SearchBar />
     </div>
   )
 }
