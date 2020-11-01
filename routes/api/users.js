@@ -19,24 +19,19 @@ router.get('/user', (req, res) => {
   return res.json(user)
 })
 
-router.patch('/users', (req, res) => {
-  const { name, email, password } = req.body.user || sampleUser
-  const newUser = {
-    name,
-    email,
-    points: 100, // Assuming new users start with 100 points.
-    givenBooks: [],
-    requestedBooks: [],
-    password, // Not in ERD
-  }
-  if (!newUser.name || !newUser.email || !newUser.password) {
-    return res
-      .status(400)
-      .json({ error: 'The request object is missing at least one of the required attributes' })
-  }
-  // Call function to add user to database here.
-  // Return the user data from database after addition.
-  return res.json(newUser)
+// Edit an existing user.
+router.patch('/user', (req, res) => {
+  // Get user by id.
+  const user = sampleUser
+
+  // Only update fields that were actually passed.
+  if (req.body.user.name !== undefined) user.name = req.body.user.name
+  if (req.body.user.email !== undefined) user.email = req.body.user.email
+  if (req.body.user.password !== undefined) user.password = req.body.user.password
+  if (req.body.user.points !== undefined) user.points += req.body.user.points
+
+  // Send request to database to save changes and return the results.
+  res.status(200).json(user)
 })
 
 // Add user to database.
@@ -57,9 +52,7 @@ router.post('/users', (req, res) => {
   }
   // Call function to add user to database here.
   // Return the user data from database after addition.
-  return res.json(newUser)
+  return res.status(201).json(newUser)
 })
-
-// Edit existing user.
 
 module.exports = router
