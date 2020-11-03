@@ -1,4 +1,6 @@
 const SQL = require('sql-template-strings')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 const db = require('../lib/db')
 
 exports.getUsers = async function (req, res) {
@@ -32,35 +34,91 @@ exports.getUser = async function (req, res) {
   }
 }
 
-exports.createUser = async function (req, res) {
+exports.registerUser = async function (req, res) {
   // Confirm required fields were passed.
-  if (!req.body.user.name || !req.body.user.email) {
+  if (!req.body.name || !req.body.email || !req.body.password) {
+    return res
+      .status(400)
+      .json({ error: 'The request object is missing at least one of the required attributes' })
+  }
+  // FIXME: Enforce unique username and email constraint
+  // Salt and hash the password before storing in db.
+  await bcrypt.hash(req.body.password, 10)
+  bcrypt.hash(req.body.password, 10, async (err, hash) => {
+    try {
+      if (err) throw err
+      const response = await db.query(SQL`
+        INSERT INTO testuser (name, email, password)
+        VALUES (${req.body.name}, ${req.body.email}, ${hash})
+      `)
+      if (response.error) {
+        return res.status(500).json(response.error)
+      }
+      // Get the user that was just created.
+      const [user] = await db.query(
+        SQL`SELECT * FROM testuser WHERE user_id = ${response.insertId}`
+      )
+      // Generate JWT to send.
+      jwt.sign({ id: user.user_id }, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
+        if (err) throw err
+        return res.status(201).json({
+          token,
+          user: {
+            id: user.user_id,
+            name: user.name,
+            email: user.email,
+            points: user.points,
+          },
+        })
+      })
+    } catch (error) {
+      console.log(error)
+      return res.json(error)
+    }
+  })
+}
+
+exports.loginUser = async function (req, res) {
+  if (!req.body.email || !req.body.password) {
     return res
       .status(400)
       .json({ error: 'The request object is missing at least one of the required attributes' })
   }
   try {
-    const response = await db.query(
-      SQL`INSERT INTO user (name, email) VALUES (${req.body.user.name}, ${req.body.user.email}) `
-    )
-    if (response.error) {
-      return res.status(500).json(response.error)
-    }
-    // Get and send the user that was just created.
-    const [user] = await db.query(SQL`SELECT * FROM user WHERE user_id = ${response.insertId}`)
-    return res.status(201).json(user)
+    const [user] = await db.query(SQL`
+      SELECT * FROM testuser 
+      WHERE email = ${req.body.email}
+    `)
+    // Confirm email was found.
+    if (!user) return res.status(400).json({ error: 'No user with that email exists' })
+
+    // Validate password.
+    const validation = await bcrypt.compare(req.body.password, user.password)
+    if (!validation) return res.status(401).json({ error: 'Invalid password' })
+
+    // Send generated token.
+    jwt.sign({ id: user.user_id }, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
+      if (err) throw err
+      return res.status(201).json({
+        token,
+        user: {
+          id: user.user_id,
+          name: user.name,
+          email: user.email,
+          points: user.points,
+        },
+      })
+    })
   } catch (error) {
     console.log(error)
-    return res.json(error)
+    return res.status(400).json(error)
   }
 }
 
 exports.editUser = async function (req, res) {
   try {
     const [user] = await db.query(SQL`SELECT * FROM user WHERE user_id = ${req.params.userId}`)
-    if (!user) {
-      return res.status(404).json({ error: 'No user with this user_id exists' })
-    }
+    if (!user) return res.status(404).json({ error: 'No user with this user_id exists' })
     // Update the user with the values passed in the request if they exist.
     // FIXME: Add error handling to prevent user's points from reaching < 0
     const response = await db.query(SQL`
@@ -78,5 +136,8 @@ exports.editUser = async function (req, res) {
       SQL`SELECT * FROM user WHERE user_id = ${req.params.userId}`
     )
     return res.status(200).json(updatedUser)
-  } catch (error) {}
+  } catch (error) {
+    console.log(error)
+    return res.status(400).json(error)
+  }
 }
