@@ -41,7 +41,7 @@ exports.createUser = async function (req, res) {
   }
   try {
     const response = await db.query(
-      SQL`INSERT INTO user (name, email) VALUES (${req.body.user.name}, ${req.body.user.email}) `
+      SQL`INSERT INTO user (name, email, street, city, state, zip) VALUES (${req.body.user.name}, ${req.body.user.email}, ${req.body.user.street}, ${req.body.user.city}, ${req.body.user.state}, ${req.body.user.zip}) `
     )
     if (response.error) {
       return res.status(500).json(response.error)
@@ -64,9 +64,13 @@ exports.editUser = async function (req, res) {
     // Update the user with the values passed in the request if they exist.
     // FIXME: Add error handling to prevent user's points from reaching < 0
     const response = await db.query(SQL`
-      UPDATE user 
-      SET name = ${req.body.user.name || user.name}, 
+      UPDATE user
+      SET name = ${req.body.user.name || user.name},
           email = ${req.body.user.email || user.email},
+          street = ${req.body.user.street || user.street},
+          city = ${req.body.user.city || user.city},
+          state = ${req.body.user.state || user.state},
+          zip = ${req.body.user.zip || user.zip},
           points = ${req.body.user.points ? (user.points += req.body.user.points) : user.points}
       WHERE user_id = ${req.params.userId}
     `)
