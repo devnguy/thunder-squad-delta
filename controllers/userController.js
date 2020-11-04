@@ -36,46 +36,41 @@ exports.getUser = async function (req, res) {
 
 exports.registerUser = async function (req, res) {
   // Confirm required fields were passed.
-  if (!req.body.name || !req.body.email || !req.body.password) {
+  if (!req.body.user.name || !req.body.user.email || !req.body.user.password) {
     return res
       .status(400)
       .json({ error: 'The request object is missing at least one of the required attributes' })
   }
   // FIXME: Enforce unique username and email constraint
   // Salt and hash the password before storing in db.
-  await bcrypt.hash(req.body.password, 10)
-  bcrypt.hash(req.body.password, 10, async (err, hash) => {
-    try {
-      if (err) throw err
-      const response = await db.query(SQL`
-        INSERT INTO testuser (name, email, password)
-        VALUES (${req.body.name}, ${req.body.email}, ${hash})
-      `)
-      if (response.error) {
-        return res.status(500).json(response.error)
-      }
-      // Get the user that was just created.
-      const [user] = await db.query(
-        SQL`SELECT * FROM testuser WHERE user_id = ${response.insertId}`
-      )
-      // Generate JWT to send.
-      jwt.sign({ id: user.user_id }, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
-        if (err) throw err
-        return res.status(201).json({
-          token,
-          user: {
-            id: user.user_id,
-            name: user.name,
-            email: user.email,
-            points: user.points,
-          },
-        })
-      })
-    } catch (error) {
-      console.log(error)
-      return res.json(error)
+  try {
+    const hash = await bcrypt.hash(req.body.user.password, 10)
+    const response = await db.query(SQL`
+      INSERT INTO user (name, email, street, city, state, zip, password)
+      VALUES (${req.body.user.name}, ${req.body.user.email}, ${req.body.user.street}, ${req.body.user.city}, ${req.body.user.state}, ${req.body.user.zip}, ${hash}) 
+    `)
+    if (response.error) {
+      return res.status(500).json(response.error)
     }
-  })
+    // Get the user that was just created.
+    const [user] = await db.query(SQL`SELECT * FROM user WHERE user_id = ${response.insertId}`)
+    // Generate JWT to send.
+    jwt.sign({ id: user.user_id }, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
+      if (err) throw err
+      return res.status(201).json({
+        token,
+        user: {
+          id: user.user_id,
+          name: user.name,
+          email: user.email,
+          points: user.points,
+        },
+      })
+    })
+  } catch (error) {
+    console.log(error)
+    return res.json(error)
+  }
 }
 
 exports.loginUser = async function (req, res) {
@@ -122,9 +117,13 @@ exports.editUser = async function (req, res) {
     // Update the user with the values passed in the request if they exist.
     // FIXME: Add error handling to prevent user's points from reaching < 0
     const response = await db.query(SQL`
-      UPDATE user 
-      SET name = ${req.body.user.name || user.name}, 
+      UPDATE user
+      SET name = ${req.body.user.name || user.name},
           email = ${req.body.user.email || user.email},
+          street = ${req.body.user.street || user.street},
+          city = ${req.body.user.city || user.city},
+          state = ${req.body.user.state || user.state},
+          zip = ${req.body.user.zip || user.zip},
           points = ${req.body.user.points ? (user.points += req.body.user.points) : user.points}
       WHERE user_id = ${req.params.userId}
     `)
