@@ -50,7 +50,7 @@ export default function App() {
           <InputField name="Address" />
           <InputField name="Apt #" />
           
-          <select name="state" class="field" id="State" name="State">
+          <select name="State" class="field" id="State">
             <option value="Select a state">Select a state</option>
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
