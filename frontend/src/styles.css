@@ -1,0 +1,51 @@
+.App {
+  font-family: sans-serif;
+}
+
+html,
+body,
+#app,
+#app > div {
+  margin: 0;
+}
+
+.big {
+  display: grid;
+  background-color: #fffaff;
+  height: 100vh;
+  grid-template-columns: 55%;
+  grid-template-rows: 17% 80%;
+  margin: 0;
+}
+
+.form {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+
+ul {
+  list-style: none;
+  padding-left: 20px;
+  font-size: 1.4em;
+}
+
+.req {
+  text-align: left;
+}
+
+h1 {
+  margin: 5% 0 0 5%;
+  font-size: 4em;
+}
+
+.field {
+  display: block;
+  margin: 2%;
+  height: 40px;
+  border-radius: 20px;
+  padding-left: 15px;
+  width: 500px;
+  font-size: 1.7em;
+}
