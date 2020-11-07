@@ -1,5 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Inconsolata");
+
 .App {
-  font-family: sans-serif;
+  font-family: 'Montserrat';
 }
 
 html,
@@ -13,14 +17,14 @@ body,
   display: grid;
   background-color: #fffaff;
   height: 100vh;
-  grid-template-columns: 55%;
-  grid-template-rows: 17% 80%;
+  grid-template-columns: 5% 45% auto;
+  grid-template-rows: 17% 10% auto;
   margin: 0;
 }
 
 .form {
-  grid-column-start: 2;
-  grid-column-end: 3;
+  grid-column-start: 3;
+  grid-column-end: 4;
   grid-row-start: 2;
   grid-row-end: 3;
 }
@@ -36,16 +40,67 @@ ul {
 }
 
 h1 {
-  margin: 5% 0 0 5%;
-  font-size: 4em;
+  margin: 50px 0 0 60px;
+  font-size: 6em;
+  font-family: 'Inconsolata';
+}
+
+input:focus{
+    outline-width:0;
 }
 
 .field {
+    background-color: #fffaff;
   display: block;
   margin: 2%;
   height: 40px;
   border-radius: 20px;
-  padding-left: 15px;
-  width: 500px;
-  font-size: 1.7em;
+  padding-left: 30px;
+  width: 59%;
+  font-size: 2em;
+  font-family:montserrat;
+  border: 1px solid #1E1B18;
+ 
+}
+
+#regIcon{
+    
+grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 3;
+  grid-row-end: 4;
+}
+
+img{
+    max-width: 90%;
+    height:auto;
+}
+select{
+    
+    color:rgba(12,11,9,.5);
+}
+
+option{
+    color:rgba(12,11,9,1);
+}
+
+
+#Zip {
+    width: 25%;
+    display: inline;
+}
+
+#submitReg{
+    width: 25%;
+    background-color: #D8315B ;
+    color: #fffaff;
+    margin-left: 36%;
+    text-align: center;
+    
+}
+
+#State {
+height: 40px;
+width: 30%;
+display: inline;
 }
