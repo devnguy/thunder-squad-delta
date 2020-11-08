@@ -80,7 +80,7 @@ exports.createUser = async function(req, res) {
   }
   try {
     const response = await db.query(
-      SQL `INSERT INTO user (name, email, street, city, state, zip) VALUES (${req.body.user.name}, ${req.body.user.email}, ${req.body.user.street}, ${req.body.user.city}, ${req.body.user.state}, ${req.body.user.zip}) `
+      SQL `INSERT INTO user (name, email, street, city, state, zip, password) VALUES (${req.body.user.name}, ${req.body.user.email}, ${req.body.user.street}, ${req.body.user.city}, ${req.body.user.state}, ${req.body.user.zip}, ${req.body.user.password}) `
     )
     if (response.error) {
       return res.status(500).json(response.error)
@@ -112,7 +112,8 @@ exports.editUser = async function(req, res) {
           city = ${req.body.user.city || user.city},
           state = ${req.body.user.state || user.state},
           zip = ${req.body.user.zip || user.zip},
-          points = ${req.body.user.points ? (user.points += req.body.user.points) : user.points}
+          points = ${req.body.user.points ? (user.points += req.body.user.points) : user.points},
+          password = ${req.body.user.password || user.password}
       WHERE user_id = ${req.params.userId}
     `)
     if (response.error) {
