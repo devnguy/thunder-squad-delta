@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import NavBar from "../Components/NavBar/NavBar";
 import SearchBar from "../Components/SearchBar/SearchBar";
 import IconSquare from "../Components/IconSquare/IconSquare";
@@ -10,6 +10,7 @@ import GlobeIcon from "../Assets/Globe Icon.png";
 import BookpileIcon from "../Assets/Bookpile Icon.png";
 
 function Homepage(props) {
+  const [filterDropdown, setFilterDropdown] = useState(false);
   return (
     <div>
       <NavBar />
