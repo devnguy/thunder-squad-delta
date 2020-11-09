@@ -1,0 +1,76 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+.searchContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.filterButton {
+  height: 100%;
+  width: 18%;
+  background-color: #d8315b;
+  border-radius: 9999px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding-left: 1%;
+  padding-right: 1%;
+  border: 0px;
+  
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  color: #fffaff;
+}
+
+.filterButtonArrow {
+  height: 10px;
+  width: 10px;
+  border-right: 2px solid #fffaff;
+  border-bottom: 2px solid #fffaff;
+  transform: rotate(45deg);
+}
+
+.searchBar {
+  height: 100%;
+  width: 78%;
+  background: #fffaff;
+  border: 3px solid #3e92cc;
+  box-sizing: border-box;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.searchBarPrompt {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 34px;
+  color: #1E1B18;
+  opacity: 50%;
+  position: relative;
+  left: 6%;
+}
+
+.searchButton {
+    width: 8%;
+    height: 82.4%;
+    background-color: #3e92cc;
+    position: relative;
+    right: 1%;
+    border-radius: 9999px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0px;
+}
+
+.searchButton:active, .filterButton:active {
+    opacity: 70%;
+}
+
