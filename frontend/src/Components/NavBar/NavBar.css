@@ -3,34 +3,45 @@
 .navBarContainer {
   width: 100%;
   height: 81px;
-  background-color: red;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 .navBarLeftSection {
-  padding-left: 73px;
-  background-color: green;
+  padding-left: 50px;
 }
 
 .navBarRightSection {
-  padding-right: 73px;
+  padding-right: 50px;
   display: flex;
   flex-direction: row;
-  background-color: green;
   justify-content: space-between;
+  align-items: center;
   width: 35%;
 }
 
 .navBarHeader {
   font-family: Inconsolata;
-  font-size: 60px;
+  font-size: 50px;
   margin: 0;
 }
 
 .navBarOption {
-    font-family: Inconsolata;
-    font-size: 18px;
-    /* margin: 0px 0px 0px 80px; */
+  font-family: Inconsolata;
+  font-size: 18px;
+}
+
+.avatar {
+  height: 54px;
+
+}
+
+.profileButton {
+  border: none;
+  background-color: white;
+}
+
+.profileButton:active {
+  opacity: 70%;
 }
