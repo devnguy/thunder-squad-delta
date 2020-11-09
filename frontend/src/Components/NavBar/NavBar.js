@@ -23,7 +23,7 @@ function NavBar({ loggedIn = true }) {
             <p className="navBarOption">About</p>
             <p className="navBarOption">Help</p>
             <button className="profileButton">
-            <img src={MaleAvatar} alt="Avatar" className="avatar"/>
+              <img src={MaleAvatar} alt="Avatar" className="avatar" />
             </button>
           </>
         )}

@@ -1,6 +1,6 @@
-import regIcon from "./regIcon.PNG";
+import regIcon from "../Assets/regIcon.PNG";
 import React from "react";
-import "./styles.css";
+import "./Registration.css";
 
 function InputField(props) {
   return (
