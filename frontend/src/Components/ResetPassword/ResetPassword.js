@@ -2,6 +2,7 @@ import React from "react";
 import "./reset-password.css";
 import regIcon from './regIcon.PNG'
 
+
 function InputField(props) {
   return (
     <input
@@ -14,7 +15,7 @@ function InputField(props) {
   );
 }
 
-export default function App() {
+function ResetPassword() {
   return (
     <div className="App">
       <div class="big">
@@ -48,3 +49,5 @@ export default function App() {
     </div>
   );
 }
+
+export default ResetPassword;
