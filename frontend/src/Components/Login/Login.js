@@ -14,7 +14,7 @@ function InputField(props) {
   );
 }
 
-export default function App() {
+function Login() {
   return (
     <div className="App">
       <div class="big">
@@ -45,3 +45,5 @@ export default function App() {
     </div>
   );
 }
+
+export default Login;
