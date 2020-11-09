@@ -1,0 +1,20 @@
+
+.heuristicSquare {
+    width: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.heuristicIcon {
+    padding-bottom: 10px;
+    height: 100px;
+}
+
+.heuristicText {
+    font-family: Montserrat;
+    font-weight: SemiBold;
+    font-size: 15px;
+    text-align: center;
+}

@@ -1,11 +1,15 @@
-import React from "react";
-import "./styles.css";
-
+import Homepage from "./Homepage/Homepage";
+import Login from "./Components/Login/Login";
+import ResetPassword from "./Components/ResetPassword/ResetPassword";
 import Registration from "./Registration";
-
 
 export default function App() {
   return (
-    <Registration/>
-  );
+    <div>
+      <Homepage />
+      //<Login />
+			//<ResetPassword />
+      //<Registration/>
+    </div>
+  )
 }
