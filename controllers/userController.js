@@ -81,17 +81,17 @@ exports.loginUser = async function (req, res) {
   }
   try {
     const [user] = await db.query(SQL`
-      SELECT * FROM testuser 
+      SELECT * FROM user 
       WHERE email = ${req.body.email}
     `)
     // Confirm email was found.
     if (!user) return res.status(400).json({ error: 'No user with that email exists' })
 
     // Validate password.
-    const validation = await bcrypt.compare(req.body.password, user.password)
-    if (!validation) return res.status(401).json({ error: 'Invalid password' })
+    const isMatch = await bcrypt.compare(req.body.password, user.password)
+    if (!isMatch) return res.status(401).json({ error: 'Invalid password' })
 
-    // Send generated token.
+    // Sign and send generated token.
     jwt.sign({ id: user.user_id }, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
       if (err) throw err
       return res.status(201).json({
