@@ -2,11 +2,13 @@ import React from "react";
 
 import NavBar from "../Components/NavBar/NavBar";
 import InfoRow from "../Components/InfoRow.js/InfoRow";
-import BookRow from "../Components/BookRow/BookRow";
+import Library from "../Components/Library/Library";
 
 import MaleAvatarProfile from "../Assets/Male Avatar Profile.png";
 import BookCover from "../Assets/bookCover.png";
 import "./ProfilePage.css";
+
+const headings = ["Username's Library", "Username's Wishlist"];
 
 const book_array = [
   {
@@ -27,6 +29,11 @@ const book_array = [
   {
     title: "The Hobbit",
     author: "J.R.R. Tolkien",
+    cover: BookCover,
+  },
+  {
+    title: "Harry Potter",
+    author: "J.K. Rowling",
     cover: BookCover,
   },
 ];
@@ -54,12 +61,7 @@ function ProfilePage(props) {
           </div>
         </div>
         <div className="librarySection">
-          <div className="libraryRow">
-            <BookRow books={book_array} />
-          </div>
-          <div className="libraryRow">
-            <BookRow books={book_array} />
-          </div>
+          <Library headings={headings} book_arrays={[book_array, book_array]} />
         </div>
       </div>
     </div>

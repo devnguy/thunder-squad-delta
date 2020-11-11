@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./SearchBar.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCoffee, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 function SearchBar({ height, width }) {
   const [searchTerm, setSearchTerm] = useState("");

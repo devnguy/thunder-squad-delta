@@ -83,17 +83,11 @@
 /* Library Section (Right Column) */
 
 .librarySection {
-  width: 66%;
+  width: 65%;
   height: 85%;
   display: flex;
   flex-direction: column;
   min-height: 550px;
-  margin-right: 3%;
+  margin: 0px 2% 0px 2%;
   /* background-color: green; */
-}
-
-.libraryRow {
-  height: 48%;
-  width: 100%;
-  margin-bottom: 2%;
 }
