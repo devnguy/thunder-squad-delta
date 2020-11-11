@@ -1,14 +1,39 @@
-import React, { useState } from "react";
+import React from "react";
 
 import NavBar from "../Components/NavBar/NavBar";
 import InfoRow from "../Components/InfoRow.js/InfoRow";
+import BookRow from "../Components/BookRow/BookRow";
 
 import MaleAvatarProfile from "../Assets/Male Avatar Profile.png";
+import BookCover from "../Assets/bookCover.png";
 import "./ProfilePage.css";
+
+const book_array = [
+  {
+    title: "The Hobbit",
+    author: "J.R.R. Tolkien",
+    cover: BookCover,
+  },
+  {
+    title: "The Hobbit",
+    author: "J.R.R. Tolkien",
+    cover: BookCover,
+  },
+  {
+    title: "The Hobbit",
+    author: "J.R.R. Tolkien",
+    cover: BookCover,
+  },
+  {
+    title: "The Hobbit",
+    author: "J.R.R. Tolkien",
+    cover: BookCover,
+  },
+];
 
 function ProfilePage(props) {
   return (
-    <div>
+    <div className="profilePage">
       <NavBar />
       <div className="pageBody">
         <div className="profileInfoSection">
@@ -29,8 +54,12 @@ function ProfilePage(props) {
           </div>
         </div>
         <div className="librarySection">
-          <div className="libraryRow"></div>
-          <div className="libraryRow"></div>
+          <div className="libraryRow">
+            <BookRow books={book_array} />
+          </div>
+          <div className="libraryRow">
+            <BookRow books={book_array} />
+          </div>
         </div>
       </div>
     </div>

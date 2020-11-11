@@ -1,4 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Inconsolata&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;600;700&display=swap");
+
+.profilePage {
+  min-height: 670px;
+}
 
 .pageBody {
   display: flex;
@@ -14,12 +18,12 @@
   width: 28%;
   height: 95%;
   margin-left: 3%;
-  background-color: red;
   min-width: 220px;
   min-height: 500px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* background-color: red; */
 }
 
 .profileHeader {
@@ -79,15 +83,17 @@
 /* Library Section (Right Column) */
 
 .librarySection {
-  width: 69%;
+  width: 66%;
   height: 85%;
-  background-color: green;
   display: flex;
   flex-direction: column;
+  min-height: 550px;
+  margin-right: 3%;
+  /* background-color: green; */
 }
 
 .libraryRow {
-  height: 50%;
+  height: 48%;
   width: 100%;
-  background-color: blue;
+  margin-bottom: 2%;
 }
