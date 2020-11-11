@@ -17,7 +17,7 @@
   padding-left: 1%;
   padding-right: 1%;
   border: 0px;
-  
+
   font-family: Montserrat;
   font-style: normal;
   font-weight: normal;
@@ -49,28 +49,34 @@
   font-family: Montserrat;
   font-style: normal;
   font-weight: normal;
-  font-size: 24px;
+  font-size: 20px;
   line-height: 34px;
-  color: #1E1B18;
+  color: #1e1b18;
   opacity: 50%;
+  
   position: relative;
-  left: 6%;
+  left: 5%;
+  border: none;
+}
+
+input:focus, textarea:focus {
+  outline: none;
 }
 
 .searchButton {
-    width: 8%;
-    height: 82.4%;
-    background-color: #3e92cc;
-    position: relative;
-    right: 1%;
-    border-radius: 9999px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 0px;
+  width: 8%;
+  height: 82.4%;
+  background-color: #3e92cc;
+  position: relative;
+  right: 1%;
+  border-radius: 9999px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0px;
 }
 
-.searchButton:active, .filterButton:active {
-    opacity: 70%;
+.searchButton:active,
+.filterButton:active {
+  opacity: 70%;
 }
-
