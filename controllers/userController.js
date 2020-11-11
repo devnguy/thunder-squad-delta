@@ -54,18 +54,14 @@ exports.registerUser = async function (req, res) {
     }
     // Get the user that was just created.
     const [user] = await db.query(SQL`SELECT * FROM user WHERE user_id = ${response.insertId}`)
-    // Generate JWT to send.
-    jwt.sign({ id: user.user_id }, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
-      if (err) throw err
-      return res.status(201).json({
-        token,
-        user: {
-          id: user.user_id,
-          name: user.name,
-          email: user.email,
-          points: user.points,
-        },
-      })
+    // Prepare and return user info.
+    return res.status(201).json({
+      user: {
+        id: user.user_id,
+        name: user.name,
+        email: user.email,
+        points: user.points,
+      },
     })
   } catch (error) {
     console.log(error)
@@ -91,18 +87,14 @@ exports.loginUser = async function (req, res) {
     const isMatch = await bcrypt.compare(req.body.password, user.password)
     if (!isMatch) return res.status(401).json({ error: 'Invalid password' })
 
-    // Sign and send generated token.
-    jwt.sign({ id: user.user_id }, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
-      if (err) throw err
-      return res.status(201).json({
-        token,
-        user: {
-          id: user.user_id,
-          name: user.name,
-          email: user.email,
-          points: user.points,
-        },
-      })
+    // Prepare and return user info.
+    return res.status(201).json({
+      user: {
+        id: user.user_id,
+        name: user.name,
+        email: user.email,
+        points: user.points,
+      },
     })
   } catch (error) {
     console.log(error)

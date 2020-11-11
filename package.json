@@ -26,7 +26,6 @@
     "concurrently": "^5.3.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
     "serverless-mysql": "^1.5.4",
     "sql-template-strings": "^2.2.2"
