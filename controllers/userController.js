@@ -1,6 +1,5 @@
 const SQL = require('sql-template-strings')
 const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
 const db = require('../lib/db')
 
 exports.getUsers = async function (req, res) {
