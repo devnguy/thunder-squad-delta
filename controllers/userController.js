@@ -1,4 +1,6 @@
 const SQL = require('sql-template-strings')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 const db = require('../lib/db')
 
 exports.getUsers = async function (req, res) {
@@ -32,35 +34,78 @@ exports.getUser = async function (req, res) {
   }
 }
 
-exports.createUser = async function (req, res) {
+exports.registerUser = async function (req, res) {
   // Confirm required fields were passed.
-  if (!req.body.user.name || !req.body.user.email) {
+  if (!req.body.user.name || !req.body.user.email || !req.body.user.password) {
     return res
       .status(400)
       .json({ error: 'The request object is missing at least one of the required attributes' })
   }
+  // FIXME: Enforce unique username and email constraint
+  // Salt and hash the password before storing in db.
   try {
-    const response = await db.query(
-      SQL`INSERT INTO user (name, email, street, city, state, zip) VALUES (${req.body.user.name}, ${req.body.user.email}, ${req.body.user.street}, ${req.body.user.city}, ${req.body.user.state}, ${req.body.user.zip}) `
-    )
+    const hash = await bcrypt.hash(req.body.user.password, 10)
+    const response = await db.query(SQL`
+      INSERT INTO user (name, email, street, city, state, zip, password)
+      VALUES (${req.body.user.name}, ${req.body.user.email}, ${req.body.user.street}, ${req.body.user.city}, ${req.body.user.state}, ${req.body.user.zip}, ${hash}) 
+    `)
     if (response.error) {
       return res.status(500).json(response.error)
     }
-    // Get and send the user that was just created.
+    // Get the user that was just created.
     const [user] = await db.query(SQL`SELECT * FROM user WHERE user_id = ${response.insertId}`)
-    return res.status(201).json(user)
+    // Prepare and return user info.
+    return res.status(201).json({
+      user: {
+        id: user.user_id,
+        name: user.name,
+        email: user.email,
+        points: user.points,
+      },
+    })
   } catch (error) {
     console.log(error)
     return res.json(error)
   }
 }
 
+exports.loginUser = async function (req, res) {
+  if (!req.body.email || !req.body.password) {
+    return res
+      .status(400)
+      .json({ error: 'The request object is missing at least one of the required attributes' })
+  }
+  try {
+    const [user] = await db.query(SQL`
+      SELECT * FROM user 
+      WHERE email = ${req.body.email}
+    `)
+    // Confirm email was found.
+    if (!user) return res.status(400).json({ error: 'No user with that email exists' })
+
+    // Validate password.
+    const isMatch = await bcrypt.compare(req.body.password, user.password)
+    if (!isMatch) return res.status(401).json({ error: 'Invalid password' })
+
+    // Prepare and return user info.
+    return res.status(201).json({
+      user: {
+        id: user.user_id,
+        name: user.name,
+        email: user.email,
+        points: user.points,
+      },
+    })
+  } catch (error) {
+    console.log(error)
+    return res.status(400).json(error)
+  }
+}
+
 exports.editUser = async function (req, res) {
   try {
     const [user] = await db.query(SQL`SELECT * FROM user WHERE user_id = ${req.params.userId}`)
-    if (!user) {
-      return res.status(404).json({ error: 'No user with this user_id exists' })
-    }
+    if (!user) return res.status(404).json({ error: 'No user with this user_id exists' })
     // Update the user with the values passed in the request if they exist.
     // FIXME: Add error handling to prevent user's points from reaching < 0
     const response = await db.query(SQL`
@@ -82,5 +127,8 @@ exports.editUser = async function (req, res) {
       SQL`SELECT * FROM user WHERE user_id = ${req.params.userId}`
     )
     return res.status(200).json(updatedUser)
-  } catch (error) {}
+  } catch (error) {
+    console.log(error)
+    return res.status(400).json(error)
+  }
 }
