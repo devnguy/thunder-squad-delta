@@ -8,6 +8,24 @@ exports.getUsers = async function (req, res) {
     if (users.error) {
       return res.status(500).json(users.error)
     }
+    for (const user of users) {
+      user.givenBooks = await db.query(SQL `SELECT title, author, genre, description, year_published, publisher, image
+      FROM book
+      INNER JOIN owned_book ON book.book_id = owned_book.book_id
+      INNER JOIN swap ON owned_book.owned_book_id = swap.owned_book_id
+      WHERE swap.receiver_id IS NOT NULL AND owned_book.user_id = ${user.user_id}`)
+      if (user.givenBooks.error) {
+        return res.status(500).json(user.givenBooks.error)
+      }
+      user.receivedBooks = await db.query(SQL `SELECT title, author, genre, description, year_published, publisher, image
+        FROM book
+        INNER JOIN owned_book ON book.book_id = owned_book.book_id
+        INNER JOIN swap ON owned_book.owned_book_id = swap.owned_book_id
+        WHERE swap.receiver_id = ${user.user_id}`)
+      if (user.receivedBooks.error) {
+        return res.status(500).json(user.recievedBooks.error)
+      }
+    }
     return res.status(200).json(users)
   } catch (error) {
     console.log(error)
@@ -25,6 +43,22 @@ exports.getUser = async function (req, res) {
     }
     if (!user) {
       return res.status(404).json({ error: 'No user with this user_id exists' })
+    }
+    user.givenBooks = await db.query(SQL `SELECT title, author, genre, description, year_published, publisher, image
+      FROM book
+      INNER JOIN owned_book ON book.book_id = owned_book.book_id
+      INNER JOIN swap ON owned_book.owned_book_id = swap.owned_book_id
+      WHERE swap.receiver_id IS NOT NULL AND owned_book.user_id = ${req.params.userId}`)
+    if (user.givenBooks.error) {
+      return res.status(500).json(user.givenBooks.error)
+    }
+    user.receivedBooks = await db.query(SQL `SELECT title, author, genre, description, year_published, publisher, image
+        FROM book
+        INNER JOIN owned_book ON book.book_id = owned_book.book_id
+        INNER JOIN swap ON owned_book.owned_book_id = swap.owned_book_id
+        WHERE swap.receiver_id = ${req.params.userId}`)
+    if (user.receivedBooks.error) {
+      return res.status(500).json(user.recievedBooks.error)
     }
     return res.status(200).json(user)
   } catch (error) {
