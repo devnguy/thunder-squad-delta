@@ -32,7 +32,7 @@ exports.createBook = async function(req, res) {
     if (response.error) {
       return res.status(500).json(response.error)
     }
-    // Get and send the user that was just created.
+    // Get and send the book that was just created.
     const [book] = await db.query(SQL `SELECT * FROM book WHERE book_id = ${response.insertId}`)
     return res.status(201).json(book)
   } catch (error) {
@@ -44,11 +44,11 @@ exports.createBook = async function(req, res) {
 // Get a book by id.
 exports.getBook = async function(req, res) {
   try {
-    const books = await db.query(SQL `SELECT * FROM book WHERE book_id = ${req.params.bookId}`)
-    if (books.error) {
-      return res.status(500).json(books.error)
+    const [book] = await db.query(SQL `SELECT * FROM book WHERE book_id = ${req.params.bookId}`)
+    if (book.error) {
+      return res.status(500).json(book.error)
     }
-    return res.status(200).json(books)
+    return res.status(200).json(book)
   } catch (error) {
     console.log(error)
     return res.json(error)
