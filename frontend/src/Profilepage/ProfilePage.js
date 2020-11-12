@@ -1,6 +1,5 @@
 import React from "react";
 
-import NavBar from "../Components/NavBar/NavBar";
 import InfoRow from "../Components/InfoRow.js/InfoRow";
 import Library from "../Components/Library/Library";
 

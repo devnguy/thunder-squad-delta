@@ -26,6 +26,13 @@
   font-family: Inconsolata;
   font-size: 50px;
   margin: 0;
+  color: #1e1b18;
+  text-decoration: none;
+}
+
+.navBarHeader a {
+  color: #1e1b18;
+  text-decoration: none;
 }
 
 .navBarOption {

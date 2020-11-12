@@ -1,6 +1,6 @@
 .searchbarBox {
     width: 100%;
-    height: 35vh;
+    height: 30vh;
     display: flex;
     justify-content: center;
     align-items: flex-end;
@@ -8,7 +8,7 @@
 
 .heuristicBox {
     width: 100%;
-    height: 50vh;
+    height: 55vh;
     display: flex;
     justify-content: space-around;
     align-items: flex-end;

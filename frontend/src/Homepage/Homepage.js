@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import NavBar from "../Components/NavBar/NavBar";
+import React from "react";
 import SearchBar from "../Components/SearchBar/SearchBar";
 import IconSquare from "../Components/IconSquare/IconSquare";
 import "./Homepage.css";
