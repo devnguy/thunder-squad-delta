@@ -10,7 +10,7 @@ import BookpileIcon from "../Assets/Bookpile Icon.png";
 
 function Homepage(props) {
   return (
-    <div>
+    <div className="page">
       <div className="searchbarBox">
         <SearchBar />
       </div>
