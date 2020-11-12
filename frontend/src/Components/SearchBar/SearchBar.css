@@ -37,8 +37,8 @@
 }
 
 .dropdown {
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 180px;
   margin-top: 5px;
   background-color: #d8315b;
   border-radius: 15px;
@@ -53,7 +53,7 @@
   height: 25%;
   display: flex;
   align-items: flex-start;
-  padding-left: 15px;
+  padding: 0px 0px 0px 15px;
   background-color: transparent;
   border: 0px;
 }

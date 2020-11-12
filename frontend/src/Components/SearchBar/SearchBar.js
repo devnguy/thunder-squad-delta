@@ -8,6 +8,8 @@ import {
   faChevronUp,
 } from "@fortawesome/free-solid-svg-icons";
 
+const filter_categories = ["Title", "Author", "Genre", "User"];
+
 function SearchBar(props) {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterOpen, setFilterOpen] = useState(false);
@@ -29,46 +31,26 @@ function SearchBar(props) {
         </button>
         {filterOpen && (
           <div className="dropdown">
-            <button
-              className="dropdownCell filterText cellWithBorder"
-              onClick={() => {
-                setFilterTerm("Title");
-                setFilterOpen(false);
-              }}
-            >
-              Title
-            </button>
-            <button
-              className="dropdownCell filterText cellWithBorder"
-              onClick={() => {
-                setFilterTerm("Author");
-                setFilterOpen(false);
-              }}
-            >
-              Author
-            </button>
-            <button
-              className="dropdownCell filterText cellWithBorder"
-              onClick={() => {
-                setFilterTerm("Genre");
-                setFilterOpen(false);
-              }}
-            >
-              Genre
-            </button>
-            <button
-              className="dropdownCell filterText"
-              onClick={() => {
-                setFilterTerm("User");
-                setFilterOpen(false);
-              }}
-            >
-              User
-            </button>
+            {filter_categories.map((category, index) => (
+              <button
+                key={index}
+                className={
+                  index < 3
+                    ? "dropdownCell filterText cellWithBorder"
+                    : "dropdownCell filterText"
+                }
+                onClick={() => {
+                  setFilterTerm(category);
+                  setFilterOpen(false);
+                }}
+              >
+                {category}
+              </button>
+            ))}
           </div>
         )}
       </div>
-      <div className="searchBar">
+      <form className="searchBar">
         <input
           type="text"
           placeholder="Search..."
@@ -79,7 +61,7 @@ function SearchBar(props) {
         <button className="searchButton">
           <FontAwesomeIcon icon={faSearch} size="2x" color="#fffaff" />
         </button>
-      </div>
+      </form>
     </div>
   );
 }

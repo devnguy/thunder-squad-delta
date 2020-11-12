@@ -40,7 +40,6 @@ const book_array = [
 function ProfilePage(props) {
   return (
     <div className="profilePage">
-      <NavBar />
       <div className="pageBody">
         <div className="profileInfoSection">
           <div className="profileHeader">
