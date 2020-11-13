@@ -2,6 +2,7 @@ import React from "react";
 import NavBar from "./Components/NavBar/NavBar";
 import Homepage from "./Homepage/Homepage";
 import Profilepage from "./Profilepage/ProfilePage";
+import Aboutpage from "./Aboutpage/Aboutpage";
 import Registration from "./Registration/Registration";
 
 import { Switch, Route } from "react-router-dom";
@@ -24,6 +25,9 @@ export default function App() {
         {/* <Route path="/register">
           <Registration />
         </Route> */}
+        <Route path="/about">
+          <Aboutpage />
+        </Route>
       </Switch>
     </>
   );
