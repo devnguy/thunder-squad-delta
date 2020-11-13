@@ -38,12 +38,18 @@ function NavBar({ loggedIn = true }) {
           </p>
         </div>
         <div className="navBarRightSection">
-          <p className="navBarOption">Browse</p>
+          <p className="navBarOption">
+            <Link to="/browse">Browse</Link>
+          </p>
           <p className="navBarOption">About</p>
           {!loggedIn && (
             <>
               <p className="navBarOption">Login</p>
-              <p className="navBarOption">Sign Up</p>
+              <p className="navBarOption">
+                {/* <Link to="/register"> */}
+                Sign Up
+                {/* </Link> */}
+              </p>
             </>
           )}
           {loggedIn && (

@@ -46,6 +46,7 @@
   flex-direction: column;
   justify-content: space-around;
   overflow: hidden;
+  z-index: 500;
 }
 
 .dropdownCell {
