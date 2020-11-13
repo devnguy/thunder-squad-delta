@@ -61,12 +61,17 @@
   width: 54px;
   max-width: 54px;
   min-width: 54px;
+  cursor: pointer;
 }
 
 .navBarOption {
   font-family: Inconsolata;
   font-size: 18px;
+}
+
+.navBarOption a {
   color: #1e1b18;
+  text-decoration: none;
 }
 
 .dropdownContainer {
@@ -82,6 +87,7 @@
   border-radius: 5px;
   background-color: #fffaff;
   box-shadow: 3px 3px 17px 8px rgba(32, 32, 32, 0.11);
+  z-index: 500;
 }
 
 .profileDropdownCell {

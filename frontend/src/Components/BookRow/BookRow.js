@@ -9,8 +9,10 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 
-function BookRow({ books, heading }) {
-  const [arrayOffset, setArrayOffset] = useState(0);
+function BookRow({ books, heading, left_start }) {
+  const [arrayOffset, setArrayOffset] = useState(
+    left_start || books.length < 5 ? 0 : Math.floor(books.length / 2)
+  );
   const [booksArray, setBooksArray] = useState(null);
 
   useEffect(() => {
@@ -40,10 +42,10 @@ function BookRow({ books, heading }) {
   return (
     <div className="bookRow">
       <div className="buttonSection">
-        {books.length <= arrayOffset + 4 && (
+        {arrayOffset > 3 && (
           <button
             className="scrollButton"
-            onClick={() => setArrayOffset(arrayOffset - 4)}
+            onClick={() => setArrayOffset((arg) => arg - 4)}
           >
             <FontAwesomeIcon icon={faChevronLeft} size="lg" color="#fffaff" />
           </button>
@@ -59,7 +61,7 @@ function BookRow({ books, heading }) {
         {books.length > arrayOffset + 4 && (
           <button
             className="scrollButton"
-            onClick={() => setArrayOffset(arrayOffset + 4)}
+            onClick={() => setArrayOffset((arg) => arg + 4)}
           >
             <FontAwesomeIcon icon={faChevronRight} size="lg" color="#fffaff" />
           </button>

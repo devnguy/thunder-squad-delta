@@ -4,6 +4,7 @@ import Homepage from "./Homepage/Homepage";
 import Profilepage from "./Profilepage/ProfilePage";
 
 import { Switch, Route } from "react-router-dom";
+import Browsepage from "./Browsepage/Browsepage";
 
 export default function App() {
   return (
@@ -15,6 +16,9 @@ export default function App() {
         </Route>
         <Route path="/profile">
           <Profilepage />
+        </Route>
+        <Route path="/browse">
+          <Browsepage />
         </Route>
       </Switch>
     </>
