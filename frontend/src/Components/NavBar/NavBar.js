@@ -41,7 +41,9 @@ function NavBar({ loggedIn = true }) {
           <p className="navBarOption">
             <Link to="/browse">Browse</Link>
           </p>
-          <p className="navBarOption">About</p>
+          <p className="navBarOption">
+            <Link to="/about">About</Link>
+          </p>
           {!loggedIn && (
             <>
               <p className="navBarOption">Login</p>
@@ -54,7 +56,6 @@ function NavBar({ loggedIn = true }) {
           )}
           {loggedIn && (
             <>
-              <p className="navBarOption">Help</p>
               <button
                 className="profileButton"
                 onClick={() => setDropdownOpen((open) => !open)}
