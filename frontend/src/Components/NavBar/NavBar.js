@@ -56,7 +56,6 @@ function NavBar({ loggedIn = true }) {
           )}
           {loggedIn && (
             <>
-              <p className="navBarOption">Help</p>
               <button
                 className="profileButton"
                 onClick={() => setDropdownOpen((open) => !open)}

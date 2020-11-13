@@ -20,7 +20,8 @@
   margin: 35px 0px 50px 0px;
 }
 
-.titleText {
+.aboutTitleText {
+  font-family: Inconsolata;
   font-size: 40px;
   font-weight: 400;
   color: #fffaff;
@@ -71,6 +72,7 @@
   font-family: Montserrat;
   font-weight: 400;
   font-size: 15px;
+  margin: 0;
 }
 
 .infoIcon {
@@ -104,4 +106,24 @@
   font-family: Montserrat;
   font-size: 20px;
   font-weight: 400;
+}
+
+.profiles {
+  margin-top: 40px;
+  width: 900px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.profileAvatar {
+  width: 150px;
+  height: 150px;
+}
+
+.profileName {
+  font-family: Montserrat;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
 }

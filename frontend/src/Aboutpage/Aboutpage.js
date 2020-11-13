@@ -5,15 +5,17 @@ import PostIcon from "../Assets/About Post Icon.png";
 import SearchIcon from "../Assets/About Search Icon.png";
 import SwapIcon from "../Assets/About Swap Icon.png";
 import PointsIcon from "../Assets/About Points Icon.png";
+import MaleAvatar from "../Assets/About Male Avatar.png";
+import FemaleAvatar from "../Assets/About Female Avatar.png";
 
 import "./Aboutpage.css";
 
 function Browsepage(props) {
   return (
     <div className="aboutPage">
-      <div className="titleSection">
-        <p className="titleText">How Does Bookswap Work?</p>
-      </div>
+      {/* <div className="titleSection">
+        <p className="aboutTitleText">How Does Bookswap Work?</p>
+      </div> */}
       <div className="headerSection">
         <img src={HeaderImage} alt="" className="headerImage" />
       </div>
@@ -71,12 +73,31 @@ function Browsepage(props) {
         <p className="bioSubHeader">Thunder Squad Delta</p>
         <p className="sectionBodyText">
           We’re just a rogue group of computer scientists saving the world one
-          book at a time. Enough said.
+          book at a time. Enough said. I guess you could check out our profiles
+          below if you are really interested...
         </p>
-        <p className="sectionBodyText">
-          I guess you could check out our profiles below if you are really
-          interested...
-        </p>
+        <div className="profiles">
+          <div className="profileContainer">
+            <img className="profileAvatar" src={FemaleAvatar} alt="" />
+            <p className="profileName">Adriane</p>
+          </div>
+          <div className="profileContainer">
+            <img className="profileAvatar" src={MaleAvatar} alt="" />
+            <p className="profileName">Chris</p>
+          </div>
+          <div className="profileContainer">
+            <img className="profileAvatar" src={MaleAvatar} alt="" />
+            <p className="profileName">Devin</p>
+          </div>
+          <div className="profileContainer">
+            <img className="profileAvatar" src={MaleAvatar} alt="" />
+            <p className="profileName">Jeremy</p>
+          </div>
+          <div className="profileContainer">
+            <img className="profileAvatar" src={MaleAvatar} alt="" />
+            <p className="profileName">Nathan</p>
+          </div>
+        </div>
       </div>
     </div>
   );
