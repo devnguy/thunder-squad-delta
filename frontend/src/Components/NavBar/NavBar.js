@@ -27,7 +27,7 @@ const dropdown_buttons = [
   },
 ];
 
-function NavBar({ loggedIn = true }) {
+function NavBar({ loggedIn = false }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   return (
     <div className="navBarWithDropdown">

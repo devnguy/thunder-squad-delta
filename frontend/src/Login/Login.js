@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 function InputField(props) {
   return (
     <input
-      class="field"
+      className="field"
       type="text"
       placeholder={props.name}
       id={props.name}
@@ -17,14 +17,12 @@ function InputField(props) {
 
 function Login() {
   return (
-    <div className="App">
-      <div class="big">
-        <h1> Bookswap </h1>
-		
+    <div className="loginPage">
         <div id="regIcon">
-        <img src={regIcon} alt="Woman reading"/>
+          <img src={regIcon} alt="Woman reading"/>
         </div>
-        <form action="tbd" class="form">
+        <div className="loginFlow">
+          <form action="tbd" className="loginForm">
           <h2> Login </h2>
           <label>
             <InputField name="Username" />
@@ -33,7 +31,7 @@ function Login() {
             type="password"
             placeholder="Password"
             name="password"
-            class="field"
+            className="field"
           />
           <div>
 			<h4>
@@ -42,11 +40,10 @@ function Login() {
 			<h4>
       <Link to="/ResetPassword">Forgot Password</Link>
       </h4>
-			<input type="submit" name="submitReg" id="submitReg" class="field"/>
+      <Link to="/Homepage"><input type="submit" name="submitReg" id="submitReg" className="field"/></Link>
 		  </div>
-      <Link to="/Homepage"><input type="submit" name="submitReg" id="submitReg" class="field"/></Link>
         </form>
-      </div>
+        </div>
     </div>
   );
 }

@@ -39,7 +39,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex: 0 0 90%;
+  flex: 0 0 60%;
 }
 
 .filterText {
