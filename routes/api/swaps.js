@@ -4,14 +4,7 @@ const userController = require('../../controllers/swapController')
 // Get all swaps.
 router.get('/', userController.getSwaps)
 
-// May need to move this to user route.
-// Get all swaps owned by a user.
-// router.get('/users', userController.getUserSwaps)
-
-// May need to move this to user route
-// Create a new swap.
-// router.post('/', userController.createSwap)
-
+// TODO
 // // Get a swap by id.
 // router.get('/:swapId', userController.getSwap)
 
