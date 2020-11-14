@@ -72,10 +72,9 @@ grid-column-start: 2;
 }
 
 img{
-    /* max-width: 90%; */
+    max-width: 90%;
     height:auto;
 }
-
 select{
     
     color:rgba(12,11,9,.5);

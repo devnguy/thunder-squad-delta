@@ -1,6 +1,7 @@
 import regIcon from "../Assets/regIcon.PNG";
 import React from "react";
 import "./Registration.css";
+import { Link } from "react-router-dom";
 
 function InputField(props) {
   return (
@@ -104,7 +105,7 @@ function Registration(props) {
             <option value="WY">Wyoming</option>
           </select>
           <InputField name="Zip" id="Zip" />
-          <input type="submit" name="submitReg" id="submitReg" class="field" />
+          <Link to="/Login"><input type="submit" name="submitReg" id="submitReg" class="field" /></Link>
         </form>
       </div>
     </div>

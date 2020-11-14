@@ -1,6 +1,7 @@
 import React from "react";
 import "./login.css";
 import regIcon from './regIcon.PNG'
+import { Link } from "react-router-dom";
 
 function InputField(props) {
   return (
@@ -35,11 +36,15 @@ function Login() {
             class="field"
           />
           <div>
-			<h4>Register</h4>
-			<h4>Forgot Password</h4>
+			<h4>
+      <Link to="/Registration">Register</Link>
+      </h4>
+			<h4>
+      <Link to="/ResetPassword">Forgot Password</Link>
+      </h4>
 			<input type="submit" name="submitReg" id="submitReg" class="field"/>
 		  </div>
-          <input type="submit" name="submitReg" id="submitReg" class="field"/>
+      <Link to="/Homepage"><input type="submit" name="submitReg" id="submitReg" class="field"/></Link>
         </form>
       </div>
     </div>

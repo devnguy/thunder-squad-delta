@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./SearchBar.css";
+import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -59,7 +60,8 @@ function SearchBar(props) {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <button className="searchButton">
-          <FontAwesomeIcon icon={faSearch} size="2x" color="#fffaff" />
+          <Link to="/BookPage"><FontAwesomeIcon icon={faSearch} size="2x" color="#fffaff" /></Link>
+          
         </button>
       </form>
     </div>

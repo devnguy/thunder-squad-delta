@@ -41,21 +41,20 @@ function NavBar({ loggedIn = true }) {
           <p className="navBarOption">
             <Link to="/browse">Browse</Link>
           </p>
-          <p className="navBarOption">
-            <Link to="/about">About</Link>
-          </p>
+          <p className="navBarOption">About</p>
           {!loggedIn && (
             <>
-              <p className="navBarOption">Login</p>
               <p className="navBarOption">
-                {/* <Link to="/register"> */}
-                Sign Up
-                {/* </Link> */}
+                <Link to="/Login">Login</Link>
+              </p>
+              <p className="navBarOption">
+              <Link to="/Registration">Sign Up</Link>
               </p>
             </>
           )}
           {loggedIn && (
             <>
+              <p className="navBarOption">Help</p>
               <button
                 className="profileButton"
                 onClick={() => setDropdownOpen((open) => !open)}
