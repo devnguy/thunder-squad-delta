@@ -27,10 +27,10 @@ function SearchBar(props) {
         >
           {filterTerm}
           {filterOpen && (
-            <FontAwesomeIcon icon={faChevronUp} size="sm" color="#fffaff" />
+            <FontAwesomeIcon className="sortIcon" icon={faChevronUp} size="sm" color="#fffaff" />
           )}
           {!filterOpen && (
-            <FontAwesomeIcon icon={faChevronDown} size="sm" color="#fffaff" />
+            <FontAwesomeIcon className="sortIcon" icon={faChevronDown} size="sm" color="#fffaff" />
           )}
         </button>
         {filterOpen && (

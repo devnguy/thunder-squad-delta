@@ -1,0 +1,34 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+
+
+.searchControl{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 10% 0 10%;
+    font-family: Montserrat;
+    font-size: 1.2em;
+    position: relative;
+    right:0;
+    
+}
+
+.nowShowing{
+    display:flex;
+    
+}
+
+.sortLabel{
+    display: flex;
+    align-items: center;
+}
+.sortContainer{
+    width: 40%;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+   
+}

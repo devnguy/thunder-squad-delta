@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 
 
 .searchRow {
@@ -9,7 +9,7 @@
     border-bottom: 1px solid black;
     width: 80%;
     margin-left: 10%;
-    font-family: Inconsolata;
+    font-family: Montserrat;
 }
 
 .bookImg {
@@ -62,7 +62,7 @@
 }
 
 .costTxt {
-    font-size: 2.5em;
+    font-size: 2em;
     font-weight: 700;
 }
 
