@@ -8,7 +8,11 @@ import {
   faChevronUp,
 } from "@fortawesome/free-solid-svg-icons";
 
+import { Link } from "react-router-dom";
+
 const filter_categories = ["Title", "Author", "Genre", "User"];
+
+
 
 function SearchBar(props) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -26,7 +30,7 @@ function SearchBar(props) {
             <FontAwesomeIcon icon={faChevronUp} size="sm" color="#fffaff" />
           )}
           {!filterOpen && (
-            <FontAwesomeIcon icon={faChevronDown} size="sm" color="#fffaff" />
+            <FontAwesomeIcon  icon={faChevronDown} size="sm" color="#fffaff" />
           )}
         </button>
         {filterOpen && (
@@ -34,11 +38,7 @@ function SearchBar(props) {
             {filter_categories.map((category, index) => (
               <button
                 key={index}
-                className={
-                  index < 3
-                    ? "dropdownCell filterText cellWithBorder"
-                    : "dropdownCell filterText"
-                }
+                className={index < 3 ? "dropdownCell filterText cellWithBorder": "dropdownCell filterText" }
                 onClick={() => {
                   setFilterTerm(category);
                   setFilterOpen(false);
@@ -50,7 +50,7 @@ function SearchBar(props) {
           </div>
         )}
       </div>
-      <form className="searchBar">
+      <div className="searchBar">
         <input
           type="text"
           placeholder="Search..."
@@ -59,9 +59,11 @@ function SearchBar(props) {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <button className="searchButton">
-          <FontAwesomeIcon icon={faSearch} size="2x" color="#fffaff" />
+          <Link to="/search">
+            <FontAwesomeIcon icon={faSearch} size="2x" color="#fffaff" />
+          </Link>
         </button>
-      </form>
+      </div>
     </div>
   );
 }

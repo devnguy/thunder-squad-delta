@@ -1,0 +1,79 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+
+.searchRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    border-bottom: 1px solid black;
+    width: 80%;
+    margin-left: 10%;
+    font-family: Montserrat;
+}
+
+.bookImg {
+    width: 150px;
+    height: auto;
+    border-radius: 15px;
+    margin: 15px 0px 15px 0px;
+}
+
+.bookDetails{
+    max-width: 400px;
+    padding-right: 0px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    
+}
+
+.authorTxt{
+   font-size: 1.2em;
+   margin-top:5px;
+}
+.titleTxt {
+    font-size: 2.7em;
+    margin-block-end: 0;
+}
+
+.byTxt{
+    font-style: italic;
+}
+
+.conditionTxt{
+    font-size: 1.8em;
+}
+
+.condWord{
+    font-weight: 700;
+    margin-left: 0px;
+
+}
+
+.swapDetails{
+    margin-top: 70px;
+    
+    text-align: center;
+}
+
+.giverTxt{
+    font-size: 1.5em ;
+}
+
+.costTxt {
+    font-size: 2em;
+    font-weight: 700;
+}
+
+.infoButton{
+    height:100px;
+    width: 150px;
+    border-radius: 30px;
+    background-color: #0A2463;
+    color: #FFFAFF;
+    font-family: Inconsolata;
+    font-size: 1.5em;
+    
+    margin: 50px 50px 0 0;
+}
