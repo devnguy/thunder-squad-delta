@@ -76,7 +76,7 @@ function BookPage(props) {
         </div>
         <section class="data">
         <div className="return">
-        <p>Return to Search</p>
+        <p><Link to="/">Return to Search</Link></p>
       </div>
           <div className="Title">
         <h2>Title: </h2>
