@@ -66,9 +66,9 @@ exports.getUserOwnedSwaps = async function (req, res) {
       JOIN user AS owner ON owned_book.user_id = owner.user_id
       WHERE owner.user_id = ${req.params.userId}
     `)
-    if (swaps.error) {
-      return res.status(500).json(swaps.error)
-    }
+    if (!swaps) return res.status(404).json({ error: 'No user with this user_id exists' })
+    if (swaps.error) return res.status(500).json(swaps.error)
+
     const formattedSwaps = swaps.map((swap) => ({
       id: swap.swap_id,
       creation_date: swap.creation_date,
@@ -106,7 +106,7 @@ exports.getUserOwnedSwaps = async function (req, res) {
 exports.completeSwap = async function (req, res) {
   try {
     const [swap] = await db.query(SQL`SELECT * FROM swap WHERE swap_id = ${req.params.swapId}`)
-    if (!swap) return res.status(404).json({ error: 'No user with this user_id exists' })
+    if (!swap) return res.status(404).json({ error: 'no swap with this swap_id exists' })
     // Don't update the swap if it's already completed.
     if (swap.completed) {
       return res.status(400).json({ error: 'This swap has already been completed' })
@@ -119,7 +119,7 @@ exports.completeSwap = async function (req, res) {
     if (response.error) {
       return res.status(500).json(response.error)
     }
-    return res.status(200).json({ success: `swap with swap_id ${req.params.swapId} completed` })
+    return res.status(200).json({ success: `Swap with swap_id ${req.params.swapId} completed` })
   } catch (error) {
     console.log(error)
     return res.status(400).json(error)
