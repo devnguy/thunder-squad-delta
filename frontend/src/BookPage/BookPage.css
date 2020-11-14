@@ -1,0 +1,271 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+.bookPage {
+  min-height: 450px;
+  background-color: #fffaff;
+}
+
+.bookSearchContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 100%;
+  overflow: visible;
+}
+
+.bookFilterContainer {
+  width: 24%;
+  height: 255px;
+  display: flex;
+  flex-direction: column;
+  flex:.25;
+  justify-self: flex-end;
+}
+
+.container {
+  display: flex;
+}
+
+.data {
+  display: flex;
+  flex-direction: row;
+  flex:1;
+  padding:1rem;
+  flex-wrap:wrap;
+}
+
+.conditionContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 60%;
+}
+
+.bookFilterText {
+  font-family: Montserrat;
+  font-size: 18px;
+  color: #fffaff;
+  margin: 0;
+}
+
+.conditionText {
+  font-family: Montserrat;
+  font-size: 18px;
+  color: #fffaff;
+  margin: 0;
+}
+
+.bookFilterButton {
+  width: 50%;
+  background-color: #d8315b;
+  border-radius: 9999px;
+  display: flex;
+  justify-content: center;
+  border: 0px;
+}
+
+.conditionButton {
+  height: 50px;
+  width: 100%;
+  background-color: #d8315b;
+  border-radius: 9999px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border: 0px;
+}
+
+.bookDropdown {
+  width: 50%;
+  height: 180px;
+  margin-top: 5px;
+  background-color: #d8315b;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  overflow: hidden;
+  z-index: 500;
+}
+
+.conditionDropdown {
+  width: 100%;
+  height: 180px;
+  margin-top: 5px;
+  background-color: #d8315b;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  overflow: hidden;
+  z-index: 500;
+}
+
+.bookDropdownCell {
+  width: 100%;
+  height: 25%;
+  display: flex;
+  align-items: center;
+  padding: 0px 0px 0px 50px;
+  background-color: transparent;
+  border: 0px;
+}
+
+.bookDropdownCell:hover {
+  background-color: #e26584;
+}
+
+.bookCellWithBorder {
+  border-bottom: 1px solid #fffaff;
+}
+
+.bookSearchBar {
+  display: flex;
+  flex:.25;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  width: 75%;
+  background: #fffaff;
+  border: 3px solid #3e92cc;
+  box-sizing: border-box;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bookSearchBarPrompt {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 34px;
+  color: #1e1b18;
+  opacity: 70%;
+
+  position: relative;
+  left: 5%;
+  border: none;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+}
+
+.bookSearchButton {
+  width: 12%;
+  height: 82.4%;
+  background-color: #3e92cc;
+  position: relative;
+  right: 1%;
+  border-radius: 9999px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0px;
+}
+
+.bookImg {
+  display: flex;
+  flex-direction: row;
+  justify-content:center;
+
+  flex:1;
+  padding: 1rem;
+}
+
+#bookCover{
+  display: flex;
+  height: 90%;
+  width: 50%;
+  padding: 50px 0 0 0;
+  flex-direction: column;
+  justify-self: center;
+  align-self: center;
+}
+
+.searchButton:active,
+.filterButton:active {
+  opacity: 70%;
+}
+
+.AvailableTable{
+  display: flex;
+  flex: 0 0 100%;
+}
+
+.Title{
+  display: flex;
+  flex-direction: row;
+  flex: 0 0 100%;
+}
+
+#titlePlaceholder{
+  display: flex;
+  flex:.25;
+  justify-content: center;
+  align-content: center;
+  padding: 0 0 20px 0;
+}
+
+#bookTitle{
+  display: flex;
+  flex:1;
+  justify-content: flex-start;
+  align-content: center;
+}
+
+table {
+    border-collapse:separate;
+    border:solid black 3px;
+    border-radius:10px;
+    -moz-border-radius:6px;
+}
+
+caption {
+  font-family: Montserrat;
+  font-size: 30px;
+  color: #1E1B18;
+  margin: 0;
+}
+
+td, th {
+    border-left:solid #1E1B18 1px;
+    border-top:solid #1E1B18 1px;
+}
+
+th {
+    border-top: none;
+    font-family: Montserrat;
+    font-size: 18px;
+    color: #1E1B18;
+    margin: 0;
+}
+
+td:first-child, th:first-child {
+     border-left: none;
+}
+#proposeTrade{
+  height: 50px;
+  width: 100%;
+  background-color: #d8315b;
+  border-radius: 9999px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  border: 0px;
+}
+
+.return{
+  display: flex;
+  flex: 0 0 100%;
+  color:#3E92CC;
+  font-family: Montserrat;
+
+} 
