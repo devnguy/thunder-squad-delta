@@ -2,73 +2,49 @@
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Inconsolata");
 
-.App {
-  font-family: 'Montserrat';
-}
-
-html,
-body,
-#app,
-#app > div {
-  margin: 0;
-}
-
 .loginPage {
   display: flex;
   background-color: #fffaff;
+  font-family: 'Montserrat';
 }
 
 .loginFlow{
   display:flex;
   flex:1;
   flex-wrap:wrap;
+  flex-direction: column;
 }
 .loginForm {
   display:flex;
   flex: 0 0 100%;
+  flex-wrap: wrap;
 }
 
-.req {
-  text-align: left;
-}
-
-h1 {
-  display:flex;
-  flex:0 0 100%;
-  margin: 50px 0 0 60px;
-  font-size: 6em;
-  font-family: 'Inconsolata';
-}
-
-h2 {
-  margin: 50px 0 0 60px;
+.title {
+  display: flex;
+  flex: 0 0 100%;
   font-size: 3em;
   font-family: 'Inconsolata';
 }
 
-h4 {
-  margin: 5px 0 0 20px;
+.links {
+  display: flex;
+  flex: 0 0 100%;
+  flex-direction: column;
+  margin-top: 0%;
   font-size: 1em;
   font-family: 'Inconsolata';
   color: #0A2463;
 }
 
-input:focus{
-    outline-width:0;
+.labels{
+  display: flex;
+  flex: 0 0 100%;
+  flex-direction: column;
 }
 
-.field {
-    background-color: #fffaff;
-  display: block;
-  margin: 2%;
-  height: 40px;
-  border-radius: 20px;
-  padding-left: 30px;
-  width: 59%;
-  font-size: 2em;
-  font-family:montserrat;
-  border: 1px solid #1E1B18;
- 
+input:focus{
+    outline-width:0;
 }
 
 #regIcon{  
@@ -82,9 +58,8 @@ img{
 }
 
 #submitReg{
-	position: absolute;
-	top: 430px;
-	left: 150px;
+  display: flex;
+  flex: 0 0 100%;
     width: 200px;
     background-color: #D8315B ;
     color: #fffaff;

@@ -18,31 +18,33 @@ function InputField(props) {
 function Login() {
   return (
     <div className="loginPage">
-        <div id="regIcon">
+      <div id="regIcon">
           <img src={regIcon} alt="Woman reading"/>
         </div>
-        <div className="loginFlow">
+      <div className="loginFlow">
           <form action="tbd" className="loginForm">
-          <h2> Login </h2>
-          <label>
-            <InputField name="Username" />
-          </label>
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            className="field"
-          />
-          <div>
-			<h4>
-      <Link to="/Registration">Register</Link>
-      </h4>
-			<h4>
-      <Link to="/ResetPassword">Forgot Password</Link>
-      </h4>
-      <Link to="/Homepage"><input type="submit" name="submitReg" id="submitReg" className="field"/></Link>
-		  </div>
-        </form>
+            <h2 className="title"> Login </h2>
+            <div className="labels">
+              <label>
+                <InputField name="Username" />
+              </label>
+              <input
+                type="password"
+                placeholder="Password"
+                name="password"
+                className="field"
+              />
+            </div>
+			      <div className="links">
+              <h4>
+                <Link to="/Registration">Register</Link>
+              </h4>
+			        <h4>
+                <Link to="/ResetPassword">Forgot Password</Link>
+              </h4>
+            </div>
+              <Link to="/Homepage"><input type="submit" name="submitReg" id="submitReg" className="field"/></Link>
+          </form>
         </div>
     </div>
   );
