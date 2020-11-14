@@ -17,6 +17,7 @@
   background-color: #d8315b;
   border: 0px;
   border-radius: 25px;
+  min-height:50px;
 }
 .searchSortDropdown {
   width: 100%;
@@ -26,7 +27,7 @@
   background-color: #d8315b;
   flex-direction: column;
   justify-content: space-around;
-  overflow: hidden;
+  overflow: visible;
   border-radius: 25px;
   z-index: 500;
 }

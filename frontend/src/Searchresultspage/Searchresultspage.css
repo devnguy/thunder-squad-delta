@@ -11,7 +11,9 @@
     font-family: Montserrat;
     font-size: 1.2em;
     position: relative;
+    height:50px;
     right:0;
+    overflow:visible;
     
 }
 
