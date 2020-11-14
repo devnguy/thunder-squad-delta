@@ -70,17 +70,17 @@ function BookPage(props) {
         </button>
       </form>
       </div>
-      <section class="container">
+      <section className="container">
         <div className="bookImg">
           <img id="bookCover" src={BookCover} alt="Man leaning on building for some reason" />
         </div>
-        <section class="data">
+        <section className="data">
         <div className="return">
-        <p><Link to="/">Return to Search</Link></p>
-      </div>
+          <p><Link to="/">Return to Search</Link></p>
+        </div>
           <div className="Title">
-        <h2>Title: </h2>
-        <p>The Hobbit</p>
+        <h2 id="titlePlaceholder">Title: </h2>
+        <h2 id="bookTitle">The Hobbit</h2>
       </div>
           <div className="conditionContainer">
           <button
@@ -120,42 +120,46 @@ function BookPage(props) {
           <div className="AvailableTable">
         <table>
           <caption>Available Copies</caption>
-          <tr>
-            <th>User</th>
-            <th>Price</th>
-            <th>Location</th>
-            <th></th>
-          </tr>
-          <tr>
-            <td>xxDragon_Sniperxx</td>
-            <td>10000 Book Points</td>
-            <td>Sydney, Australia</td>
-            <td><button id="proposeTrade">ProposeTrade</button></td>
-          </tr>
-          <tr>
-            <td>Paul Paulson</td>
-            <td>100 Book Points</td>
-            <td>Oslo, Norway</td>
-            <td><button id="proposeTrade">ProposeTrade</button></td>
-          </tr>
-          <tr>
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Price</th>
+              <th>Location</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>xxDragon_Sniperxx</td>
+              <td>10000 Book Points</td>
+              <td>Sydney, Australia</td>
+              <td><button id="proposeTrade">ProposeTrade</button></td>
+            </tr>
+            <tr>
+              <td>Paul Paulson</td>
+              <td>100 Book Points</td>
+              <td>Oslo, Norway</td>
+              <td><button id="proposeTrade">ProposeTrade</button></td>
+            </tr>
+            <tr>
             <td>daBabey44</td>
             <td>99999 Book Points</td>
             <td>Charlotte, North Carolina</td>
             <td><button id="proposeTrade">ProposeTrade</button></td>
           </tr>
-          <tr>
+            <tr>
             <td>BookLvr</td>
             <td>5 Book Points</td>
             <td>Nantucket, Massachussetts</td>
             <td><button id="proposeTrade">ProposeTrade</button></td>
           </tr>
-          <tr>
+            <tr>
             <td>goSox55</td>
             <td>1 Book Points</td>
             <td>New York, New York</td>
             <td><button id="proposeTrade">ProposeTrade</button></td>
           </tr>
+          </tbody>
         </table>
       </div>
         </section>
