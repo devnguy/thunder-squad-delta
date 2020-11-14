@@ -7,9 +7,10 @@ import Registration from "./Registration/Registration";
 import SearchResultsPage from "./SearchResultsPage/SearchResultsPage";
 import Browsepage from "./Browsepage/Browsepage";
 import BookPage from "./BookPage/BookPage";
+import Login from "./Login/Login";
+import ResetPassword from "./ResetPassword/ResetPassword";
 
 import { Switch, Route } from "react-router-dom";
-
 
 export default function App() {
   return (
@@ -19,17 +20,26 @@ export default function App() {
         <Route exact path="/">
           <Homepage />
         </Route>
-        <Route path="/profile">
-          <Profilepage />
+        <Route path="/about">
+          <Aboutpage />
+        </Route>
+        <Route path="/book">
+          <BookPage />
         </Route>
         <Route path="/browse">
           <Browsepage />
         </Route>
+        <Route path="/login">
+          <Login />
+        </Route>
+        <Route path="/profile">
+          <Profilepage />
+        </Route>
         <Route path="/register">
           <Registration />
-        </Route> 
-        <Route path="/about">
-          <Aboutpage />
+        </Route>
+        <Route path="/reset-password">
+          <ResetPassword />
         </Route>
         <Route path="/search">
           <SearchResultsPage />

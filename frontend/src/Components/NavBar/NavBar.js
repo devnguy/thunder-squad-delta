@@ -27,7 +27,7 @@ const dropdown_buttons = [
   },
 ];
 
-function NavBar({ loggedIn = true }) {
+function NavBar({ loggedIn = false }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   return (
     <div className="navBarWithDropdown">
@@ -46,11 +46,11 @@ function NavBar({ loggedIn = true }) {
           </p>
           {!loggedIn && (
             <>
-              <p className="navBarOption">Login</p>
               <p className="navBarOption">
-                {/* <Link to="/register"> */}
-                Sign Up
-                {/* </Link> */}
+                <Link to="/login">Login</Link>
+              </p>
+              <p className="navBarOption">
+                <Link to="/register">Sign Up</Link>
               </p>
             </>
           )}
