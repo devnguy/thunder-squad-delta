@@ -18,9 +18,8 @@ function Registration(props) {
   return (
     <div className="App">
       <div class="big">
-        <h1> Bookswap </h1>
-        <div id="regIcon">
-          <img src={regIcon} alt="Man leaning on building for some reason" />
+        <div id="regIconHolder">
+          <img src={regIcon} className="regIcon" alt="Man leaning on building for some reason" />
         </div>
         <form action="tbd" class="form">
           <label>

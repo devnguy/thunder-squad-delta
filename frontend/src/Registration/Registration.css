@@ -16,7 +16,7 @@ body,
 .big {
   display: grid;
   background-color: #fffaff;
-  height: 100vh;
+  height: 60vh;
   grid-template-columns: 5% 45% auto;
   grid-template-rows: 17% 10% auto;
   margin: 0;
@@ -29,23 +29,15 @@ body,
   grid-row-end: 3;
 }
 
-ul {
+
+.req {
+  text-align: left;
   list-style: none;
   padding-left: 20px;
   font-size: 1.4em;
 }
 
-.req {
-  text-align: left;
-}
-
-h1 {
-  margin: 50px 0 0 60px;
-  font-size: 6em;
-  font-family: 'Inconsolata';
-}
-
-input:focus{
+.field:focus{
     outline-width:0;
 }
 
@@ -63,7 +55,7 @@ input:focus{
  
 }
 
-#regIcon{
+#regIconHolder {
     
 grid-column-start: 2;
   grid-column-end: 3;
@@ -71,18 +63,9 @@ grid-column-start: 2;
   grid-row-end: 4;
 }
 
-img{
-    /* max-width: 90%; */
+.regIcon  {
+    max-width: 90%;
     height:auto;
-}
-
-select{
-    
-    color:rgba(12,11,9,.5);
-}
-
-option{
-    color:rgba(12,11,9,1);
 }
 
 
@@ -104,4 +87,5 @@ option{
 height: 40px;
 width: 30%;
 display: inline;
+color:rgba(12,11,9,.5);
 }

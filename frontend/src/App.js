@@ -22,9 +22,9 @@ export default function App() {
         <Route path="/browse">
           <Browsepage />
         </Route>
-        {/* <Route path="/register">
+        <Route path="/register">
           <Registration />
-        </Route> */}
+        </Route> 
         <Route path="/about">
           <Aboutpage />
         </Route>
