@@ -6,6 +6,7 @@
   display: flex;
   background-color: #fffaff;
   font-family: 'Montserrat';
+  height: 100%;
 }
 
 .loginFlow{

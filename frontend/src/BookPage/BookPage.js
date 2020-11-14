@@ -20,11 +20,11 @@ function BookPage(props) {
   const [conditionOpen, setConditionOpen] = useState(false);
   const [conditionTerm, setConditionTerm] = useState("Condition");
   return (
-    <div className="page">
-      <div className="searchContainer">
-        <div className="filterContainer">
+    <div className="bookPage">
+      <div className="bookSearchContainer">
+        <div className="bookFilterContainer">
         <button
-          className="filterButton filterText"
+          className="bookFilterButton bookFilterText"
           onClick={() => setFilterOpen((filterOpen) => !filterOpen)}
         >
           {filterTerm}
@@ -36,14 +36,14 @@ function BookPage(props) {
           )}
         </button>
         {filterOpen && (
-          <div className="dropdown">
+          <div className="bookDropdown">
             {filter_categories.map((category, index) => (
               <button
                 key={index}
                 className={
                   index < 3
-                    ? "dropdownCell filterText cellWithBorder"
-                    : "dropdownCell filterText"
+                    ? "bookDropdownCell bookFilterText bookCellWithBorder"
+                    : "bookDropdownCell bookFilterText"
                 }
                 onClick={() => {
                   setFilterTerm(category);
@@ -56,15 +56,15 @@ function BookPage(props) {
           </div>
         )}
       </div>
-        <form className="searchBar">
+        <form className="bookSearchBar">
         <input
           type="text"
           placeholder="Search..."
-          className="searchBarPrompt"
+          className="bookSearchBarPrompt"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <button className="searchButton">
+        <button className="bookSearchButton">
           <Link to="/BookPage"><FontAwesomeIcon icon={faSearch} size="2x" color="#fffaff" /></Link>
           
         </button>
