@@ -6,6 +6,7 @@ import Aboutpage from "./Aboutpage/Aboutpage";
 import Registration from "./Registration/Registration";
 import SearchResultsPage from "./SearchResultsPage/SearchResultsPage";
 import Browsepage from "./Browsepage/Browsepage";
+import BookPage from "./BookPage/BookPage";
 
 import { Switch, Route } from "react-router-dom";
 

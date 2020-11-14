@@ -4,7 +4,7 @@ import HeaderImage from "../Assets/BrowseHeader.png";
 import Library from "../Components/Library/Library";
 import SearchBar from "../Components/SearchBar/SearchBar";
 
-import BookCover from "../Assets/bookCover.png";
+import BookCover from "../Assets/BookCover.png";
 import "./Browsepage.css";
 
 const headings = ["Recommended for you", "Trending", "Top All Time"];

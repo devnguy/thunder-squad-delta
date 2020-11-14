@@ -2,7 +2,7 @@ import React from "react";
 
 import SearchResultRow from "../Components/SearchResultRow/SearchResultRow";
 import SearchSort from "../Components/SearchSort/SearchSort";
-import BookCover from "../Assets/bookCover.png";
+import BookCover from "../Assets/BookCover.png";
 import "./SearchResultsPage.css";
 
 const book_array = [

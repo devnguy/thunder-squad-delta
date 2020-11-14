@@ -1,4 +1,4 @@
-import regIcon from "../Assets/regIcon.PNG";
+import regIcon from "../Assets/RegIcon.png";
 import React from "react";
 import "./Registration.css";
 
