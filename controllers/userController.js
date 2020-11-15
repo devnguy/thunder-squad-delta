@@ -176,15 +176,11 @@ exports.resetPassword = async function (req, res) {
     // Confirm email is valid.
     const [user] = await db.query(SQL`SELECT * FROM user WHERE email = ${req.body.email}`)
     if (!user) {
-      return res
-        .status(404)
-        .json({ status: false, id: null, msg: 'No user with that email exists' })
+      return res.status(404).json({ status: false, msg: 'No user with that email exists' })
     }
     // user.user_id is an int, req.params.userId is a string.
     if (user.user_id != req.params.userId) {
-      return res
-        .status(404)
-        .json({ status: false, id: null, msg: 'No user with that user_id exists' })
+      return res.status(404).json({ status: false, msg: 'No user with that user_id exists' })
     }
 
     // Hash and update the user's password only.
