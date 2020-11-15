@@ -1,19 +1,78 @@
 const SQL = require('sql-template-strings')
 const db = require('../lib/db')
 
-// Get all swaps from all users.
+// Search for swaps.
+// There is some nastiness below. I would parameterize the table that's being
+// searched, but sql tables cannot be parameterized inside a query. Added to
+// the code debt and created a switch based on 'searchby'. A better solution
+// would be nice. Sombody smell this.
 exports.getSwaps = async function (req, res) {
+  if (!req.query.q || !req.query.searchby) {
+    return res.status(400).json({ error: 'query required' })
+  }
+  const searchTerm = `%${req.query.q}%`
   try {
-    const swaps = await db.query(SQL`
-      SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, owner.user_id as owner_id,
-        owner.name as owner_name, receiver.user_id as receiver_id, receiver.name as receiver_name,
-        book.book_id, book.title, book.author, book.genre, book.description, book.year_published,
-        book.publisher
-      FROM swap
-      JOIN book ON swap.book_id = book.book_id
-      JOIN user AS receiver ON swap.receiver_id = receiver.user_id
-      JOIN user AS owner on swap.owner_id = owner.user_id;
-    `)
+    let swaps = undefined
+    switch (req.query.searchby.toLowerCase()) {
+      case 'title':
+        swaps = await db.query(SQL`
+          SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, owner.user_id as
+          owner_id, owner.name as owner_name, receiver.user_id as receiver_id, receiver.name 
+          as receiver_name, book.book_id, book.title, book.author, book.genre, book.description,
+          book.year_published, book.publisher
+          FROM swap
+          JOIN book ON swap.book_id = book.book_id
+          JOIN user AS receiver ON swap.receiver_id = receiver.user_id
+          JOIN user AS owner on swap.owner_id = owner.user_id
+          WHERE book.title
+          LIKE ${searchTerm};
+        `)
+        break
+      case 'author':
+        swaps = await db.query(SQL`
+          SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, owner.user_id as
+          owner_id, owner.name as owner_name, receiver.user_id as receiver_id, receiver.name 
+          as receiver_name, book.book_id, book.title, book.author, book.genre, book.description,
+          book.year_published, book.publisher
+          FROM swap
+          JOIN book ON swap.book_id = book.book_id
+          JOIN user AS receiver ON swap.receiver_id = receiver.user_id
+          JOIN user AS owner on swap.owner_id = owner.user_id
+          WHERE book.author
+          LIKE ${searchTerm};
+        `)
+        break
+      case 'genre':
+        swaps = await db.query(SQL`
+          SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, owner.user_id as
+          owner_id, owner.name as owner_name, receiver.user_id as receiver_id, receiver.name 
+          as receiver_name, book.book_id, book.title, book.author, book.genre, book.description,
+          book.year_published, book.publisher
+          FROM swap
+          JOIN book ON swap.book_id = book.book_id
+          JOIN user AS receiver ON swap.receiver_id = receiver.user_id
+          JOIN user AS owner on swap.owner_id = owner.user_id
+          WHERE book.genre
+          LIKE ${searchTerm};
+        `)
+        break
+      case 'user':
+        swaps = await db.query(SQL`
+          SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, owner.user_id as
+          owner_id, owner.name as owner_name, receiver.user_id as receiver_id, receiver.name 
+          as receiver_name, book.book_id, book.title, book.author, book.genre, book.description,
+          book.year_published, book.publisher
+          FROM swap
+          JOIN book ON swap.book_id = book.book_id
+          JOIN user AS receiver ON swap.receiver_id = receiver.user_id
+          JOIN user AS owner on swap.owner_id = owner.user_id
+          WHERE owner.name
+          LIKE ${searchTerm};
+        `)
+        break
+      default:
+        break
+    }
     if (swaps.error) {
       return res.status(500).json(swaps.error)
     }
@@ -32,7 +91,7 @@ exports.getSwaps = async function (req, res) {
         id: swap.book_id,
         title: swap.title,
         author: swap.author,
-        genre: swap.genere,
+        genre: swap.genre,
         description: swap.description,
         year_published: swap.year_published,
         publisher: swap.publisher,
@@ -77,7 +136,7 @@ exports.getSwapsByUserId = async function (req, res) {
         id: swap.book_id,
         title: swap.title,
         author: swap.author,
-        genre: swap.genere,
+        genre: swap.genre,
         description: swap.description,
         year_published: swap.year_published,
         publisher: swap.publisher,
@@ -122,7 +181,7 @@ exports.getSwapsByBookId = async function (req, res) {
         id: swap.book_id,
         title: swap.title,
         author: swap.author,
-        genre: swap.genere,
+        genre: swap.genre,
         description: swap.description,
         year_published: swap.year_published,
         publisher: swap.publisher,
