@@ -1,5 +1,5 @@
-import regIcon from "../../Assets/RegIcon.png";
 import React from "react";
+import RegIcon from "../../Assets/RegIcon.png";
 import "./RegistrationPage.css";
 
 function InputField(props) {
@@ -19,7 +19,7 @@ function RegistrationPage(props) {
     <div class="big">
       <div id="regIconHolder">
         <img
-          src={regIcon}
+          src={RegIcon}
           className="regIcon"
           alt="Man leaning on building for some reason"
         />

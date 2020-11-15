@@ -1,12 +1,12 @@
 import React from "react";
 
-import { SearchBar, IconSquare } from "../../Components";
-import "./HomePage.css";
-
 import BrowseIcon from "../../Assets/Browse Icon.png";
 import PeopleIcon from "../../Assets/People Icon.png";
 import GlobeIcon from "../../Assets/Globe Icon.png";
 import BookpileIcon from "../../Assets/Bookpile Icon.png";
+
+import { SearchBar, IconSquare } from "../../Components";
+import "./HomePage.css";
 
 function HomePage(props) {
   return (

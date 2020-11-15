@@ -1,6 +1,6 @@
 import React from "react";
-import "./LoginPage.css";
 import LoginIcon from "../../Assets/LoginIcon.png";
+import "./LoginPage.css";
 
 function InputField(props) {
   return (

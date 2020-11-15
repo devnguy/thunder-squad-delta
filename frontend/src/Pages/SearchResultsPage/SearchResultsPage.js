@@ -1,7 +1,7 @@
 import React from "react";
 
-import { SearchResultRow, SearchSort } from "../../Components";
 import BookCover from "../../Assets/BookCover.png";
+import { SearchResultRow, SearchSort } from "../../Components";
 import "./SearchResultsPage.css";
 
 const book_array = [
@@ -36,7 +36,6 @@ function SearchResultsPage() {
 
       <div className="rowHolder">
         <>
-
           {book_array.map(
             ({ cover, title, author, condition, giver, cost }, index) => (
               <SearchResultRow
