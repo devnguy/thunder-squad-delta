@@ -3,16 +3,18 @@ const db = require('../lib/db')
 
 // Search for swaps.
 // There is some nastiness below. I would parameterize the table that's being
-// searched, but sql tables cannot be parameterized inside a query. Added to
+// searched, but sql tables cannot be parameterized inside a query. All of the
+// queries in this function are the same except for the WHERE clause. Added to
 // the code debt and created a switch based on 'searchby'. A better solution
 // would be nice. Sombody smell this.
 exports.getSwaps = async function (req, res) {
   if (!req.query.q || !req.query.searchby) {
-    return res.status(400).json({ error: 'query required' })
+    return res.status(400).json({ status: false, id: null, msg: 'Query required' })
   }
   const searchTerm = `%${req.query.q}%`
   try {
     let swaps = undefined
+    // Query a different column based on searchby value.
     switch (req.query.searchby.toLowerCase()) {
       case 'title':
         swaps = await db.query(SQL`
@@ -22,7 +24,7 @@ exports.getSwaps = async function (req, res) {
           book.year_published, book.publisher
           FROM swap
           JOIN book ON swap.book_id = book.book_id
-          JOIN user AS receiver ON swap.receiver_id = receiver.user_id
+          LEFT JOIN user AS receiver ON swap.receiver_id = receiver.user_id
           JOIN user AS owner on swap.owner_id = owner.user_id
           WHERE book.title
           LIKE ${searchTerm};
@@ -36,7 +38,7 @@ exports.getSwaps = async function (req, res) {
           book.year_published, book.publisher
           FROM swap
           JOIN book ON swap.book_id = book.book_id
-          JOIN user AS receiver ON swap.receiver_id = receiver.user_id
+          LEFT JOIN user AS receiver ON swap.receiver_id = receiver.user_id
           JOIN user AS owner on swap.owner_id = owner.user_id
           WHERE book.author
           LIKE ${searchTerm};
@@ -50,7 +52,7 @@ exports.getSwaps = async function (req, res) {
           book.year_published, book.publisher
           FROM swap
           JOIN book ON swap.book_id = book.book_id
-          JOIN user AS receiver ON swap.receiver_id = receiver.user_id
+          LEFT JOIN user AS receiver ON swap.receiver_id = receiver.user_id
           JOIN user AS owner on swap.owner_id = owner.user_id
           WHERE book.genre
           LIKE ${searchTerm};
@@ -64,7 +66,7 @@ exports.getSwaps = async function (req, res) {
           book.year_published, book.publisher
           FROM swap
           JOIN book ON swap.book_id = book.book_id
-          JOIN user AS receiver ON swap.receiver_id = receiver.user_id
+          LEFT JOIN user AS receiver ON swap.receiver_id = receiver.user_id
           JOIN user AS owner on swap.owner_id = owner.user_id
           WHERE owner.name
           LIKE ${searchTerm};
@@ -73,9 +75,11 @@ exports.getSwaps = async function (req, res) {
       default:
         break
     }
-    if (swaps.error) {
-      return res.status(500).json(swaps.error)
+    if (!swaps) {
+      return res.status(400).json({ status: false, id: null, msg: 'Invalid searchby value' })
     }
+    if (swaps.error) return res.status(500).json(swaps.error)
+
     const formattedSwaps = swaps.map((swap) => ({
       id: swap.swap_id,
       condition: swap.condition,
@@ -114,7 +118,7 @@ exports.getSwapsByUserId = async function (req, res) {
         book.publisher
       FROM swap
       JOIN book ON swap.book_id = book.book_id
-      JOIN user AS receiver ON swap.receiver_id = receiver.user_id
+      LEFT JOIN user AS receiver ON swap.receiver_id = receiver.user_id
       JOIN user AS owner on swap.owner_id = owner.user_id
       WHERE owner.user_id = ${req.params.userId};
     `)
@@ -159,7 +163,7 @@ exports.getSwapsByBookId = async function (req, res) {
         book.publisher
       FROM swap
       JOIN book ON swap.book_id = book.book_id
-      JOIN user AS receiver ON swap.receiver_id = receiver.user_id
+      LEFT JOIN user AS receiver ON swap.receiver_id = receiver.user_id
       JOIN user AS owner on swap.owner_id = owner.user_id
       WHERE book.book_id = ${req.params.bookId};
     `)
@@ -194,13 +198,48 @@ exports.getSwapsByBookId = async function (req, res) {
   }
 }
 
-// TODO: Create a swap
+// Create a swap.
+exports.createSwap = async function (req, res) {
+  // Confirm required fields were passed.
+  if (!req.body.bookId || !req.body.condition || !req.body.cost) {
+    return res.status(400).json({
+      status: false,
+      id: null,
+      msg: 'The request is object missing at least one of the required attributes',
+    })
+  }
+  try {
+    // Confirm user exists.
+    const checkUser = await db.query(SQL`SELECT * from user WHERE user_id = ${req.params.userId}`)
+    if (!checkUser.length) {
+      return res
+        .status(400)
+        .json({ status: false, id: null, msg: 'No user with that user_id exists' })
+    }
+    const response = await db.query(SQL`
+      INSERT INTO swap (owner_id, book_id, \`condition\`, cost)
+      VALUES ($${req.body.bookId}, ${req.body.condition}, ${req.body.cost}) 
+    `)
+    if (response.error) return res.status(500).json(response.error)
+    // Prepare and return swap info.
+    return res.status(201).json({
+      status: true,
+      id: response.insertId,
+    })
+  } catch (error) {
+    console.log(error)
+    return res.json(error)
+  }
+}
 
 // Complete a swap by setting 'completed' property to true.
+// This needs to be updated with new 'status' column.
 exports.completeSwap = async function (req, res) {
   try {
     const [swap] = await db.query(SQL`SELECT * FROM swap WHERE swap_id = ${req.params.swapId}`)
-    if (!swap) return res.status(404).json({ error: 'no swap with this swap_id exists' })
+    if (!swap) {
+      return res.status(404).json({ status: false, msg: 'No swap with that swap_id exists' })
+    }
     // Don't update the swap if it's already completed.
     if (swap.completed) {
       return res.status(400).json({ error: 'This swap has already been completed' })
