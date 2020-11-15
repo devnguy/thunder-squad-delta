@@ -9,7 +9,7 @@ exports.getUsers = async function (req, res) {
       return res.status(500).json(users.error)
     }
     for (const user of users) {
-      user.givenBooks = await db.query(SQL `SELECT title, author, genre, description, year_published, publisher, image
+      user.givenBooks = await db.query(SQL`SELECT title, author, genre, description, year_published, publisher, image
       FROM book
       INNER JOIN owned_book ON book.book_id = owned_book.book_id
       INNER JOIN swap ON owned_book.owned_book_id = swap.owned_book_id
@@ -17,7 +17,7 @@ exports.getUsers = async function (req, res) {
       if (user.givenBooks.error) {
         return res.status(500).json(user.givenBooks.error)
       }
-      user.receivedBooks = await db.query(SQL `SELECT title, author, genre, description, year_published, publisher, image
+      user.receivedBooks = await db.query(SQL`SELECT title, author, genre, description, year_published, publisher, image
         FROM book
         INNER JOIN owned_book ON book.book_id = owned_book.book_id
         INNER JOIN swap ON owned_book.owned_book_id = swap.owned_book_id
@@ -44,7 +44,7 @@ exports.getUser = async function (req, res) {
     if (!user) {
       return res.status(404).json({ error: 'No user with this user_id exists' })
     }
-    user.givenBooks = await db.query(SQL `SELECT title, author, genre, description, year_published, publisher, image
+    user.givenBooks = await db.query(SQL`SELECT title, author, genre, description, year_published, publisher, image
       FROM book
       INNER JOIN owned_book ON book.book_id = owned_book.book_id
       INNER JOIN swap ON owned_book.owned_book_id = swap.owned_book_id
@@ -52,7 +52,7 @@ exports.getUser = async function (req, res) {
     if (user.givenBooks.error) {
       return res.status(500).json(user.givenBooks.error)
     }
-    user.receivedBooks = await db.query(SQL `SELECT title, author, genre, description, year_published, publisher, image
+    user.receivedBooks = await db.query(SQL`SELECT title, author, genre, description, year_published, publisher, image
         FROM book
         INNER JOIN owned_book ON book.book_id = owned_book.book_id
         INNER JOIN swap ON owned_book.owned_book_id = swap.owned_book_id
@@ -70,9 +70,11 @@ exports.getUser = async function (req, res) {
 exports.registerUser = async function (req, res) {
   // Confirm required fields were passed.
   if (!req.body.user.name || !req.body.user.email || !req.body.user.password) {
-    return res
-      .status(400)
-      .json({ error: 'The request object is missing at least one of the required attributes' })
+    return res.status(400).json({
+      status: false,
+      id: null,
+      msg: 'The request is object missing at least one of the required attributes',
+    })
   }
   // FIXME: Enforce unique username and email constraint
   // Salt and hash the password before storing in db.
@@ -89,12 +91,8 @@ exports.registerUser = async function (req, res) {
     const [user] = await db.query(SQL`SELECT * FROM user WHERE user_id = ${response.insertId}`)
     // Prepare and return user info.
     return res.status(201).json({
-      user: {
-        id: user.user_id,
-        name: user.name,
-        email: user.email,
-        points: user.points,
-      },
+      status: true,
+      id: user.user_id,
     })
   } catch (error) {
     console.log(error)
@@ -104,9 +102,11 @@ exports.registerUser = async function (req, res) {
 
 exports.loginUser = async function (req, res) {
   if (!req.body.email || !req.body.password) {
-    return res
-      .status(400)
-      .json({ error: 'The request object is missing at least one of the required attributes' })
+    return res.status(400).json({
+      status: false,
+      id: null,
+      msg: 'The request is object missing at least one of the required attributes',
+    })
   }
   try {
     const [user] = await db.query(SQL`
@@ -114,20 +114,19 @@ exports.loginUser = async function (req, res) {
       WHERE email = ${req.body.email}
     `)
     // Confirm email was found.
-    if (!user) return res.status(400).json({ error: 'No user with that email exists' })
+    if (!user)
+      return res
+        .status(400)
+        .json({ status: false, id: null, msg: 'No user with that email exists' })
 
     // Validate password.
     const isMatch = await bcrypt.compare(req.body.password, user.password)
-    if (!isMatch) return res.status(401).json({ error: 'Invalid password' })
+    if (!isMatch) return res.status(401).json({ status: false, id: null, msg: 'Invalid password' })
 
     // Prepare and return user info.
-    return res.status(201).json({
-      user: {
-        id: user.user_id,
-        name: user.name,
-        email: user.email,
-        points: user.points,
-      },
+    return res.status(200).json({
+      status: true,
+      id: user.user_id,
     })
   } catch (error) {
     console.log(error)
