@@ -1,10 +1,7 @@
 import React from "react";
 
-
-
-import SearchResultRow from "../Components/SearchResultRow/SearchResultRow";
-import SearchSort from "../Components/SearchSort/SearchSort";
-import BookCover from "../Assets/BookCover.png";
+import { SearchResultRow, SearchSort } from "../../Components";
+import BookCover from "../../Assets/BookCover.png";
 import "./SearchResultsPage.css";
 
 const book_array = [

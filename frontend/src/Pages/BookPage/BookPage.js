@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./BookPage.css";
 import { Link } from "react-router-dom";
-import BookCover from "../Assets/BookCover.png";
+import BookCover from "../../Assets/BookCover.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSearch,

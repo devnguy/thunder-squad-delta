@@ -1,5 +1,5 @@
 import React from "react";
-import BookRow from "../BookRow/BookRow";
+import BookRow from "../BookRow";
 import "./Library.css";
 
 function Library({ book_arrays, headings, left_start = true, cycle = false }) {

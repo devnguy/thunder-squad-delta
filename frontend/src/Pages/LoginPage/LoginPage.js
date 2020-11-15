@@ -1,8 +1,6 @@
 import React from "react";
-import "./login.css";
-import regIcon from "./regIcon.PNG";
-
-import { Link } from "react-router-dom";
+import "./LoginPage.css";
+import LoginIcon from "../../Assets/LoginIcon.png";
 
 function InputField(props) {
   return (
@@ -16,12 +14,12 @@ function InputField(props) {
   );
 }
 
-function Login() {
+function LoginPage() {
   return (
     <div className="App">
       <div class="big">
         <div id="regIcon">
-          <img src={regIcon} alt="Woman reading" />
+          <img src={LoginIcon} alt="Woman reading" />
         </div>
         <form action="tbd" class="form">
           <h2> Login </h2>
@@ -50,4 +48,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginPage;

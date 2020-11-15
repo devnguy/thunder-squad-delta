@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import Book from "../Book/Book";
+import Book from "../Book";
 import "./BookRow.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

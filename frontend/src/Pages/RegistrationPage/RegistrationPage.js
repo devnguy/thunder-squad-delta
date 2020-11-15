@@ -1,6 +1,6 @@
-import regIcon from "../Assets/RegIcon.png";
+import regIcon from "../../Assets/RegIcon.png";
 import React from "react";
-import "./Registration.css";
+import "./RegistrationPage.css";
 
 function InputField(props) {
   return (
@@ -14,7 +14,7 @@ function InputField(props) {
   );
 }
 
-function Registration(props) {
+function RegistrationPage(props) {
   return (
     <div class="big">
       <div id="regIconHolder">
@@ -112,4 +112,4 @@ function Registration(props) {
   );
 }
 
-export default Registration;
+export default RegistrationPage;

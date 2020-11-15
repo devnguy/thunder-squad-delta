@@ -1,11 +1,9 @@
 import React from "react";
 
-import HeaderImage from "../Assets/BrowseHeader.png";
-import Library from "../Components/Library/Library";
-import SearchBar from "../Components/SearchBar/SearchBar";
-
-import BookCover from "../Assets/BookCover.png";
-import "./Browsepage.css";
+import { Library, SearchBar } from "../../Components";
+import HeaderImage from "../../Assets/BrowseHeader.png";
+import BookCover from "../../Assets/BookCover.png";
+import "./BrowsePage.css";
 
 const headings = ["Recommended for you", "Trending", "Top All Time"];
 
@@ -57,7 +55,7 @@ const book_array = [
   },
 ];
 
-function Browsepage(props) {
+function BrowsePage(props) {
   return (
     <div>
       <div className="headerSection">
@@ -77,4 +75,4 @@ function Browsepage(props) {
   );
 }
 
-export default Browsepage;
+export default BrowsePage;

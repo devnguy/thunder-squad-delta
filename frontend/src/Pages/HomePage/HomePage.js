@@ -1,14 +1,14 @@
 import React from "react";
-import SearchBar from "../Components/SearchBar/SearchBar";
-import IconSquare from "../Components/IconSquare/IconSquare";
-import "./Homepage.css";
 
-import BrowseIcon from "../Assets/Browse Icon.png";
-import PeopleIcon from "../Assets/People Icon.png";
-import GlobeIcon from "../Assets/Globe Icon.png";
-import BookpileIcon from "../Assets/Bookpile Icon.png";
+import { SearchBar, IconSquare } from "../../Components";
+import "./HomePage.css";
 
-function Homepage(props) {
+import BrowseIcon from "../../Assets/Browse Icon.png";
+import PeopleIcon from "../../Assets/People Icon.png";
+import GlobeIcon from "../../Assets/Globe Icon.png";
+import BookpileIcon from "../../Assets/Bookpile Icon.png";
+
+function HomePage(props) {
   return (
     <div className="page">
       <div className="searchbarBox">
@@ -27,4 +27,4 @@ function Homepage(props) {
   );
 }
 
-export default Homepage;
+export default HomePage;
