@@ -5,33 +5,29 @@ const db = require('../lib/db')
 exports.getSwaps = async function (req, res) {
   try {
     const swaps = await db.query(SQL`
-      SELECT swap_id, owner.user_id as owner_id, owner.name as owner_name, 
-        creation_date, cost, owned_book.owned_book_id, book.book_id, book.title, 
-        book.author, receiver.user_id as receiver_id, receiver.name as receiver_name, 
-        owned_book.condition, completed, book.genre, book.description, book.year_published, 
+      SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, owner.user_id as owner_id,
+        owner.name as owner_name, receiver.user_id as receiver_id, receiver.name as receiver_name,
+        book.book_id, book.title, book.author, book.genre, book.description, book.year_published,
         book.publisher
       FROM swap
-      JOIN owned_book ON swap.owned_book_id = owned_book.owned_book_id
+      JOIN book ON swap.book_id = book.book_id
       JOIN user AS receiver ON swap.receiver_id = receiver.user_id
-      JOIN book ON owned_book.book_id = book.book_id
-      JOIN user AS owner ON owned_book.user_id = owner.user_id
+      JOIN user AS owner on swap.owner_id = owner.user_id;
     `)
     if (swaps.error) {
       return res.status(500).json(swaps.error)
     }
     const formattedSwaps = swaps.map((swap) => ({
       id: swap.swap_id,
-      creation_date: swap.creation_date,
+      condition: swap.condition,
+      status: swap.status,
       cost: swap.cost,
-      completed: swap.completed,
+      creation_date: swap.creation_date,
       owner: {
         id: swap.owner_id,
         name: swap.owner_name,
       },
-      owned_book: {
-        id: swap.owned_book_id,
-        condition: swap.condition,
-      },
+      receiver: swap.receiver_id ? { id: swap.receiver_id, name: swap.receiver_name } : null,
       book: {
         id: swap.book_id,
         title: swap.title,
@@ -41,7 +37,6 @@ exports.getSwaps = async function (req, res) {
         year_published: swap.year_published,
         publisher: swap.publisher,
       },
-      receiver: swap.receiver_id ? { id: swap.receiver_id, name: swap.receiver_name } : null,
     }))
     return res.status(200).json(formattedSwaps)
   } catch (error) {
@@ -51,37 +46,33 @@ exports.getSwaps = async function (req, res) {
 }
 
 // Get all swaps owned by one user.
-exports.getUserOwnedSwaps = async function (req, res) {
+exports.getSwapsByUserId = async function (req, res) {
   try {
     const swaps = await db.query(SQL`
-      SELECT swap_id, owner.user_id as owner_id, owner.name as owner_name, 
-        creation_date, cost, owned_book.owned_book_id, book.book_id, book.title, 
-        book.author, receiver.user_id as receiver_id, receiver.name as receiver_name, 
-        owned_book.condition, completed, book.genre, book.description, book.year_published, 
+      SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, owner.user_id as owner_id,
+        owner.name as owner_name, receiver.user_id as receiver_id, receiver.name as receiver_name,
+        book.book_id, book.title, book.author, book.genre, book.description, book.year_published,
         book.publisher
       FROM swap
-      JOIN owned_book ON swap.owned_book_id = owned_book.owned_book_id
+      JOIN book ON swap.book_id = book.book_id
       JOIN user AS receiver ON swap.receiver_id = receiver.user_id
-      JOIN book ON owned_book.book_id = book.book_id
-      JOIN user AS owner ON owned_book.user_id = owner.user_id
-      WHERE owner.user_id = ${req.params.userId}
+      JOIN user AS owner on swap.owner_id = owner.user_id
+      WHERE owner.user_id = ${req.params.userId};
     `)
     if (!swaps) return res.status(404).json({ error: 'No user with this user_id exists' })
     if (swaps.error) return res.status(500).json(swaps.error)
 
     const formattedSwaps = swaps.map((swap) => ({
       id: swap.swap_id,
-      creation_date: swap.creation_date,
+      condition: swap.condition,
+      status: swap.status,
       cost: swap.cost,
-      completed: swap.completed,
+      creation_date: swap.creation_date,
       owner: {
         id: swap.owner_id,
         name: swap.owner_name,
       },
-      owned_book: {
-        id: swap.owned_book_id,
-        condition: swap.condition,
-      },
+      receiver: swap.receiver_id ? { id: swap.receiver_id, name: swap.receiver_name } : null,
       book: {
         id: swap.book_id,
         title: swap.title,
@@ -91,7 +82,51 @@ exports.getUserOwnedSwaps = async function (req, res) {
         year_published: swap.year_published,
         publisher: swap.publisher,
       },
+    }))
+    return res.status(200).json(formattedSwaps)
+  } catch (error) {
+    console.log(error)
+    return res.json(error)
+  }
+}
+
+// Get all swaps for a specific book.
+exports.getSwapsByBookId = async function (req, res) {
+  try {
+    const swaps = await db.query(SQL`
+      SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, owner.user_id as owner_id,
+        owner.name as owner_name, receiver.user_id as receiver_id, receiver.name as receiver_name,
+        book.book_id, book.title, book.author, book.genre, book.description, book.year_published,
+        book.publisher
+      FROM swap
+      JOIN book ON swap.book_id = book.book_id
+      JOIN user AS receiver ON swap.receiver_id = receiver.user_id
+      JOIN user AS owner on swap.owner_id = owner.user_id
+      WHERE book.book_id = ${req.params.bookId};
+    `)
+    if (!swaps) return res.status(404).json({ error: 'No book with this book_id exists' })
+    if (swaps.error) return res.status(500).json(swaps.error)
+
+    const formattedSwaps = swaps.map((swap) => ({
+      id: swap.swap_id,
+      condition: swap.condition,
+      status: swap.status,
+      cost: swap.cost,
+      creation_date: swap.creation_date,
+      owner: {
+        id: swap.owner_id,
+        name: swap.owner_name,
+      },
       receiver: swap.receiver_id ? { id: swap.receiver_id, name: swap.receiver_name } : null,
+      book: {
+        id: swap.book_id,
+        title: swap.title,
+        author: swap.author,
+        genre: swap.genere,
+        description: swap.description,
+        year_published: swap.year_published,
+        publisher: swap.publisher,
+      },
     }))
     return res.status(200).json(formattedSwaps)
   } catch (error) {
