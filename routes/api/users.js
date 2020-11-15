@@ -20,8 +20,8 @@ router.post('/login', userController.loginUser)
 // Get swaps owned by one user.
 router.get('/:userId/swaps', swapController.getSwapsByUserId)
 
-// // Create a swap for user.
-// router.post('/:userId/swaps', swapController.createSwap)
+// Create a swap for user.
+router.post('/:userId/swaps', swapController.createSwap)
 
 // Complete a swap for a swap owner.
 router.patch('/:userId/swaps/:swapId', swapController.completeSwap)
