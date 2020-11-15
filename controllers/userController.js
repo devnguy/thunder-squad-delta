@@ -73,7 +73,7 @@ exports.registerUser = async function (req, res) {
     return res.status(400).json({
       status: false,
       id: null,
-      msg: 'The request is object missing at least one of the required attributes',
+      msg: 'The request object is missing at least one of the required attributes',
     })
   }
   // FIXME: Enforce unique username and email constraint
@@ -87,12 +87,10 @@ exports.registerUser = async function (req, res) {
     if (response.error) {
       return res.status(500).json(response.error)
     }
-    // Get the user that was just created.
-    const [user] = await db.query(SQL`SELECT * FROM user WHERE user_id = ${response.insertId}`)
     // Prepare and return user info.
     return res.status(201).json({
       status: true,
-      id: user.user_id,
+      id: response.insertId,
     })
   } catch (error) {
     console.log(error)
@@ -105,7 +103,7 @@ exports.loginUser = async function (req, res) {
     return res.status(400).json({
       status: false,
       id: null,
-      msg: 'The request is object missing at least one of the required attributes',
+      msg: 'The request object is missing at least one of the required attributes',
     })
   }
   try {
@@ -134,6 +132,7 @@ exports.loginUser = async function (req, res) {
   }
 }
 
+// Response may need to be updated to match other responses.
 exports.editUser = async function (req, res) {
   try {
     const [user] = await db.query(SQL`SELECT * FROM user WHERE user_id = ${req.params.userId}`)
@@ -159,6 +158,47 @@ exports.editUser = async function (req, res) {
       SQL`SELECT * FROM user WHERE user_id = ${req.params.userId}`
     )
     return res.status(200).json(updatedUser)
+  } catch (error) {
+    console.log(error)
+    return res.status(400).json(error)
+  }
+}
+
+exports.resetPassword = async function (req, res) {
+  // Confirm required fields were passed.
+  if (!req.body.email || !req.body.password) {
+    return res.status(400).json({
+      status: false,
+      msg: 'The request object is missing at least one of the required attributes',
+    })
+  }
+  try {
+    // Confirm email is valid.
+    const [user] = await db.query(SQL`SELECT * FROM user WHERE email = ${req.body.email}`)
+    if (!user) {
+      return res
+        .status(404)
+        .json({ status: false, id: null, msg: 'No user with that email exists' })
+    }
+    // user.user_id is an int, req.params.userId is a string.
+    if (user.user_id != req.params.userId) {
+      return res
+        .status(404)
+        .json({ status: false, id: null, msg: 'No user with that user_id exists' })
+    }
+
+    // Hash and update the user's password only.
+    const hash = await bcrypt.hash(req.body.password, 10)
+    const response = await db.query(SQL`
+      UPDATE user
+      SET password = ${hash}
+      WHERE user_id = ${req.params.userId}
+    `)
+    if (response.error) {
+      return res.status(500).json(response.error)
+    }
+    // Send the success status.
+    return res.status(200).json({ status: true })
   } catch (error) {
     console.log(error)
     return res.status(400).json(error)

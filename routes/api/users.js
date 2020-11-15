@@ -14,6 +14,9 @@ router.get('/:userId', userController.getUser)
 // Edit an existing user.
 router.patch('/:userId', userController.editUser)
 
+// Edit an existing user's password.
+router.post('/:userId/reset', userController.resetPassword)
+
 // User log in
 router.post('/login', userController.loginUser)
 
