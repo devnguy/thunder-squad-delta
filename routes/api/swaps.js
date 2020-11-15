@@ -1,8 +1,11 @@
 const router = require('express').Router()
-const userController = require('../../controllers/swapController')
+const swapController = require('../../controllers/swapController')
 
 // Get all swaps.
-router.get('/', userController.getSwaps)
+router.get('/', swapController.getSwaps)
+
+// Get all swaps for a specific book.
+router.get('/:bookId', swapController.getSwapsByBookId)
 
 // TODO
 // // Get a swap by id.
