@@ -1,10 +1,9 @@
 import React from "react";
 
-import InfoRow from "../Components/InfoRow.js/InfoRow";
-import Library from "../Components/Library/Library";
+import MaleAvatarProfile from "../../Assets/Male Avatar Profile.png";
+import BookCover from "../../Assets/BookCover.png";
 
-import MaleAvatarProfile from "../Assets/Male Avatar Profile.png";
-import BookCover from "../Assets/BookCover.png";
+import { InfoRow, Library } from "../../Components";
 import "./ProfilePage.css";
 
 const headings = ["Username's Library", "Username's Wishlist"];

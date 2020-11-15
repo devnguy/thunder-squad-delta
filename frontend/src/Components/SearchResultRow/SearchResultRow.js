@@ -1,6 +1,7 @@
 import React from "react";
 
 import "./SearchResultRow.css";
+import { Link } from "react-router-dom";
 
 function SearchResultRow({ cover, title, author, condition, giver, cost }) {
   return (
@@ -20,16 +21,18 @@ function SearchResultRow({ cover, title, author, condition, giver, cost }) {
       </div>
       <div className="swapDetails">
         <p className="giverTxt">
-          <span className="giverWord">Giver: </span>{giver}
+          <span className="giverWord">Giver: </span>
+          {giver}
         </p>
         <p className="costTxt">{cost} Points</p>
       </div>
       <div className="infoButtonHolder">
-        <button className="infoButton">More Info</button>
+        <button className="infoButton">
+          <Link to="/book">More Info</Link>
+        </button>
       </div>
     </div>
   );
 }
 
 export default SearchResultRow;
-

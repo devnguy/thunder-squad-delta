@@ -1,15 +1,18 @@
 import React from "react";
-import NavBar from "./Components/NavBar/NavBar";
-import Homepage from "./Homepage/Homepage";
-import Profilepage from "./Profilepage/ProfilePage";
-import Aboutpage from "./Aboutpage/Aboutpage";
-import Registration from "./Registration/Registration";
-import SearchResultsPage from "./SearchResultsPage/SearchResultsPage";
-import Browsepage from "./Browsepage/Browsepage";
-import BookPage from "./BookPage/BookPage";
+import { NavBar } from "./Components";
+import  {
+  HomePage,
+  ProfilePage,
+  AboutPage,
+  RegistrationPage,
+  SearchResultsPage,
+  BrowsePage,
+  BookPage,
+  LoginPage,
+  ResetPasswordPage,
+} from "./Pages";
 
 import { Switch, Route } from "react-router-dom";
-
 
 export default function App() {
   return (
@@ -17,19 +20,28 @@ export default function App() {
       <NavBar />
       <Switch>
         <Route exact path="/">
-          <Homepage />
+          <HomePage />
         </Route>
-        <Route path="/profile">
-          <Profilepage />
+        <Route path="/about">
+          <AboutPage />
+        </Route>
+        <Route path="/book">
+          <BookPage />
         </Route>
         <Route path="/browse">
-          <Browsepage />
+          <BrowsePage />
+        </Route>
+        <Route path="/login">
+          <LoginPage />
+        </Route>
+        <Route path="/profile">
+          <ProfilePage />
         </Route>
         <Route path="/register">
-          <Registration />
-        </Route> 
-        <Route path="/about">
-          <Aboutpage />
+          <RegistrationPage />
+        </Route>
+        <Route path="/reset-password">
+          <ResetPasswordPage />
         </Route>
         <Route path="/search">
           <SearchResultsPage />

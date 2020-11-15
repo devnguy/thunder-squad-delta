@@ -1,16 +1,16 @@
 import React from "react";
 
-import HeaderImage from "../Assets/AboutHeader.png";
-import PostIcon from "../Assets/About Post Icon.png";
-import SearchIcon from "../Assets/About Search Icon.png";
-import SwapIcon from "../Assets/About Swap Icon.png";
-import PointsIcon from "../Assets/About Points Icon.png";
-import MaleAvatar from "../Assets/About Male Avatar.png";
-import FemaleAvatar from "../Assets/About Female Avatar.png";
+import HeaderImage from "../../Assets/AboutHeader.png";
+import PostIcon from "../../Assets/About Post Icon.png";
+import SearchIcon from "../../Assets/About Search Icon.png";
+import SwapIcon from "../../Assets/About Swap Icon.png";
+import PointsIcon from "../../Assets/About Points Icon.png";
+import MaleAvatar from "../../Assets/About Male Avatar.png";
+import FemaleAvatar from "../../Assets/About Female Avatar.png";
 
-import "./Aboutpage.css";
+import "./AboutPage.css";
 
-function Browsepage(props) {
+function AboutPage(props) {
   return (
     <div className="aboutPage">
       {/* <div className="titleSection">
@@ -103,4 +103,4 @@ function Browsepage(props) {
   );
 }
 
-export default Browsepage;
+export default AboutPage;
