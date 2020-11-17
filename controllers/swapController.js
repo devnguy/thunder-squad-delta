@@ -1,6 +1,8 @@
 const SQL = require('sql-template-strings')
 const db = require('../lib/db')
 
+const formatSwaps = require('./util/formatSwaps')
+
 // Search for swaps.
 // There is some nastiness below. I would parameterize the table that's being
 // searched, but sql tables cannot be parameterized inside a query. All of the
@@ -80,28 +82,7 @@ exports.getSwaps = async function (req, res) {
     }
     if (swaps.error) return res.status(500).json(swaps.error)
 
-    const formattedSwaps = swaps.map((swap) => ({
-      id: swap.swap_id,
-      condition: swap.condition,
-      status: swap.status,
-      cost: swap.cost,
-      creation_date: swap.creation_date,
-      owner: {
-        id: swap.owner_id,
-        name: swap.owner_name,
-      },
-      receiver: swap.receiver_id ? { id: swap.receiver_id, name: swap.receiver_name } : null,
-      book: {
-        id: swap.book_id,
-        title: swap.title,
-        author: swap.author,
-        genre: swap.genre,
-        description: swap.description,
-        year_published: swap.year_published,
-        publisher: swap.publisher,
-      },
-    }))
-    return res.status(200).json(formattedSwaps)
+    return res.status(200).json(formatSwaps(swaps))
   } catch (error) {
     console.log(error)
     return res.json(error)
@@ -125,28 +106,7 @@ exports.getSwapsByUserId = async function (req, res) {
     if (!swaps) return res.status(404).json({ error: 'No user with this user_id exists' })
     if (swaps.error) return res.status(500).json(swaps.error)
 
-    const formattedSwaps = swaps.map((swap) => ({
-      id: swap.swap_id,
-      condition: swap.condition,
-      status: swap.status,
-      cost: swap.cost,
-      creation_date: swap.creation_date,
-      owner: {
-        id: swap.owner_id,
-        name: swap.owner_name,
-      },
-      receiver: swap.receiver_id ? { id: swap.receiver_id, name: swap.receiver_name } : null,
-      book: {
-        id: swap.book_id,
-        title: swap.title,
-        author: swap.author,
-        genre: swap.genre,
-        description: swap.description,
-        year_published: swap.year_published,
-        publisher: swap.publisher,
-      },
-    }))
-    return res.status(200).json(formattedSwaps)
+    return res.status(200).json(formatSwaps(swaps))
   } catch (error) {
     console.log(error)
     return res.json(error)
@@ -170,28 +130,7 @@ exports.getSwapsByBookId = async function (req, res) {
     if (!swaps) return res.status(404).json({ error: 'No book with this book_id exists' })
     if (swaps.error) return res.status(500).json(swaps.error)
 
-    const formattedSwaps = swaps.map((swap) => ({
-      id: swap.swap_id,
-      condition: swap.condition,
-      status: swap.status,
-      cost: swap.cost,
-      creation_date: swap.creation_date,
-      owner: {
-        id: swap.owner_id,
-        name: swap.owner_name,
-      },
-      receiver: swap.receiver_id ? { id: swap.receiver_id, name: swap.receiver_name } : null,
-      book: {
-        id: swap.book_id,
-        title: swap.title,
-        author: swap.author,
-        genre: swap.genre,
-        description: swap.description,
-        year_published: swap.year_published,
-        publisher: swap.publisher,
-      },
-    }))
-    return res.status(200).json(formattedSwaps)
+    return res.status(200).json(formatSwaps(swaps))
   } catch (error) {
     console.log(error)
     return res.json(error)
