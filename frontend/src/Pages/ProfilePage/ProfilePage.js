@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 import MaleAvatarProfile from "../../Assets/Male Avatar Profile.png";
 
@@ -6,6 +6,7 @@ import { InfoRow, Library } from "../../Components";
 import useApi from "../../Api/useApi";
 import requests from "../../Api/requests";
 import "./ProfilePage.css";
+import AuthContext from "../../Context/AuthContext";
 
 const headings = ["Username's Library", "Username's Wishlist"];
 
@@ -15,8 +16,10 @@ function ProfilePage(props) {
   const [library, setLibrary] = useState(null);
   const [wishlist, setWishlist] = useState(null);
 
+  const { userId } = useContext(AuthContext);
+
   useEffect(() => {
-    profileDetails.request(1);
+    profileDetails.request(userId);
   }, []);
 
   useEffect(() => {
@@ -32,9 +35,7 @@ function ProfilePage(props) {
       <div className="profileInfoSection">
         <div className="profileHeader">
           <img src={MaleAvatarProfile} alt="Avatar" className="avatarProfile" />
-          <p className="profileInfo">
-            {userInfo ? userInfo.username : "..."}
-          </p>
+          <p className="profileInfo">{userInfo ? userInfo.username : "..."}</p>
           <p className="profileEmail">{userInfo ? userInfo.email : "..."}</p>
         </div>
         <div className="profileFooter">

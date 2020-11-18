@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import SearchBar from "../SearchBar";
+import AuthContext from "../../Context/AuthContext";
 
 import MaleAvatarNav from "../../Assets/Male Avatar Nav.png";
 import "./NavBar.css";
@@ -23,17 +24,14 @@ const dropdown_buttons = [
     title: "Wishlist",
     link: "/wishlist",
   },
-  {
-    title: "Logout",
-    link: "/logout",
-  },
 ];
 
 const navSearchPages = ["/about", "/profile"];
 
-function NavBar({ loggedIn = false }) {
+function NavBar() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [navSearch, setNavSearch] = useState(false);
+  const { userId, setUserId } = useContext(AuthContext);
   let location = useLocation();
 
   useEffect(() => {
@@ -51,7 +49,7 @@ function NavBar({ loggedIn = false }) {
     <div className="navBarWithDropdown">
       <div className="navBarContainer">
         <div className="navBarLeftSection">
-          <p className="navBarHeader">
+          <p className="navBarHeader" onClick={() => setDropdownOpen(false)}>
             <Link to="/">Bookswap</Link>
           </p>
         </div>
@@ -61,23 +59,29 @@ function NavBar({ loggedIn = false }) {
           </div>
         )}
         <div className="navBarRightSection">
-          <p className="navBarOption">
+          <p className="navBarOption" onClick={() => setDropdownOpen(false)}>
             <Link to="/browse">Browse</Link>
           </p>
-          <p className="navBarOption">
+          <p className="navBarOption" onClick={() => setDropdownOpen(false)}>
             <Link to="/about">About</Link>
           </p>
-          {!loggedIn && (
+          {!userId && (
             <>
-              <p className="navBarOption">
+              <p
+                className="navBarOption"
+                onClick={() => setDropdownOpen(false)}
+              >
                 <Link to="/login">Login</Link>
               </p>
-              <p className="navBarOption">
+              <p
+                className="navBarOption"
+                onClick={() => setDropdownOpen(false)}
+              >
                 <Link to="/register">Sign Up</Link>
               </p>
             </>
           )}
-          {loggedIn && (
+          {userId && (
             <>
               <button
                 className="profileButton"
@@ -100,6 +104,15 @@ function NavBar({ loggedIn = false }) {
               <Link to={link}>{title}</Link>
             </button>
           ))}
+          <button
+            className={"profileDropdownCell navBarOption"}
+            onClick={() => {
+              setUserId(null);
+              setDropdownOpen(false);
+            }}
+          >
+            <Link to="/">Logout</Link>
+          </button>
         </div>
       )}
     </div>
