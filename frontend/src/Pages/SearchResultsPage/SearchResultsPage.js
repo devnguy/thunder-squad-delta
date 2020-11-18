@@ -39,7 +39,6 @@ function SearchResultsPage(props) {
   useEffect(() => {
     if (books.data !== []) {
       setBookArray(books.data);
-      console.log(books.data);
     }
   }, [books.data]);
 

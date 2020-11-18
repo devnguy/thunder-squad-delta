@@ -39,7 +39,16 @@ function BookRow({ books, heading, left_start }) {
           />
         </>
       );
-    } else if (books.length > arrayOffset + 4) {
+    } else if (books && books.length === 0) {
+      console.log("List Empty");
+      setBooksArray(
+        <div className="bookRowEmptyContainer">
+          <p className="rowTitle" style={{ fontSize: "20px", opacity: "40%" }}>
+            Looks like there's nothing here
+          </p>
+        </div>
+      );
+    } else if (books && books.length > arrayOffset + 4) {
       setBooksArray(
         <>
           {books
@@ -49,7 +58,7 @@ function BookRow({ books, heading, left_start }) {
             ))}
         </>
       );
-    } else if (books.length <= arrayOffset + 4) {
+    } else if (books && books.length <= arrayOffset + 4) {
       setBooksArray(
         <>
           {books
