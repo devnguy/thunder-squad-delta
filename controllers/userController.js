@@ -6,7 +6,7 @@ const formatBooks = require('./util/formatUserProfile')
 
 exports.getUsers = async function (req, res) {
   try {
-    const users = await db.query(SQL`SELECT name, email, points, points_spent, street, city, state, zip FROM user`)
+    const users = await db.query(SQL`SELECT user_id, name, email, points, points_spent, street, city, state, zip FROM user`)
     if (users.error) {
       return res.status(500).json(users.error)
     }
@@ -21,7 +21,7 @@ exports.getUser = async function (req, res) {
   try {
     // Query should return an array with the user as the first and only
     // element. Destructure the array and store the element in 'user'.
-    const [user] = await db.query(SQL`SELECT name, email, points, points_spent, street, city, state, zip FROM user WHERE user_id = ${req.params.userId}`)
+    const [user] = await db.query(SQL`SELECT user_id, name, email, points, points_spent, street, city, state, zip FROM user WHERE user_id = ${req.params.userId}`)
     if (user.error) {
       return res.status(500).json(user.error)
     }
