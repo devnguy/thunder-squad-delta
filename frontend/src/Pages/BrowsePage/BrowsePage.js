@@ -5,7 +5,7 @@ import useApi from "../../Api/useApi";
 import requests from "../../Api/requests";
 
 import HeaderImage from "../../Assets/BrowseHeader.png";
-import BookCover from "../../Assets/BookCover.png";
+// import BookCover from "../../Assets/BookCover.png";
 import "./BrowsePage.css";
 
 const headings = ["Recommended for you", "Trending", "Top All Time"];

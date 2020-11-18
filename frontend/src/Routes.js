@@ -40,7 +40,7 @@ export default function Routes() {
       <Route path="/reset-password">
         <ResetPasswordPage />
       </Route>
-      <Route path="/search">
+      <Route path="/search/:filterTerm/:searchTerm">
         <SearchResultsPage />
       </Route>
     </Switch>
