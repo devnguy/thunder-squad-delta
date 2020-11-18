@@ -17,8 +17,8 @@ exports.getSwaps = async function (req, res) {
   try {
     let swaps = undefined
     // Query a different column based on searchby value.
-    switch (req.query.searchby) {
-      case 'Title':
+    switch (req.query.searchby.toLowerCase()) {
+      case 'title':
         swaps = await db.query(SQL`
           SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, owner.user_id as
           owner_id, owner.name as owner_name, receiver.user_id as receiver_id, receiver.name 
@@ -32,7 +32,7 @@ exports.getSwaps = async function (req, res) {
           LIKE ${searchTerm};
         `)
         break
-      case 'Author':
+      case 'author':
         swaps = await db.query(SQL`
           SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, owner.user_id as
           owner_id, owner.name as owner_name, receiver.user_id as receiver_id, receiver.name 
@@ -46,7 +46,7 @@ exports.getSwaps = async function (req, res) {
           LIKE ${searchTerm};
         `)
         break
-      case 'Genre':
+      case 'genre':
         swaps = await db.query(SQL`
           SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, owner.user_id as
           owner_id, owner.name as owner_name, receiver.user_id as receiver_id, receiver.name 
@@ -60,7 +60,7 @@ exports.getSwaps = async function (req, res) {
           LIKE ${searchTerm};
         `)
         break
-      case 'User':
+      case 'user':
         swaps = await db.query(SQL`
           SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, owner.user_id as
           owner_id, owner.name as owner_name, receiver.user_id as receiver_id, receiver.name 
