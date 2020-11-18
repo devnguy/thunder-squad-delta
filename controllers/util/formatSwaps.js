@@ -18,6 +18,7 @@ function formatSwaps(swaps) {
       description: swap.description,
       year_published: swap.year_published,
       publisher: swap.publisher,
+      image: swap.image,
     },
   }))
 }

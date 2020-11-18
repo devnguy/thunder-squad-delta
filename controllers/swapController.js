@@ -23,7 +23,7 @@ exports.getSwaps = async function (req, res) {
           SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, owner.user_id as
           owner_id, owner.name as owner_name, receiver.user_id as receiver_id, receiver.name 
           as receiver_name, book.book_id, book.title, book.author, book.genre, book.description,
-          book.year_published, book.publisher
+          book.year_published, book.publisher, book.image
           FROM swap
           JOIN book ON swap.book_id = book.book_id
           LEFT JOIN user AS receiver ON swap.receiver_id = receiver.user_id
@@ -37,7 +37,7 @@ exports.getSwaps = async function (req, res) {
           SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, owner.user_id as
           owner_id, owner.name as owner_name, receiver.user_id as receiver_id, receiver.name 
           as receiver_name, book.book_id, book.title, book.author, book.genre, book.description,
-          book.year_published, book.publisher
+          book.year_published, book.publisher, book.image
           FROM swap
           JOIN book ON swap.book_id = book.book_id
           LEFT JOIN user AS receiver ON swap.receiver_id = receiver.user_id
@@ -51,7 +51,7 @@ exports.getSwaps = async function (req, res) {
           SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, owner.user_id as
           owner_id, owner.name as owner_name, receiver.user_id as receiver_id, receiver.name 
           as receiver_name, book.book_id, book.title, book.author, book.genre, book.description,
-          book.year_published, book.publisher
+          book.year_published, book.publisher, book.image
           FROM swap
           JOIN book ON swap.book_id = book.book_id
           LEFT JOIN user AS receiver ON swap.receiver_id = receiver.user_id
@@ -65,7 +65,7 @@ exports.getSwaps = async function (req, res) {
           SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, owner.user_id as
           owner_id, owner.name as owner_name, receiver.user_id as receiver_id, receiver.name 
           as receiver_name, book.book_id, book.title, book.author, book.genre, book.description,
-          book.year_published, book.publisher
+          book.year_published, book.publisher, book.image
           FROM swap
           JOIN book ON swap.book_id = book.book_id
           LEFT JOIN user AS receiver ON swap.receiver_id = receiver.user_id
@@ -96,7 +96,7 @@ exports.getSwapsByUserId = async function (req, res) {
       SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, owner.user_id as owner_id,
         owner.name as owner_name, receiver.user_id as receiver_id, receiver.name as receiver_name,
         book.book_id, book.title, book.author, book.genre, book.description, book.year_published,
-        book.publisher
+        book.publisher, book.image
       FROM swap
       JOIN book ON swap.book_id = book.book_id
       LEFT JOIN user AS receiver ON swap.receiver_id = receiver.user_id
@@ -120,7 +120,7 @@ exports.getSwapsByBookId = async function (req, res) {
       SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, owner.user_id as owner_id,
         owner.name as owner_name, receiver.user_id as receiver_id, receiver.name as receiver_name,
         book.book_id, book.title, book.author, book.genre, book.description, book.year_published,
-        book.publisher
+        book.publisher, book.image
       FROM swap
       JOIN book ON swap.book_id = book.book_id
       LEFT JOIN user AS receiver ON swap.receiver_id = receiver.user_id
