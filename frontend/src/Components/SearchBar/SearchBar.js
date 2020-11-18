@@ -8,61 +8,118 @@ import {
   faChevronUp,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const filter_categories = ["Title", "Author", "Genre", "User"];
 
-
-
-function SearchBar(props) {
+function SearchBar({ navBarVariant = false }) {
   const [searchTerm, setSearchTerm] = useState("");
+  const [filterTerm, setFilterTerm] = useState("Title");
   const [filterOpen, setFilterOpen] = useState(false);
-  const [filterTerm, setFilterTerm] = useState("Filter");
+  let history = useHistory();
+
+  const handleSearch = () => {
+    if (searchTerm !== "") {
+      history.push(`/search/${filterTerm}/${searchTerm}`);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   return (
-    <div className="searchContainer">
-      <div className="filterContainer">
-        <button
-          className="filterButton filterText"
-          onClick={() => setFilterOpen((filterOpen) => !filterOpen)}
-        >
-          {filterTerm}
+    <div
+      style={
+        navBarVariant
+          ? {
+              height: "40px",
+              width: "500px",
+              marginLeft: "20px",
+            }
+          : {
+              height: "50px",
+              width: "600px",
+              marginLeft: "0px",
+            }
+      }
+    >
+      <div className="searchContainer">
+        <div className="filterContainer">
+          <button
+            className="filterButton filterText"
+            style={{
+              height: navBarVariant ? "40px" : "50px",
+              fontSize: navBarVariant ? "16px" : "18px",
+            }}
+            onClick={() => setFilterOpen((filterOpen) => !filterOpen)}
+          >
+            {filterTerm}
+            {filterOpen && (
+              <FontAwesomeIcon icon={faChevronUp} size="sm" color="#fffaff" />
+            )}
+            {!filterOpen && (
+              <FontAwesomeIcon icon={faChevronDown} size="sm" color="#fffaff" />
+            )}
+          </button>
           {filterOpen && (
-            <FontAwesomeIcon icon={faChevronUp} size="sm" color="#fffaff" />
+            <div className="dropdown">
+              {filter_categories.map((category, index) => (
+                <button
+                  key={index}
+                  className={
+                    index < 3
+                      ? "dropdownCell filterText cellWithBorder"
+                      : "dropdownCell filterText"
+                  }
+                  onClick={() => {
+                    setFilterTerm(category);
+                    setFilterOpen(false);
+                  }}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
           )}
-          {!filterOpen && (
-            <FontAwesomeIcon  icon={faChevronDown} size="sm" color="#fffaff" />
-          )}
-        </button>
-        {filterOpen && (
-          <div className="dropdown">
-            {filter_categories.map((category, index) => (
-              <button
-                key={index}
-                className={index < 3 ? "dropdownCell filterText cellWithBorder": "dropdownCell filterText" }
-                onClick={() => {
-                  setFilterTerm(category);
-                  setFilterOpen(false);
-                }}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-      <div className="searchBar">
-        <input
-          type="text"
-          placeholder="Search..."
-          className="searchBarPrompt"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <button className="searchButton">
-          <Link to="/search">
+        </div>
+        <div
+          className="searchBar"
+          style={{
+            border: navBarVariant ? "2px solid #3e92cc" : "3px solid #3e92cc",
+          }}
+        >
+          <input
+            type="text"
+            placeholder="Search..."
+            className="searchBarPrompt"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={handleKeyDown}
+            style={{ fontSize: navBarVariant ? "17px" : "20px" }}
+          />
+          <button
+            onClick={() => handleSearch()}
+            className="searchButton"
+            style={
+              navBarVariant
+                ? {
+                    width: "30px",
+                    height: "30px",
+                    fontSize: "9px",
+                  }
+                : {
+                    width: "37px",
+                    height: "37px",
+                    fontSize: "11px",
+                  }
+            }
+          >
             <FontAwesomeIcon icon={faSearch} size="2x" color="#fffaff" />
-          </Link>
-        </button>
+          </button>
+        </div>
       </div>
     </div>
   );

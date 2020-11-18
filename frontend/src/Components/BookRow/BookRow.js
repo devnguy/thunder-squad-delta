@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import Book from "../Book";
 import "./BookRow.css";
 
+import Lottie from "react-lottie";
+import * as LoadingAnimation from "../../Assets/Animations/Loading.json";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
@@ -15,14 +17,35 @@ function BookRow({ books, heading, left_start }) {
   );
   const [booksArray, setBooksArray] = useState(null);
 
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: LoadingAnimation.default,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
   useEffect(() => {
-    if (books.length > arrayOffset + 4) {
+    if (books === null) {
+      setBooksArray(
+        <>
+          <Lottie
+            options={defaultOptions}
+            height={200}
+            width={400}
+            isStopped={false}
+            isPaused={false}
+          />
+        </>
+      );
+    } else if (books.length > arrayOffset + 4) {
       setBooksArray(
         <>
           {books
             .slice(arrayOffset, arrayOffset + 4)
-            .map(({ cover, title, author }, index) => (
-              <Book key={index} cover={cover} title={title} author={author} />
+            .map(({ image, title, author }, index) => (
+              <Book key={index} cover={image} title={title} author={author} />
             ))}
         </>
       );
@@ -31,8 +54,8 @@ function BookRow({ books, heading, left_start }) {
         <>
           {books
             .slice(arrayOffset, books.length)
-            .map(({ cover, title, author }, index) => (
-              <Book key={index} cover={cover} title={title} author={author} />
+            .map(({ image, title, author }, index) => (
+              <Book key={index} cover={image} title={title} author={author} />
             ))}
         </>
       );
@@ -58,7 +81,7 @@ function BookRow({ books, heading, left_start }) {
         <div className="bookRowContainer">{booksArray}</div>
       </div>
       <div className="buttonSection">
-        {books.length > arrayOffset + 4 && (
+        {books && books.length > arrayOffset + 4 && (
           <button
             className="scrollButton"
             onClick={() => setArrayOffset((arg) => arg + 4)}

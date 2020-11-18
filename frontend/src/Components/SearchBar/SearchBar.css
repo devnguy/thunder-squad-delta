@@ -1,11 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 
 .searchContainer {
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  height: 50px;
-  width: 600px;
   overflow: visible;
 }
 
@@ -24,7 +24,6 @@
 }
 
 .filterButton {
-  height: 50px;
   width: 100%;
   background-color: #d8315b;
   border-radius: 9999px;
@@ -71,7 +70,6 @@
   height: 100%;
   width: 75%;
   background: #fffaff;
-  border: 3px solid #3e92cc;
   box-sizing: border-box;
   border-radius: 9999px;
   display: flex;
@@ -87,6 +85,7 @@
   line-height: 34px;
   color: #1e1b18;
   opacity: 70%;
+  background-color: transparent;
 
   position: relative;
   left: 5%;
@@ -99,8 +98,6 @@ textarea:focus {
 }
 
 .searchButton {
-  width: 8%;
-  height: 82.4%;
   background-color: #3e92cc;
   position: relative;
   right: 1%;
@@ -114,4 +111,12 @@ textarea:focus {
 .searchButton:active,
 .filterButton:active {
   opacity: 70%;
+}
+
+#searchErrorMessage {
+  margin: 5px 0px 0px 30%;
+  font-family: Montserrat;
+  font-size: 14px;
+  color: #e26584;
+  opacity: 80%;
 }
