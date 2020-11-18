@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 import MaleAvatarProfile from "../../Assets/Male Avatar Profile.png";
-import BookCover from "../../Assets/BookCover.png";
 
 import { InfoRow, Library } from "../../Components";
 import useApi from "../../Api/useApi";
@@ -9,34 +8,6 @@ import requests from "../../Api/requests";
 import "./ProfilePage.css";
 
 const headings = ["Username's Library", "Username's Wishlist"];
-
-const book_array = [
-  {
-    title: "The Hobbit",
-    author: "J.R.R. Tolkien",
-    cover: BookCover,
-  },
-  {
-    title: "The Hobbit",
-    author: "J.R.R. Tolkien",
-    cover: BookCover,
-  },
-  {
-    title: "The Hobbit",
-    author: "J.R.R. Tolkien",
-    cover: BookCover,
-  },
-  {
-    title: "The Hobbit",
-    author: "J.R.R. Tolkien",
-    cover: BookCover,
-  },
-  {
-    title: "Harry Potter",
-    author: "J.K. Rowling",
-    cover: BookCover,
-  },
-];
 
 function ProfilePage(props) {
   const profileDetails = useApi(requests.getProfileDetails);

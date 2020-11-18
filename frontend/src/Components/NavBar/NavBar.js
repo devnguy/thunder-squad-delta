@@ -1,12 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 import SearchBar from "../SearchBar";
 
 import MaleAvatarNav from "../../Assets/Male Avatar Nav.png";
 import "./NavBar.css";
-
-import { Link } from "react-router-dom";
-import NavContext from "../../Context/NavContext";
 
 const dropdown_buttons = [
   {
@@ -31,14 +29,29 @@ const dropdown_buttons = [
   },
 ];
 
-function NavBar({ loggedIn = true }) {
+const navSearchPages = ["/about", "/profile"];
+
+function NavBar({ loggedIn = false }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const { navSearch, setNavSearch } = useContext(NavContext);
+  const [navSearch, setNavSearch] = useState(false);
+  let location = useLocation();
+
+  useEffect(() => {
+    if (
+      navSearchPages.includes(location.pathname) ||
+      location.pathname.slice(0, 7) === "/search"
+    ) {
+      setNavSearch(true);
+    } else {
+      setNavSearch(false);
+    }
+  }, [location]);
+
   return (
     <div className="navBarWithDropdown">
       <div className="navBarContainer">
         <div className="navBarLeftSection">
-          <p className="navBarHeader" onClick={() => setNavSearch(false)}>
+          <p className="navBarHeader">
             <Link to="/">Bookswap</Link>
           </p>
         </div>
@@ -48,18 +61,18 @@ function NavBar({ loggedIn = true }) {
           </div>
         )}
         <div className="navBarRightSection">
-          <p className="navBarOption" onClick={() => setNavSearch(false)}>
+          <p className="navBarOption">
             <Link to="/browse">Browse</Link>
           </p>
-          <p className="navBarOption" onClick={() => setNavSearch(true)}>
+          <p className="navBarOption">
             <Link to="/about">About</Link>
           </p>
           {!loggedIn && (
             <>
-              <p className="navBarOption" onClick={() => setNavSearch(false)}>
+              <p className="navBarOption">
                 <Link to="/login">Login</Link>
               </p>
-              <p className="navBarOption" onClick={() => setNavSearch(false)}>
+              <p className="navBarOption">
                 <Link to="/register">Sign Up</Link>
               </p>
             </>
@@ -82,10 +95,7 @@ function NavBar({ loggedIn = true }) {
             <button
               key={index}
               className={"profileDropdownCell navBarOption"}
-              onClick={() => {
-                setDropdownOpen(false);
-                setNavSearch(true);
-              }}
+              onClick={() => setDropdownOpen(false)}
             >
               <Link to={link}>{title}</Link>
             </button>

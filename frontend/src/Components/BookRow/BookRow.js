@@ -40,7 +40,6 @@ function BookRow({ books, heading, left_start }) {
         </>
       );
     } else if (books && books.length === 0) {
-      console.log("List Empty");
       setBooksArray(
         <div className="bookRowEmptyContainer">
           <p className="rowTitle" style={{ fontSize: "20px", opacity: "40%" }}>

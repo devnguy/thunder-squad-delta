@@ -5,27 +5,7 @@ import { SearchResultRow, SearchSort } from "../../Components";
 import useApi from "../../Api/useApi";
 import requests from "../../Api/requests";
 
-import BookCover from "../../Assets/BookCover.png";
 import "./SearchResultsPage.css";
-
-const book_array = [
-  {
-    title: "The Hobbit",
-    author: "J.R.R. Tolkien",
-    cover: BookCover,
-    cost: 35,
-    condition: "Good",
-    giver: "Sally",
-  },
-  {
-    title: "The Bop-it",
-    author: "Bert and Ernie",
-    cover: BookCover,
-    cost: 20,
-    condition: "Poor",
-    giver: "Joe",
-  },
-];
 
 function SearchResultsPage(props) {
   const books = useApi(requests.getSearchResults);
@@ -61,13 +41,12 @@ function SearchResultsPage(props) {
           <SearchSort className="searchSortStyle" />
         </div>
       </div>
-
       <div className="rowHolder">
         {bookArray && bookArray !== [] && (
           <>
             {bookArray.map(({ book, owner, condition, cost }, index) => (
               <SearchResultRow
-                cover={BookCover}
+                cover={book.image}
                 title={book.title}
                 author={book.author}
                 giver={owner.name}
