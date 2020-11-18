@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import "./NavBar.css";
+
+import SearchBar from "../SearchBar";
+
 import MaleAvatarNav from "../../Assets/Male Avatar Nav.png";
+import "./NavBar.css";
 
 import { Link } from "react-router-dom";
 
@@ -27,7 +30,7 @@ const dropdown_buttons = [
   },
 ];
 
-function NavBar({ loggedIn = false }) {
+function NavBar({ loggedIn = false, searchVariant = true }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   return (
     <div className="navBarWithDropdown">
@@ -37,6 +40,7 @@ function NavBar({ loggedIn = false }) {
             <Link to="/">Bookswap</Link>
           </p>
         </div>
+        <div>{searchVariant && <SearchBar navBarVariant />}</div>
         <div className="navBarRightSection">
           <p className="navBarOption">
             <Link to="/browse">Browse</Link>
