@@ -2,6 +2,8 @@ const SQL = require('sql-template-strings')
 const bcrypt = require('bcrypt')
 const db = require('../lib/db')
 
+const formatBooks = require('./util/formatUserProfile')
+
 exports.getUsers = async function (req, res) {
   try {
     const users = await db.query(SQL`SELECT name, email, points, points_spent, street, city, state, zip FROM user`)
@@ -68,38 +70,8 @@ exports.getUserProfile = async function (req, res) {
           booksGiven: user[0].given_books,
           booksReceived: user[0].received_books
         },
-        library: user.reduce((bookArray, book) => {
-          if (book.swap_id != null && book.receiver_id == null) {
-            const newBook = {
-              book_id: book.book_id,
-              title: book.title,
-              author: book.author,
-              genre: book.genre,
-              description: book.description,
-              year_published: book.year_published,
-              publisher: book.publisher,
-              image: book.image
-            }
-            bookArray.push(newBook);
-          }
-          return bookArray;
-        }, []),
-        wishlist: user.reduce((bookArray, book) => {
-          if (book.wish_id != null) {
-            const newBook = {
-              book_id: book.book_id,
-              title: book.title,
-              author: book.author,
-              genre: book.genre,
-              description: book.description,
-              year_published: book.year_published,
-              publisher: book.publisher,
-              image: book.image
-            }
-            bookArray.push(newBook);
-          }
-          return bookArray;
-        }, [])
+        library: formatBooks.formatLibrary(user),
+        wishlist: formatBooks.formatWishlist(user)
       }
     }
     return res.status(200).json(formattedUser)
