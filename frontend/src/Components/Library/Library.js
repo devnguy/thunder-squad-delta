@@ -2,7 +2,7 @@ import React from "react";
 import BookRow from "../BookRow";
 import "./Library.css";
 
-function Library({ book_arrays, headings, left_start = true, cycle = false }) {
+function Library({ book_arrays, headings, left_start = true }) {
   return (
     <>
       {book_arrays.map((book_array, index) => (
