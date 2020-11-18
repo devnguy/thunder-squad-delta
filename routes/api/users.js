@@ -11,6 +11,9 @@ router.post('/', userController.registerUser)
 // Get a user by id.
 router.get('/:userId', userController.getUser)
 
+// Get user profile page information by id.
+router.get('/:userId/profile', userController.getUserProfile)
+
 // Edit an existing user.
 router.patch('/:userId', userController.editUser)
 

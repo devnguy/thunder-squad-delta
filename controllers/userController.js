@@ -4,27 +4,9 @@ const db = require('../lib/db')
 
 exports.getUsers = async function (req, res) {
   try {
-    const users = await db.query(SQL`SELECT * FROM user`)
+    const users = await db.query(SQL`SELECT name, email, points, points_spent, street, city, state, zip FROM user`)
     if (users.error) {
       return res.status(500).json(users.error)
-    }
-    for (const user of users) {
-      user.givenBooks = await db.query(SQL`SELECT title, author, genre, description, year_published, publisher, image
-      FROM book
-      INNER JOIN owned_book ON book.book_id = owned_book.book_id
-      INNER JOIN swap ON owned_book.owned_book_id = swap.owned_book_id
-      WHERE swap.receiver_id IS NOT NULL AND owned_book.user_id = ${user.user_id}`)
-      if (user.givenBooks.error) {
-        return res.status(500).json(user.givenBooks.error)
-      }
-      user.receivedBooks = await db.query(SQL`SELECT title, author, genre, description, year_published, publisher, image
-        FROM book
-        INNER JOIN owned_book ON book.book_id = owned_book.book_id
-        INNER JOIN swap ON owned_book.owned_book_id = swap.owned_book_id
-        WHERE swap.receiver_id = ${user.user_id}`)
-      if (user.receivedBooks.error) {
-        return res.status(500).json(user.recievedBooks.error)
-      }
     }
     return res.status(200).json(users)
   } catch (error) {
@@ -34,6 +16,24 @@ exports.getUsers = async function (req, res) {
 }
 
 exports.getUser = async function (req, res) {
+  try {
+    // Query should return an array with the user as the first and only
+    // element. Destructure the array and store the element in 'user'.
+    const [user] = await db.query(SQL`SELECT name, email, points, points_spent, street, city, state, zip FROM user WHERE user_id = ${req.params.userId}`)
+    if (user.error) {
+      return res.status(500).json(user.error)
+    }
+    if (!user) {
+      return res.status(404).json({ error: 'No user with this user_id exists' })
+    }
+    return res.status(200).json(user)
+  } catch (error) {
+    console.log(error)
+    return res.json(error)
+  }
+}
+
+exports.getUserProfile = async function (req, res) {
   try {
     // Query returns information about user, swaps, and wishlist
     // Response must be formatted to remove duplicate information
@@ -58,22 +58,19 @@ exports.getUser = async function (req, res) {
     if (!user) {
       return res.status(404).json({ error: 'No user with this user_id exists' })
     }
-    let formattedUser = {
-      userInfo: {},
-      library: [],
-      wishlist: []
-    }
+    let formattedUser = {}
     // Format user if it has at least one element (search was successful)
     if (user.length > 0) {
-      formattedUser.userInfo.pointsSpent = user[0].points_spent
-      formattedUser.userInfo.pointsInWallet = user[0].points
-      formattedUser.userInfo.booksGiven = user[0].given_books
-      formattedUser.userInfo.booksReceived = user[0].received_books
-      // Iterate through each book returned in the user query and add it to the library or wishlist
-      user.forEach((book) => {
-        if (book.wish_id != null) {
-          formattedUser.wishlist.push(
-            {
+      formattedUser = {
+        userInfo: {
+          pointsSpent: user[0].points_spent,
+          pointsInWallet: user[0].points,
+          booksGiven: user[0].given_books,
+          booksReceived: user[0].received_books
+        },
+        library: user.reduce((bookArray, book) => {
+          if (book.swap_id != null && book.receiver_id == null) {
+            const newBook = {
               book_id: book.book_id,
               title: book.title,
               author: book.author,
@@ -83,11 +80,13 @@ exports.getUser = async function (req, res) {
               publisher: book.publisher,
               image: book.image
             }
-          )
-        }
-        else if (book.swap_id != null && book.receiver_id == null) {
-          formattedUser.library.push(
-            {
+            bookArray.push(newBook);
+          }
+          return bookArray;
+        }, []),
+        wishlist: user.reduce((bookArray, book) => {
+          if (book.wish_id != null) {
+            const newBook = {
               book_id: book.book_id,
               title: book.title,
               author: book.author,
@@ -97,9 +96,11 @@ exports.getUser = async function (req, res) {
               publisher: book.publisher,
               image: book.image
             }
-          )
-        }
-      })
+            bookArray.push(newBook);
+          }
+          return bookArray;
+        }, [])
+      }
     }
     return res.status(200).json(formattedUser)
   } catch (error) {
