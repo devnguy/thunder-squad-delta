@@ -14,7 +14,7 @@ const getBookDetails = (bookId) => client.get(`/swaps/${bookId}`);
 const getProfileDetails = (userId) => client.get(`/users/${userId}/profile`);
 
 // Register Page
-const registerUser = (username, email, password) => {
+const registerUser = (username, email, password) =>
   client.post("/users", {
     user: {
       name: username,
@@ -22,7 +22,6 @@ const registerUser = (username, email, password) => {
       password: password,
     },
   });
-};
 
 // Login Page
 const loginUser = (email, password) =>
