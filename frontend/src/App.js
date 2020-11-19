@@ -1,13 +1,13 @@
 import React from "react";
 import { NavBar } from "./Components";
 import Routes from "./Routes";
-import NavContext from "./Context/NavContextWrapper";
+import AuthContext from "./Context/AuthContextWrapper";
 
 export default function App() {
   return (
-    <NavContext>
+    <AuthContext>
       <NavBar />
       <Routes />
-    </NavContext>
+    </AuthContext>
   );
 }

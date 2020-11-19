@@ -38,6 +38,14 @@
   justify-content: flex-start;
 }
 
+.bookRowEmptyContainer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .buttonSection {
   height: 200px;
   width: 5%;

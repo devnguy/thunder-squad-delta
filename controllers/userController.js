@@ -40,7 +40,7 @@ exports.getUserProfile = async function (req, res) {
     // Query returns information about user, swaps, and wishlist
     // Response must be formatted to remove duplicate information
     const user = await db.query(SQL`
-    SELECT b.book_id, b.title, b. author, b.genre, b.description, b.year_published, b.publisher, b.image,
+    SELECT b.book_id, b.title, b.author, b.genre, b.description, b.year_published, b.publisher, b.image,
     w.wish_id, w.status, w.user_id,
     s.swap_id, s.receiver_id, s.status, 
     u.user_id, u.name, u.email, u.points, u.street, u.city, u.state, u.zip, u.points_spent,
@@ -65,6 +65,8 @@ exports.getUserProfile = async function (req, res) {
     if (user.length > 0) {
       formattedUser = {
         userInfo: {
+          username: user[0].name,
+          email: user[0].email,
           pointsSpent: user[0].points_spent,
           pointsInWallet: user[0].points,
           booksGiven: user[0].given_books,
