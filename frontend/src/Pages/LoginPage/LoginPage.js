@@ -22,7 +22,7 @@ function Login() {
           <img src={LoginIcon} alt="Woman reading"/>
         </div>
       <div className="loginFlow">
-          <form action="tbd" className="loginForm">
+          <div className="loginForm">
             <h2 className="title"> Login </h2>
             <div className="labels">
               <label>
@@ -35,13 +35,13 @@ function Login() {
                 className="field"
               />
             </div>
-			      <div className="links">
+			      <div id="links">
               <h4>
-                <Link to="/Registration">Register</Link>
+                <Link to="/Registration">Sign Up</Link>
               </h4>
             </div>
-              <Link to="/Homepage"><input type="submit" name="submitReg" id="submitReg" className="field"/></Link>
-          </form>
+            <button id="LoginSubmit" className="field">Submit</button>
+          </div>
         </div>
     </div>
   );

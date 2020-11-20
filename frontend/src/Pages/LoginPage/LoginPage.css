@@ -28,11 +28,10 @@
   font-family: 'Inconsolata';
 }
 
-.links {
+#links {
   display: flex;
+  height: 10px;
   flex: 0 0 100%;
-  flex-direction: column;
-  margin-top: 0%;
   font-size: 1em;
   font-family: 'Inconsolata';
   color: #0A2463;
@@ -42,6 +41,7 @@
   display: flex;
   flex: 0 0 100%;
   flex-direction: column;
+  height:85px;
 }
 
 input:focus{
@@ -58,11 +58,11 @@ img{
     height:auto;
 }
 
-#submitReg{
+#LoginSubmit{
   display: flex;
-  flex: 0 0 100%;
-    width: 200px;
-    background-color: #D8315B ;
-    color: #fffaff;
-    text-align: left;
+  justify-content: flex-start;
+  flex: 0 0 30%;
+  background-color: #D8315B ;
+  color: #fffaff;
+  text-align: left;
 }
