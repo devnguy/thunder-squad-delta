@@ -1,11 +1,12 @@
 import React from "react";
-import LoginIcon from "../../Assets/LoginIcon.png";
 import "./LoginPage.css";
+import LoginIcon from "../../Assets/LoginIcon.png";
+import { Link } from "react-router-dom";
 
 function InputField(props) {
   return (
     <input
-      class="field"
+      className="field"
       type="text"
       placeholder={props.name}
       id={props.name}
@@ -14,38 +15,36 @@ function InputField(props) {
   );
 }
 
-function LoginPage() {
+function Login() {
   return (
-    <div className="App">
-      <div class="big">
-        <div id="regIcon">
-          <img src={LoginIcon} alt="Woman reading" />
+    <div className="loginPage">
+      <div id="regIcon">
+          <img src={LoginIcon} alt="Woman reading"/>
         </div>
-        <form action="tbd" class="form">
-          <h2> Login </h2>
-          <label>
-            <InputField name="Username" />
-          </label>
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            class="field"
-          />
-          <div>
-            <h4>Register</h4>
-            <input
-              type="submit"
-              name="submitReg"
-              id="submitReg"
-              class="field"
-            />
-          </div>
-          <input type="submit" name="submitReg" id="submitReg" class="field" />
-        </form>
-      </div>
+      <div className="loginFlow">
+          <form action="tbd" className="loginForm">
+            <h2 className="title"> Login </h2>
+            <div className="labels">
+              <label>
+                <InputField name="Username" />
+              </label>
+              <input
+                type="password"
+                placeholder="Password"
+                name="password"
+                className="field"
+              />
+            </div>
+			      <div className="links">
+              <h4>
+                <Link to="/Registration">Register</Link>
+              </h4>
+            </div>
+              <Link to="/Homepage"><input type="submit" name="submitReg" id="submitReg" className="field"/></Link>
+          </form>
+        </div>
     </div>
   );
 }
 
-export default LoginPage;
+export default Login;
