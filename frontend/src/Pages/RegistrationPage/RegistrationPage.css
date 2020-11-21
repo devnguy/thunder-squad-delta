@@ -25,13 +25,16 @@ body,
   grid-column-end: 4;
   grid-row-start: 2;
   grid-row-end: 3;
+
 }
 
-.req {
+
+.requirementsReg {
   text-align: left;
   list-style: none;
   padding-left: 20px;
   font-size: 1.4em;
+  font-family: Inconsolata;
 }
 
 .fieldReg:focus {
