@@ -11,7 +11,7 @@ body,
 }
 
 
-.big {
+.bigReg {
   display: grid;
   background-color: #fffaff;
   height: 60vh;
@@ -20,7 +20,7 @@ body,
   margin: 0;
 }
 
-.form {
+.formReg {
   grid-column-start: 3;
   grid-column-end: 4;
   grid-row-start: 2;
@@ -34,11 +34,11 @@ body,
   font-size: 1.4em;
 }
 
-.field:focus {
+.fieldReg:focus {
   outline-width: 0;
 }
 
-.field {
+.fieldReg {
   background-color: #fffaff;
   display: block;
   margin: 2%;
@@ -68,7 +68,7 @@ body,
   display: inline;
 }
 
-#submitReg {
+#submitRegistration {
   width: 25%;
   background-color: #d8315b;
   color: #fffaff;

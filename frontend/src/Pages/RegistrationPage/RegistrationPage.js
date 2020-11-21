@@ -5,7 +5,7 @@ import "./RegistrationPage.css";
 function InputField(props) {
   return (
     <input
-      class="field"
+      class="fieldReg"
       type="text"
       placeholder={props.name}
       id={props.name}
@@ -16,7 +16,7 @@ function InputField(props) {
 
 function RegistrationPage(props) {
   return (
-    <div class="big">
+    <div class="bigReg">
       <div id="regIconHolder">
         <img
           src={RegIcon}
@@ -24,7 +24,7 @@ function RegistrationPage(props) {
           alt="Man leaning on building for some reason"
         />
       </div>
-      <form action="tbd" class="form">
+      <form action="tbd" class="formReg">
         <label>
           <InputField name="Username" />
         </label>
@@ -33,7 +33,7 @@ function RegistrationPage(props) {
           type="password"
           placeholder="Password"
           name="password"
-          class="field"
+          class="fieldReg"
         />
         <ul class="req">
           <li> - 10 or more characters</li>
@@ -46,7 +46,7 @@ function RegistrationPage(props) {
           type="password"
           placeholder="Re-Enter Password"
           name="password"
-          class="field"
+          class="fieldReg"
         />
         <InputField name="Address" />
         <InputField name="Apt #" />
@@ -106,7 +106,7 @@ function RegistrationPage(props) {
           <option value="WY">Wyoming</option>
         </select>
         <InputField name="Zip" id="Zip" />
-        <input type="submit" name="submitReg" id="submitReg" class="field" />
+        <input type="submit" name="submitReg" id="submitRegistration" class="fieldReg" />
       </form>
     </div>
   );
