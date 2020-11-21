@@ -1,16 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import "./LoginPage.css";
 import useApi from "../../Api/useApi";
 import requests from "../../Api/requests";
 import LoginIcon from "../../Assets/LoginIcon.png";
-import Routes from "../Routes";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import AuthContext from "../../Context/AuthContext";
+
 
 
 function Login() {
   const Login = useApi(requests.loginUser);
   const[userName, setuserName] = React.useState("");
   const[passWord, setpassWord] = React.useState("");
+  const {userId, setUserId} = useContext(AuthContext);
+  let history = useHistory();
 
   function handleUsername(event) {
     setuserName(event.target.value);
@@ -24,8 +27,13 @@ function Login() {
 useEffect(()=>{
   if (Login.data.status === true){
     console.log(Login.data.id);
+    setUserId(Login.data.id);
+    history.push(`/`);
+  }
+  else if(Login.data.status === false) {
+    console.log("FUCK");
   }  
-});
+}, [Login.data.status]);
 
 function LoginUser(e) {
     Login.request(userName, passWord);
