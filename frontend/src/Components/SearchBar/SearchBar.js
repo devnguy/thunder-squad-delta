@@ -32,28 +32,14 @@ function SearchBar({ navBarVariant = false }) {
 
   return (
     <div
-      style={
-        navBarVariant
-          ? {
-              height: "40px",
-              width: "500px",
-              marginLeft: "20px",
-            }
-          : {
-              height: "50px",
-              width: "600px",
-              marginLeft: "0px",
-            }
-      }
+      className="outerSearchContainer"
+      id={navBarVariant ? "navOuterSearchContainer" : null}
     >
       <div className="searchContainer">
         <div className="filterContainer">
           <button
             className="filterButton filterText"
-            style={{
-              height: navBarVariant ? "40px" : "50px",
-              fontSize: navBarVariant ? "16px" : "18px",
-            }}
+            id={navBarVariant ? "navFilterButton" : null}
             onClick={() => setFilterOpen((filterOpen) => !filterOpen)}
           >
             {filterTerm}
@@ -85,12 +71,7 @@ function SearchBar({ navBarVariant = false }) {
             </div>
           )}
         </div>
-        <div
-          className="searchBar"
-          style={{
-            border: navBarVariant ? "2px solid #3e92cc" : "3px solid #3e92cc",
-          }}
-        >
+        <div className="searchBar" id={navBarVariant ? "navSearchBar" : null}>
           <input
             type="text"
             placeholder="Search..."
@@ -98,24 +79,12 @@ function SearchBar({ navBarVariant = false }) {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             onKeyDown={handleKeyDown}
-            style={{ fontSize: navBarVariant ? "17px" : "20px" }}
+            id={navBarVariant ? "navSearchBarPrompt" : null}
           />
           <button
             onClick={() => handleSearch()}
+            id={navBarVariant ? "navSearchButton" : null}
             className="searchButton"
-            style={
-              navBarVariant
-                ? {
-                    width: "30px",
-                    height: "30px",
-                    fontSize: "9px",
-                  }
-                : {
-                    width: "37px",
-                    height: "37px",
-                    fontSize: "11px",
-                  }
-            }
           >
             <FontAwesomeIcon icon={faSearch} size="2x" color="#fffaff" />
           </button>

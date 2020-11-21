@@ -31,7 +31,7 @@ useEffect(()=>{
     history.push(`/`);
   }
   else if(Login.data.status === false) {
-    console.log("FUCK");
+    console.log("Error");
   }  
 }, [Login.data.status]);
 
@@ -50,7 +50,7 @@ function LoginUser(e) {
             <h2 className="title"> Login </h2>
             <div className="labels">
                 <input 
-                className="field"
+                className="fieldLogin"
                 placeholder="Username"
                 type="text" 
                 name="Username" 
@@ -61,17 +61,17 @@ function LoginUser(e) {
                 type="password"
                 placeholder="Password"
                 name="password"
-                className="field"
+                className="fieldLogin"
                 value={passWord}
                 onChange={handlepassWord}
               />
             </div>
 			      <div id="links">
               <h4>
-                <Link to="/Registration">Sign Up</Link>
+                <Link to="/Register">Sign Up</Link>
               </h4>
             </div>
-            <button id="LoginSubmit" className="field" onClick={LoginUser}>Submit</button>
+            <button id="LoginSubmit" className="fieldLogin" onClick={LoginUser}>Submit</button>
           </div>
         </div>
     </div>
