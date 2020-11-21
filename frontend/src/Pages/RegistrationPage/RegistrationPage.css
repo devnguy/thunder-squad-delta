@@ -3,43 +3,39 @@
 @import url("https://fonts.googleapis.com/css?family=Inconsolata");
 
 
-html,
-body,
-#app,
-#app > div {
-  margin: 0;
-}
 
 
-.big {
+
+.bigReg {
   display: grid;
   background-color: #fffaff;
   height: 60vh;
   grid-template-columns: 5% 45% auto;
   grid-template-rows: 17% 10% auto;
-  margin: 0;
 }
 
-.form {
+.formReg {
   grid-column-start: 3;
   grid-column-end: 4;
   grid-row-start: 2;
   grid-row-end: 3;
+
 }
 
-.req {
+
+.requirementsReg {
   text-align: left;
   list-style: none;
   padding-left: 20px;
   font-size: 1.4em;
+  font-family: Inconsolata;
 }
 
-.field:focus {
+.fieldReg:focus {
   outline-width: 0;
 }
 
-.field {
-  background-color: #fffaff;
+.fieldReg {
   display: block;
   margin: 2%;
   height: 40px;
@@ -68,10 +64,9 @@ body,
   display: inline;
 }
 
-#submitReg {
+#submitRegistration {
   width: 25%;
   background-color: #d8315b;
-  color: #fffaff;
   margin-left: 36%;
   text-align: center;
 }

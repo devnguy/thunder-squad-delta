@@ -35,13 +35,6 @@ function RegistrationPage(props) {
           name="password"
           class="field"
         />
-        <ul class="req">
-          <li> - 10 or more characters</li>
-          <li> - 1 Upper Case Letter</li>
-          <li> - 1 Lower Case Letter</li>
-          <li> - 1 Special Character</li>
-          <li> - 1 Number</li>
-        </ul>
         <input
           type="password"
           placeholder="Re-Enter Password"
