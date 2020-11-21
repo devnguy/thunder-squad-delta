@@ -97,8 +97,8 @@ exports.registerUser = async function (req, res) {
   try {
     const hash = await bcrypt.hash(req.body.user.password, 10)
     const response = await db.query(SQL`
-      INSERT INTO user (name, email, street, city, state, zip, password)
-      VALUES (${req.body.user.name}, ${req.body.user.email}, ${req.body.user.street}, ${req.body.user.city}, ${req.body.user.state}, ${req.body.user.zip}, ${hash}) 
+      INSERT INTO user (name, email, password)
+      VALUES (${req.body.user.name}, ${req.body.user.email}, ${hash})
     `)
     if (response.error) {
       return res.status(500).json(response.error)
