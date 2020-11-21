@@ -18,13 +18,11 @@ function ResetPasswordPage() {
   return (
     <div className="App">
       <div class="big">
-        <h1> Bookswap </h1>
-
         <div id="regIcon">
-          <img src={regIcon} alt="Lost in thought" />
+          <img class="imgLogin" src={regIcon} alt="Lost in thought" />
         </div>
         <form action="tbd" class="form">
-          <h2> Create Password </h2>
+          <h2 class="createText"> Create Password </h2>
           <label>
             <InputField name="New Password" />
           </label>

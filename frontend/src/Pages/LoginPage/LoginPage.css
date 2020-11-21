@@ -58,7 +58,7 @@ border: 1px solid #1E1B18;
   height:85px;
 }
 
-input:focus{
+.fieldLogin:focus{
     outline-width:0;
 }
 
@@ -67,7 +67,7 @@ input:focus{
   flex:1;
 }
 
-img{
+.imgLogin{
     max-width: 90%;
     height:auto;
 }
