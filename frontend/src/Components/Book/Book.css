@@ -1,0 +1,65 @@
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;600;700&display=swap");
+
+.book {
+  height: 100%;
+  width: 25%;
+  min-width: 160px;
+  overflow: hidden;
+  /* background-color: red; */
+}
+
+.coverSection {
+  width: 100%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 158px;
+  /* background-color: blue; */
+}
+
+.bookCover {
+  height: 160px;
+  border-radius: 15px;
+  max-width: 80%;
+  margin: 15px 0px 15px 0px;
+}
+
+.textSection {
+  width: 100%;
+  height: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  min-height: 40px;
+  /* background-color: yellow; */
+}
+
+.titleText {
+  font-family: Inconsolata;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  color: #000000;
+  margin: 0px;
+}
+
+.authorText {
+  font-family: Inconsolata;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  color: #d8315b;
+  margin: 0px;
+}
+
+.by {
+  font-family: Inconsolata;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  color: #1e1b18;
+  margin: 0px;
+}
