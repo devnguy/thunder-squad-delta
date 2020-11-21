@@ -7,7 +7,7 @@ import {
   faChevronUp,
 } from "@fortawesome/free-solid-svg-icons";
 
-import BookCover from "../../Assets/BookCover.png";
+import BookCover from "../../Assets/Book Cover.png";
 import "./BookPage.css";
 
 const filter_categories = ["Title", "Author", "Genre", "User"];
