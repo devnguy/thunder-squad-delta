@@ -20,13 +20,13 @@ exports.getGoogleBooks = async function (req, response) {
             throw new Error('Bad response from server')
         }
         const books = await res.json()
-        
+      
         // I want to make the commented out call below, but there is an unhandled promise rejection
-        // return response.status(200).json(formatBooks(books))
-        return response.status(200).json(books)
+        return response.status(200).json(formatBooks(books))
+        // return response.status(200).json(books)
 
     } catch (error) {
         console.log(error)
-        return res.json(error)
+        return response.json(error)
     }
 }
