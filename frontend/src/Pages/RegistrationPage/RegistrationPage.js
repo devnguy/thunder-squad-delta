@@ -1,22 +1,52 @@
-import React from "react";
+import React, { useContext, useEffect, useImperativeHandle, useState } from "react";
 import RegIcon from "../../Assets/RegIcon.png";
 import "./RegistrationPage.css";
+import { useHistory } from "react-router-dom";
+import requests from "../../Api/requests";
+import useApi from "../../Api/useApi";
+import AuthContext from "../../Context/AuthContext"
 
 function InputField(props) {
   return (
     <input
-      class="field"
+      class="fieldReg"
       type="text"
       placeholder={props.name}
-      id={props.name}
       name={props.name}
+      onChange={props.onChange}
     />
   );
 }
 
 function RegistrationPage(props) {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [street, setStreet] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [zipCode, setZipCode] = useState("");
+  const [password, setPassword] = useState("");
+
+  const registration = useApi(requests.registerUser);
+  const {userId, setUserId} = useContext(AuthContext);
+  let history = useHistory();
+
+  const handleRegister = () => {
+    if (username !== "" && email !== "" && password !== "") {
+      registration.request(username, email, password);
+    }
+  };
+
+  useEffect(() => {
+    if (registration.data.status === true) {
+      setUserId(registration.data.id);    
+      
+      history.push(`/`)
+    }
+  }, [registration.data]);
+
   return (
-    <div class="big">
+    <div class="bigReg">
       <div id="regIconHolder">
         <img
           src={RegIcon}
@@ -24,19 +54,27 @@ function RegistrationPage(props) {
           alt="Man leaning on building for some reason"
         />
       </div>
-      <form action="tbd" class="form">
+      <div action="tbd" class="formReg">
         <label>
-          <InputField name="Username" />
+          <InputField
+            name="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
         </label>
-        <InputField name="Email" />
-        <input
-          type="password"
-          placeholder="Password"
-          name="password"
-          class="field"
+        <InputField
+          name="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
-        <ul class="req">
-          <li> - 10 or more characters</li>
+
+        <InputField
+          name="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <ul class="requirementsReg">
+          <li> - 10 or More Characters</li>
           <li> - 1 Upper Case Letter</li>
           <li> - 1 Lower Case Letter</li>
           <li> - 1 Special Character</li>
@@ -46,12 +84,27 @@ function RegistrationPage(props) {
           type="password"
           placeholder="Re-Enter Password"
           name="password"
-          class="field"
+          class="fieldReg"
         />
-        <InputField name="Address" />
-        <InputField name="Apt #" />
+        <InputField
+          name="Address"
+          value={street}
+          onChange={(e) => setStreet(e.target.value)}
+        />
 
-        <select name="State" class="field" id="State">
+        <InputField
+          name="City"
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+        />
+
+        <select
+          name="State"
+          class="field"
+          id="State"
+          value={state}
+          onChange={(e) => setState(e.target.value)}
+        >
           <option value="Select a state">Select a state</option>
           <option value="AL">Alabama</option>
           <option value="AK">Alaska</option>
@@ -105,9 +158,21 @@ function RegistrationPage(props) {
           <option value="WI">Wisconsin</option>
           <option value="WY">Wyoming</option>
         </select>
-        <InputField name="Zip" id="Zip" />
-        <input type="submit" name="submitReg" id="submitReg" class="field" />
-      </form>
+        <InputField
+          name="Zip"
+          id="Zip"
+          value={zipCode}
+          onChange={(e) => setZipCode(e.target.value)}
+        />
+        <button
+          name="submitReg"
+          id="submitRegistration"
+          class="fieldReg"
+          onClick={handleRegister}
+        >
+          Submit
+        </button>
+      </div>
     </div>
   );
 }
