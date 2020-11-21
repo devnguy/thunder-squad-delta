@@ -50,6 +50,7 @@
 .profileButton {
   border: none;
   background-color: #fffaff;
+  outline: none;
 }
 
 .profileButton:active {
@@ -90,7 +91,7 @@
   border-radius: 5px;
   background-color: #fffaff;
   box-shadow: 3px 3px 17px 8px rgba(32, 32, 32, 0.11);
-  z-index: 500;
+  z-index: 1000;
 }
 
 .profileDropdownCell {

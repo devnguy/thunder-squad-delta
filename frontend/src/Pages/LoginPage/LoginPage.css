@@ -2,93 +2,67 @@
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Inconsolata");
 
-.App {
-  font-family: 'Montserrat';
-}
-
-html,
-body,
-#app,
-#app > div {
-  margin: 0;
-}
-
-.big {
-  display: grid;
+.loginPage {
+  display: flex;
   background-color: #fffaff;
-  height: 100vh;
-  grid-template-columns: 5% 45% auto;
-  grid-template-rows: 17% 10% auto;
-  margin: 0;
+  font-family: 'Montserrat';
+  height: 100%;
 }
 
-.form {
-  grid-column-start: 1;
-  grid-column-end: 3;
-  grid-row-start: 2;
-  grid-row-end: 3;
+.loginFlow{
+  display:flex;
+  flex:1;
+  flex-wrap:wrap;
+  flex-direction: column;
+}
+.loginForm {
+  display:flex;
+  flex: 0 0 100%;
+  flex-wrap: wrap;
 }
 
-.req {
-  text-align: left;
-}
-
-h1 {
-  margin: 50px 0 0 60px;
-  font-size: 6em;
-  font-family: 'Inconsolata';
-}
-
-h2 {
-  margin: 50px 0 0 60px;
+.title {
+  display: flex;
+  flex: 0 0 100%;
   font-size: 3em;
   font-family: 'Inconsolata';
 }
 
-h4 {
-  margin: 5px 0 0 20px;
+#links {
+  display: flex;
+  height: 10px;
+  flex: 0 0 100%;
   font-size: 1em;
   font-family: 'Inconsolata';
   color: #0A2463;
+}
+
+.labels{
+  display: flex;
+  flex: 0 0 100%;
+  flex-direction: column;
+  height:85px;
 }
 
 input:focus{
     outline-width:0;
 }
 
-.field {
-    background-color: #fffaff;
-  display: block;
-  margin: 2%;
-  height: 40px;
-  border-radius: 20px;
-  padding-left: 30px;
-  width: 59%;
-  font-size: 2em;
-  font-family:montserrat;
-  border: 1px solid #1E1B18;
- 
-}
-
-#regIcon{
-    
-grid-column-start: 3;
-  grid-column-end: 4;
-  grid-row-start: 2;
-  grid-row-end: 4;
+#regIcon{  
+  display:flex;
+  flex:1;
 }
 
 img{
-    /* max-width: 90%; */
+    max-width: 90%;
     height:auto;
 }
 
-#submitReg{
-	position: absolute;
-	top: 430px;
-	left: 150px;
-    width: 200px;
-    background-color: #D8315B ;
-    color: #fffaff;
-    text-align: left;
+#LoginSubmit{
+  display: flex;
+  justify-content: flex-start;
+  flex: 0 0 30%;
+  background-color: #D8315B ;
+  color: #fffaff;
+  text-align: left;
 }
