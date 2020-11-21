@@ -5,7 +5,7 @@ import "./ResetPasswordPage.css";
 function InputField(props) {
   return (
     <input
-      class="field"
+      class="fieldReset"
       type="text"
       placeholder={props.name}
       id={props.name}
@@ -42,7 +42,7 @@ function ResetPasswordPage() {
             <li> - Matches previous field</li>
           </ul>
 
-          <input type="submit" name="submitReg" id="submitReg" class="field" />
+          <input type="submit" name="submitReg" id="submitReg" class="fieldReset" />
         </form>
       </div>
     </div>
