@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import SearchBar from "../SearchBar";
+import NavBarLink from "../NavBarLink";
 import AuthContext from "../../Context/AuthContext";
 
 import MaleAvatarNav from "../../Assets/Male Avatar Nav.png";
@@ -28,7 +29,7 @@ const dropdown_buttons = [
 
 const navSearchPages = ["/about", "/profile"];
 
-function NavBar() {
+const NavBar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [navSearch, setNavSearch] = useState(false);
   const { userId, setUserId } = useContext(AuthContext);
@@ -49,9 +50,12 @@ function NavBar() {
     <div className="navBarWithDropdown">
       <div className="navBarContainer">
         <div className="navBarLeftSection">
-          <p className="navBarHeader" onClick={() => setDropdownOpen(false)}>
-            <Link to="/">Bookswap</Link>
-          </p>
+          <NavBarLink
+            onClick={() => setDropdownOpen(false)}
+            toRoute="/"
+            label="Bookswap"
+            className="navBarHeader"
+          />
         </div>
         {navSearch && (
           <div style={{ position: "relative", top: "3px" }}>
@@ -59,26 +63,28 @@ function NavBar() {
           </div>
         )}
         <div className="navBarRightSection">
-          <p className="navBarOption" onClick={() => setDropdownOpen(false)}>
-            <Link to="/browse">Browse</Link>
-          </p>
-          <p className="navBarOption" onClick={() => setDropdownOpen(false)}>
-            <Link to="/about">About</Link>
-          </p>
+          <NavBarLink
+            onClick={() => setDropdownOpen(false)}
+            toRoute="/browse"
+            label="Browse"
+          />
+          <NavBarLink
+            onClick={() => setDropdownOpen(false)}
+            toRoute="/about"
+            label="About"
+          />
           {!userId && (
             <>
-              <p
-                className="navBarOption"
+              <NavBarLink
                 onClick={() => setDropdownOpen(false)}
-              >
-                <Link to="/login">Login</Link>
-              </p>
-              <p
-                className="navBarOption"
+                toRoute="/login"
+                label="Login"
+              />
+              <NavBarLink
                 onClick={() => setDropdownOpen(false)}
-              >
-                <Link to="/register">Sign Up</Link>
-              </p>
+                toRoute="/register"
+                label="Sign Up"
+              />
             </>
           )}
           {userId && (
@@ -96,27 +102,27 @@ function NavBar() {
       {dropdownOpen && (
         <div className="dropdownContainer">
           {dropdown_buttons.map(({ title, link }, index) => (
-            <button
+            <NavBarLink
               key={index}
-              className={"profileDropdownCell navBarOption"}
               onClick={() => setDropdownOpen(false)}
-            >
-              <Link to={link}>{title}</Link>
-            </button>
+              toRoute={link}
+              label={title}
+              className={"profileDropdownCell navBarOption"}
+            />
           ))}
-          <button
-            className={"profileDropdownCell navBarOption"}
+          <NavBarLink
             onClick={() => {
               setUserId(null);
               setDropdownOpen(false);
             }}
-          >
-            <Link to="/">Logout</Link>
-          </button>
+            toRoute="/"
+            label="Logout"
+            className={"profileDropdownCell navBarOption"}
+          />
         </div>
       )}
     </div>
   );
-}
+};
 
 export default NavBar;

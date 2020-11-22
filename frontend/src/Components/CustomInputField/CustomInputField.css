@@ -1,0 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Inconsolata");
+
+.customField {
+  background-color: #fffaff;
+  display: block;
+  margin: 2%;
+  height: 40px;
+  border-radius: 20px;
+  padding-left: 30px;
+  width: 59%;
+  font-size: 2em;
+  font-family: montserrat;
+  border: 1px solid #1e1b18;
+}
