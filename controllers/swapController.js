@@ -2,6 +2,7 @@ const SQL = require('sql-template-strings')
 const db = require('../lib/db')
 
 const formatSwaps = require('./util/formatSwaps')
+const { MissingAttributeError, UserNotFoundError, DatabaseError } = require('../errors')
 
 // Search for swaps.
 // There is some nastiness below. I would parameterize the table that's being
@@ -9,12 +10,13 @@ const formatSwaps = require('./util/formatSwaps')
 // queries in this function are the same except for the WHERE clause. Added to
 // the code debt and created a switch based on 'searchby'. A better solution
 // would be nice. Sombody smell this.
-exports.getSwaps = async function (req, res) {
-  if (!req.query.q || !req.query.searchby) {
-    return res.status(400).json({ status: false, id: null, msg: 'Query required' })
-  }
+exports.getSwaps = async function (req, res, next) {
   const searchTerm = `%${req.query.q}%`
   try {
+    if (!req.query.q || !req.query.searchby) {
+      throw new MissingAttributeError('Query/searchby required')
+    }
+
     let swaps = undefined
     // Query a different column based on searchby value.
     switch (req.query.searchby.toLowerCase()) {
@@ -77,21 +79,22 @@ exports.getSwaps = async function (req, res) {
       default:
         break
     }
-    if (!swaps) {
-      return res.status(400).json({ status: false, id: null, msg: 'Invalid searchby value' })
-    }
-    if (swaps.error) return res.status(500).json(swaps.error)
+    if (swaps === undefined) throw new MissingAttributeError('Invalid searchby value')
+    if (swaps.error) throw new DatabaseError(swaps.error)
 
     return res.status(200).json(formatSwaps(swaps))
   } catch (error) {
-    console.log(error)
-    return res.json(error)
+    return next(error)
   }
 }
 
 // Get all swaps owned by one user.
-exports.getSwapsByUserId = async function (req, res) {
+exports.getSwapsByUserId = async function (req, res, next) {
   try {
+    // Confirm user exists.
+    const user = await db.query(SQL`SELECT * from user WHERE user_id = ${req.params.userId}`)
+    if (!user.length) throw new UserNotFoundError()
+
     const swaps = await db.query(SQL`
       SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, owner.user_id as owner_id,
         owner.name as owner_name, receiver.user_id as receiver_id, receiver.name as receiver_name,
@@ -103,18 +106,16 @@ exports.getSwapsByUserId = async function (req, res) {
       JOIN user AS owner on swap.owner_id = owner.user_id
       WHERE owner.user_id = ${req.params.userId};
     `)
-    if (!swaps) return res.status(404).json({ error: 'No user with this user_id exists' })
-    if (swaps.error) return res.status(500).json(swaps.error)
+    if (swaps.error) throw new DatabaseError(swaps.error)
 
     return res.status(200).json(formatSwaps(swaps))
   } catch (error) {
-    console.log(error)
-    return res.json(error)
+    return next(error)
   }
 }
 
 // Get all swaps for a specific book.
-exports.getSwapsByBookId = async function (req, res) {
+exports.getSwapsByBookId = async function (req, res, next) {
   try {
     const swaps = await db.query(SQL`
       SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, owner.user_id as owner_id,
@@ -127,47 +128,39 @@ exports.getSwapsByBookId = async function (req, res) {
       JOIN user AS owner on swap.owner_id = owner.user_id
       WHERE book.book_id = ${req.params.bookId};
     `)
-    if (!swaps) return res.status(404).json({ error: 'No book with this book_id exists' })
-    if (swaps.error) return res.status(500).json(swaps.error)
+    if (swaps.error) throw new DatabaseError(swaps.error)
 
     return res.status(200).json(formatSwaps(swaps))
   } catch (error) {
-    console.log(error)
-    return res.json(error)
+    return next(error)
   }
 }
 
 // Create a swap.
-exports.createSwap = async function (req, res) {
-  // Confirm required fields were passed.
-  if (!req.body.bookId || !req.body.condition || !req.body.cost) {
-    return res.status(400).json({
-      status: false,
-      id: null,
-      msg: 'The request is object missing at least one of the required attributes',
-    })
-  }
+exports.createSwap = async function (req, res, next) {
   try {
     // Confirm user exists.
     const checkUser = await db.query(SQL`SELECT * from user WHERE user_id = ${req.params.userId}`)
-    if (!checkUser.length) {
-      return res
-        .status(400)
-        .json({ status: false, id: null, msg: 'No user with that user_id exists' })
+    if (!checkUser.length) throw new UserNotFoundError()
+
+    // Confirm required fields were passed.
+    if (!req.body.bookId || !req.body.condition || !req.body.cost) {
+      throw new MissingAttributeError()
     }
+
     const response = await db.query(SQL`
-      INSERT INTO swap (owner_id, book_id, \`condition\`, cost)
+      INSERT INTO swap (owner_id, book_id, \`condition\`, cost) askdj
       VALUES ($${req.body.bookId}, ${req.body.condition}, ${req.body.cost}) 
     `)
-    if (response.error) return res.status(500).json(response.error)
+    if (response.error) throw new DatabaseError(response.error)
+
     // Prepare and return swap info.
     return res.status(201).json({
       status: true,
       id: response.insertId,
     })
   } catch (error) {
-    console.log(error)
-    return res.json(error)
+    return next(error)
   }
 }
 
