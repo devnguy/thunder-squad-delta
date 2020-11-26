@@ -26,26 +26,6 @@ exports.getBook = async function (req, res, next) {
   }
 }
 
-// Create a new book.
-exports.createBook = async function (req, res, next) {
-  try {
-    // Confirm required fields were passed.
-    if (!req.body.book.title || !req.body.book.author || !req.body.book.genre) {
-      throw new MissingAttributeError()
-    }
-    const response = await db.query(SQL`
-      INSERT INTO book (title, author, genre, description, year_published, publisher, image)
-      VALUES (${req.body.book.title}, ${req.body.book.author}, ${req.body.book.genre}, ${req.body.book.description}, ${req.body.book.year_published}, ${req.body.book.publisher}, ${req.body.book.image})
-    `)
-    if (response.error) throw new DatabaseError(response.error)
-    // Get and send the book that was just created.
-    const [book] = await db.query(SQL`SELECT * FROM book WHERE book_id = ${response.insertId}`)
-    return res.status(201).json(book)
-  } catch (error) {
-    return next(error)
-  }
-}
-
 // Posting a book will create a book entitiy in the database if it exists and
 // will call next() to create the swap.
 exports.postBook = async function (req, res, next) {
