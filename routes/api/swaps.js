@@ -15,6 +15,6 @@ router.get('/:bookId', swapController.getSwapsByBookId)
 // router.patch('/:swapId', userController.editSwap)
 
 // // Delete an existing swap.
-// router.patch('/:swapId', userController.deleteSwap)
+router.delete('/:swapId', swapController.deleteSwap)
 
 module.exports = router

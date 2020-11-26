@@ -33,6 +33,9 @@ router.post('/:userId/swaps', bookController.postBook, swapController.createSwap
 // Complete a swap for a swap owner.
 router.patch('/:userId/swaps/:swapId', swapController.completeSwap)
 
+// Delete an existing User
+router.delete('/:userId', userController.deleteUser)
+
 // TODO: PUT /:userId/swaps/:swapId add a receiver for a swap
 // TODO: DELETE /:userId/swaps/:swapId remove a receiver of a swap
 // TODO: GET /:userId/swaps/pending get all swaps where the user is the recipient
