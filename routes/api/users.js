@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const userController = require('../../controllers/userController')
+const bookController = require('../../controllers/bookController')
 const swapController = require('../../controllers/swapController')
 
 // Get all users.
@@ -27,7 +28,7 @@ router.post('/login', userController.loginUser)
 router.get('/:userId/swaps', swapController.getSwapsByUserId)
 
 // Create a swap for user.
-router.post('/:userId/swaps', swapController.createSwap)
+router.post('/:userId/swaps', bookController.postBook, swapController.createSwap)
 
 // Complete a swap for a swap owner.
 router.patch('/:userId/swaps/:swapId', swapController.completeSwap)
