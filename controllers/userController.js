@@ -188,3 +188,22 @@ exports.resetPassword = async function (req, res, next) {
     return next(error)
   }
 }
+
+// Delete a user
+exports.deleteUser = async function (req, res, next) {
+  try {
+    // Check if the User exists before deleting
+    const user = await db.query(SQL`SELECT * FROM user WHERE user_id = ${req.params.userId}`)
+    if (user.error) throw new DatabaseError(user.error)
+    if (!user.length) throw new UserNotFoundError()
+    // If the User with that id exists, delete it and return a message
+    const result = await db.query(SQL`DELETE FROM user WHERE user_id = ${req.params.userId}`)
+    if (result.error) throw new DatabaseError(result.error)
+    return res.status(200).json({
+      status: true,
+      message: "User successfully deleted!"
+    })
+  } catch (error) {
+    return next(error)
+  }
+}

@@ -1,7 +1,7 @@
 const SQL = require('sql-template-strings')
 const db = require('../lib/db')
 
-const { MissingAttributeError, DatabaseError } = require('../errors')
+const { MissingAttributeError, BookNotFoundError, DatabaseError } = require('../errors')
 
 // Get all books.
 exports.getBooks = async function (req, res, next) {
@@ -77,4 +77,23 @@ async function createBook({
     WHERE title = ${title} AND author = ${author} and description = ${description} and year_published = ${year_published}
   `)
   return bookIdRes.book_id
+}
+
+// Delete a book
+exports.deleteBook = async function (req, res, next) {
+  try {
+    // Check if the Book exists before deleting
+    const book = await db.query(SQL`SELECT * FROM book WHERE book_id = ${req.params.bookId}`)
+    if (book.error) throw new DatabaseError(book.error)
+    if (!book.length) throw new BookNotFoundError()
+    // If the Book with that id exists, delete it and return a message
+    const result = await db.query(SQL`DELETE FROM book WHERE book_id = ${req.params.bookId}`)
+    if (result.error) throw new DatabaseError(result.error)
+    return res.status(200).json({
+      status: true,
+      message: "Book successfully deleted!"
+    })
+  } catch (error) {
+    return next(error)
+  }
 }

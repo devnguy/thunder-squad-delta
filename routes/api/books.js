@@ -13,4 +13,7 @@ router.get('/:bookId', bookController.getBook)
 // Edit an existing book.
 // router.patch('/:bookId', bookController.editBook)
 
+// Remove a book.
+router.delete('/:bookId', bookController.deleteBook)
+
 module.exports = router
