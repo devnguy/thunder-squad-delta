@@ -32,9 +32,11 @@ function SearchSort(props) {
           {filter_categories.map((category, index) => (
             <button
               key={index}
-              className={index < 3 ? "dropdownBox sortText boxWithBorder": "dropdownBox sortText" }
-            
-              
+              className={
+                index < 3
+                  ? "dropdownBox sortText boxWithBorder"
+                  : "dropdownBox sortText"
+              }
               onClick={() => {
                 setFilterTerm(category);
                 setFilterOpen(false);

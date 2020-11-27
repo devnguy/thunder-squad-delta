@@ -1,4 +1,5 @@
 import HomePage from "./HomePage";
+import LibraryPage from "./LibraryPage";
 import ProfilePage from "./ProfilePage";
 import AboutPage from "./AboutPage";
 import RegistrationPage from "./RegistrationPage";
@@ -9,6 +10,7 @@ import LoginPage from "./LoginPage";
 import ResetPasswordPage from "./ResetPasswordPage";
 export {
   HomePage,
+  LibraryPage,
   ProfilePage,
   AboutPage,
   RegistrationPage,

@@ -1,0 +1,52 @@
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+#libraryPageBody {
+  width: 100%;
+  height: calc(91vh - 98px);
+  max-height: calc(91vh - 98px);
+  display: flex;
+  flex-direction: row;
+}
+
+/* Sidebar */
+
+#libraryPageSidebar {
+  height: 400px;
+  min-height: 400px;
+  width: 20%;
+  min-width: 230px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  /* background-color: yellow; */
+}
+
+#myLibraryHeader {
+  font-family: Inconsolata;
+  font-size: 30px;
+  margin: 10px;
+  color: #1e1b18;
+  text-decoration: none;
+}
+
+#postBookIcon {
+  height: 120px;
+  margin: 10px;
+}
+
+/* Main Library Block */
+
+#libraryPageBookBlock {
+  padding: 30px;
+  width: 80%;
+  height: 100%;
+  overflow: scroll;
+}
+
+.libraryBookRow {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}

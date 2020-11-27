@@ -3,6 +3,7 @@ import { Switch, Route } from "react-router-dom";
 
 import {
   HomePage,
+  LibraryPage,
   ProfilePage,
   AboutPage,
   RegistrationPage,
@@ -27,6 +28,9 @@ export default function Routes() {
       </Route>
       <Route path="/browse">
         <BrowsePage />
+      </Route>
+      <Route path="/library">
+        <LibraryPage />
       </Route>
       <Route path="/login">
         <LoginPage />

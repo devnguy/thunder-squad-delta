@@ -1,5 +1,6 @@
 import Book from "./Book";
 import BookRow from "./BookRow";
+import Button from "./Button";
 import CustomInputField from "./CustomInputField";
 import IconSquare from "./IconSquare";
 import InfoRow from "./InfoRow";
@@ -13,6 +14,7 @@ import SearchSort from "./SearchSort";
 export {
   Book,
   BookRow,
+  Button,
   CustomInputField,
   IconSquare,
   InfoRow,
