@@ -1,0 +1,88 @@
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;600;700&display=swap");
+
+/* Body Styles */
+
+#postModalBody {
+  width: 400px;
+  position: absolute;
+  top: 100px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  padding: 15px 5px 15px 5px;
+
+  border: 2px solid #d8315b75;
+  border-radius: 20px;
+  background-color: white;
+  z-index: 2000;
+}
+
+/* Header Section */
+
+#postBookHeaderContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 7% 0px 7%;
+}
+
+#postBookHeader {
+  font-family: Inconsolata;
+  font-weight: 400;
+  font-size: 30px;
+  color: #000000;
+  margin: 5px 0px 15px 0px;
+}
+
+#closeModalIcon {
+  cursor: pointer;
+}
+
+#closeModalIcon:active {
+  opacity: 50%;
+}
+
+/* Fields */
+
+#postBookFieldsContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Upper Fields */
+
+#upperFieldsContainer {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin: 5px 0px 15px 0px;
+  padding: 5px 0px 5px 0px;
+  border-radius: 20px;
+  border: 2px solid #d8315b75;
+  background-color: #fffaff;
+}
+
+#or {
+  font-size: 18px;
+  font-family: montserrat;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.6);
+  margin: 5px 0px 5px 0px;
+}
+
+/* Lower Fields */
+
+#lowerFieldsContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-bottom: 5px;
+  padding: 5px 0px 5px 0px;
+}

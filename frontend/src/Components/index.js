@@ -7,6 +7,7 @@ import InfoRow from "./InfoRow";
 import Library from "./Library";
 import NavBar from "./NavBar";
 import NavBarLink from "./NavBarLink";
+import PostModal from "./PostModal";
 import SearchBar from "./SearchBar";
 import SearchResultRow from "./SearchResultRow";
 import SearchSort from "./SearchSort";
@@ -21,6 +22,7 @@ export {
   Library,
   NavBar,
   NavBarLink,
+  PostModal,
   SearchBar,
   SearchResultRow,
   SearchSort,

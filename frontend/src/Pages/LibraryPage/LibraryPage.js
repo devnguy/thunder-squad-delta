@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import "./LibraryPage.css";
-import { Button, Book } from "../../Components";
+import { Button, Book, PostModal } from "../../Components";
 import AboutPostIcon from "../../Assets/About Post Icon.png";
 import BookCover from "../../Assets/Book Cover.png";
 
@@ -87,6 +87,7 @@ const book_array = [
 const LibraryPage = () => {
   let history = useHistory();
   const [bookRows, setBookRows] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const goToWishlist = () => {
     history.push("/wishlist");
@@ -108,29 +109,35 @@ const LibraryPage = () => {
   }, []);
 
   return (
-    <div id="libraryPageBody">
-      <div id="libraryPageSidebar">
-        <p id="myLibraryHeader">My Library</p>
-        <img src={AboutPostIcon} alt="" id="postBookIcon" />
-        <Button>Post Book</Button>
-        <Button outline onClick={() => goToWishlist()}>
-          Wishlist
-        </Button>
-        <Button outline color="blue">
-          Tutorial
-        </Button>
+    <>
+      {modalVisible && <PostModal onClose={() => setModalVisible(false)} />}
+      <div
+        id="libraryPageBody"
+        style={modalVisible ? { opacity: "50%" } : null}
+      >
+        <div id="libraryPageSidebar">
+          <p id="myLibraryHeader">My Library</p>
+          <img src={AboutPostIcon} alt="" id="postBookIcon" />
+          <Button onClick={() => setModalVisible(true)}>Post Book</Button>
+          <Button outline onClick={() => goToWishlist()}>
+            Wishlist
+          </Button>
+          <Button outline color="blue">
+            Tutorial
+          </Button>
+        </div>
+        <div id="libraryPageBookBlock">
+          {bookRows &&
+            bookRows.map((row, index) => (
+              <div className="libraryBookRow" key={index}>
+                {row.map((book, bookIndex) => (
+                  <Book key={bookIndex} props={book} />
+                ))}
+              </div>
+            ))}
+        </div>
       </div>
-      <div id="libraryPageBookBlock">
-        {bookRows &&
-          bookRows.map((row, index) => (
-            <div className="libraryBookRow" key={index}>
-              {row.map((book, bookIndex) => (
-                <Book key={bookIndex} props={book} />
-              ))}
-            </div>
-          ))}
-      </div>
-    </div>
+    </>
   );
 };
 
