@@ -22,56 +22,6 @@ function BookPage(props) {
   const [conditionTerm, setConditionTerm] = useState("Condition");
   return (
     <div className="bookPage">
-      <div className="bookSearchContainer">
-        <div className="bookFilterContainer">
-          <button
-            className="bookFilterButton bookFilterText"
-            onClick={() => setFilterOpen((filterOpen) => !filterOpen)}
-          >
-            {filterTerm}
-            {filterOpen && (
-              <FontAwesomeIcon icon={faChevronUp} size="sm" color="#fffaff" />
-            )}
-            {!filterOpen && (
-              <FontAwesomeIcon icon={faChevronDown} size="sm" color="#fffaff" />
-            )}
-          </button>
-          {filterOpen && (
-            <div className="bookDropdown">
-              {filter_categories.map((category, index) => (
-                <button
-                  key={index}
-                  className={
-                    index < 3
-                      ? "bookDropdownCell bookFilterText bookCellWithBorder"
-                      : "bookDropdownCell bookFilterText"
-                  }
-                  onClick={() => {
-                    setFilterTerm(category);
-                    setConditionOpen(false);
-                  }}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-        <form className="bookSearchBar">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="bookSearchBarPrompt"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <button className="bookSearchButton">
-            <Link to="/BookPage">
-              <FontAwesomeIcon icon={faSearch} size="2x" color="#fffaff" />
-            </Link>
-          </button>
-        </form>
-      </div>
       <section className="container">
         <div className="bookImg">
           <img
@@ -86,49 +36,33 @@ function BookPage(props) {
               <Link to="/">Return to Search</Link>
             </p>
           </div>
-          <div className="Title">
-            <h2 id="titlePlaceholder">Title: </h2>
-            <h2 id="bookTitle">The Hobbit</h2>
+          <div className="bookData">
+            <div className="titleDiv">
+              <h2 id="titlePlaceholder">Title: </h2>
+              <h2 id="bookTitle">The Hobbit</h2>
+            </div>
+            <div className="condDiv">
+              <h2 id="condPlacehoder">Condition: </h2>
+              <h2 id="bookCond">Perfect</h2>
+            </div>
+            <div className="userDiv">
+              <h2 id="userPlaceholder">User: </h2>
+              <h2 id="bookUser">BigJon420</h2>
+            </div>
+            <div className="locDiv">
+              <h2 id="locPlaceholder">Location: </h2>
+              <h2 id="userLoc">Massachussetts, US</h2>
+            </div>
+            <div className="priceDiv">
+              <h2 id="pricePlacehoder">Price: </h2>
+              <h2 id="bookPrice">20 Bookpoints</h2>
+            </div>
           </div>
-          <div className="conditionContainer">
-            <button
-              className="conditionButton conditionText"
-              onClick={() =>
-                setConditionOpen((conditionOpen) => !conditionOpen)
-              }
-            >
-              {conditionTerm}
-              {conditionOpen && (
-                <FontAwesomeIcon icon={faChevronUp} size="sm" color="#fffaff" />
-              )}
-              {!conditionOpen && (
-                <FontAwesomeIcon
-                  icon={faChevronDown}
-                  size="sm"
-                  color="#fffaff"
-                />
-              )}
-            </button>
-            {conditionOpen && (
-              <div className="conditionDropdown">
-                {condition_categories.map((category, index) => (
-                  <button
-                    key={index}
-                    className={
-                      index < 3
-                        ? "dropdownCell filterText cellWithBorder"
-                        : "dropdownCell filterText"
-                    }
-                    onClick={() => {
-                      setConditionTerm(category);
-                      setConditionOpen(false);
-                    }}
-                  >
-                    {category}
-                  </button>
-                ))}
-              </div>
-            )}
+          <div className="bookButtons">
+            
+            <div className="proposeButton">
+              <button id="proposeCurrent">ProposeTrade</button>
+            </div>
           </div>
 
           <div className="AvailableTable">
