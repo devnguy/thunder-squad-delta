@@ -48,7 +48,7 @@ exports.getUserProfile = async function (req, res, next) {
     const user = await db.query(SQL`
     SELECT b.book_id, b.title, b.author, b.genre, b.description, b.year_published, b.publisher, b.image,
     w.wish_id, w.status, w.user_id,
-    s.swap_id, s.receiver_id, s.status, 
+    s.swap_id, s.owner_id, s.receiver_id, s.cost, s.creation_date, s.condition, s.status, 
     u.user_id, u.name, u.email, u.points, u.street, u.city, u.state, u.zip, u.points_spent,
     (SELECT COUNT(swap.book_id) FROM swap
       WHERE owner_id = ${req.params.userId} AND swap.status = 'complete') AS given_books,
@@ -72,6 +72,7 @@ exports.getUserProfile = async function (req, res, next) {
         booksReceived: user[0].received_books,
       },
       library: formatBooks.formatLibrary(user),
+      swaps: formatBooks.formatLibrarySwaps(user, req.params.userId),
       wishlist: formatBooks.formatWishlist(user),
     }
     return res.status(200).json(formattedUser)

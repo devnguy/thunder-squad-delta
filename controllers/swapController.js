@@ -7,7 +7,9 @@ const {
   UserNotFoundError,
   SwapNotFoundError,
   DatabaseError,
+  SwapInProgressError
 } = require('../errors')
+
 
 // Search for swaps.
 // There is some nastiness below. I would parameterize the table that's being
@@ -210,13 +212,19 @@ exports.deleteSwap = async function (req, res, next) {
     const swap = await db.query(SQL`SELECT * FROM swap WHERE swap_id = ${req.params.swapId}`)
     if (swap.error) throw new DatabaseError(swap.error)
     if (!swap.length) throw new SwapNotFoundError()
-    // If the swap with that id exists, delete it and return a message.
-    const result = await db.query(SQL`DELETE FROM swap WHERE swap_id = ${req.params.swapId}`)
-    if (result.error) throw new DatabaseError(result.error)
-    return res.status(200).json({
-      status: true,
-      message: 'Swap successfully deleted!',
-    })
+    // if the swap with the given ID is valid AND
+    // status != complete or status != in progress, delete it
+    if (swap[0].status != 'complete' && swap[0].status != 'in progess'){
+      const result = await db.query(SQL`DELETE FROM swap WHERE swap_id = ${req.params.swapId}`)
+      if (result.error) throw new DatabaseError(result.error)
+      return res.status(200).json({
+        status: true,
+        message: "Swap successfully deleted!"
+      })
+    } else {
+      throw new SwapInProgressError()
+    }
+
   } catch (error) {
     return next(error)
   }
