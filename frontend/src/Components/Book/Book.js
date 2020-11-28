@@ -1,7 +1,7 @@
 import React from "react";
 import "./Book.css";
 
-import DefaultImage from "../../Assets/BookCover.png";
+import DefaultImage from "../../Assets/Book Cover.png";
 
 function Book({ cover, title, author }) {
   return (

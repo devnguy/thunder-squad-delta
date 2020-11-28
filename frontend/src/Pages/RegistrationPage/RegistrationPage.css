@@ -2,14 +2,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Inconsolata");
 
-
 html,
 body,
 #app,
 #app > div {
   margin: 0;
 }
-
 
 .bigReg {
   display: grid;
@@ -25,9 +23,7 @@ body,
   grid-column-end: 4;
   grid-row-start: 2;
   grid-row-end: 3;
-
 }
-
 
 .requirementsReg {
   text-align: left;

@@ -24,7 +24,7 @@ router.post('/:userId/reset', userController.resetPassword)
 // User log in
 router.post('/login', userController.loginUser)
 
-// Get swaps owned by one user.
+// Get swaps owned/requested by one user.
 router.get('/:userId/swaps', swapController.getSwapsByUserId)
 
 // Create a swap for user.
