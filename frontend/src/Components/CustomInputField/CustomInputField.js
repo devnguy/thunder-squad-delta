@@ -1,14 +1,15 @@
 import React from "react";
 import "./CustomInputField.css";
 
-const CustomInputField = ({ name, onChange }) => {
+const CustomInputField = ({ name, onChange, value, type = "text" }) => {
   return (
     <input
       className="customField"
-      type="text"
+      type={type}
       placeholder={name}
       name={name}
       onChange={onChange}
+      value={value}
     />
   );
 };
