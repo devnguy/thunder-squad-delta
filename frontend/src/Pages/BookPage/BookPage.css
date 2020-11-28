@@ -127,7 +127,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  flex: 0 0 25%;
+  flex: 0 0 50%;
 }
 
 
@@ -218,11 +218,3 @@ td:first-child, th:first-child {
   color: white;
   border: 0px;
 }
-
-.return{
-  display: flex;
-  flex: 0 0 100%;
-  color:#3E92CC;
-  font-family: Montserrat;
-
-} 
