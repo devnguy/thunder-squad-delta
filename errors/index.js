@@ -35,9 +35,15 @@ class SwapNotFoundError extends ApplicationError {
   }
 }
 
+class SwapInProgressError extends ApplicationError {
+  constructor(message) {
+    super(message || 'It is too late to remove the swap.', 404)
+  }
+}
+
 class BookNotFoundError extends ApplicationError {
   constructor(message) {
-    super(message || 'No book with this book_id exists', 404)
+    super(message || 'No book with this book_id exists', 405)
   }
 }
 
@@ -56,6 +62,7 @@ class DatabaseError extends ApplicationError {
 module.exports = {
   UserNotFoundError,
   SwapNotFoundError,
+  SwapInProgressError,
   BookNotFoundError,
   MissingAttributeError,
   DatabaseError,
