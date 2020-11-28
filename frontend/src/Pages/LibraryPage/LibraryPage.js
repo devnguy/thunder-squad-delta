@@ -111,11 +111,11 @@ const LibraryPage = () => {
   return (
     <>
       {modalVisible && <PostModal onClose={() => setModalVisible(false)} />}
-      <div
-        id="libraryPageBody"
-        style={modalVisible ? { opacity: "50%" } : null}
-      >
-        <div id="libraryPageSidebar">
+      <div id="libraryPageBody">
+        <div
+          id="libraryPageSidebar"
+          style={modalVisible ? { opacity: "50%" } : null}
+        >
           <p id="myLibraryHeader">My Library</p>
           <img src={AboutPostIcon} alt="" id="postBookIcon" />
           <Button onClick={() => setModalVisible(true)}>Post Book</Button>
@@ -126,7 +126,10 @@ const LibraryPage = () => {
             Tutorial
           </Button>
         </div>
-        <div id="libraryPageBookBlock">
+        <div
+          id="libraryPageBookBlock"
+          style={modalVisible ? { opacity: "50%" } : null}
+        >
           {bookRows &&
             bookRows.map((row, index) => (
               <div className="libraryBookRow" key={index}>

@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "../Button";
 import CustomInputField from "../CustomInputField";
 import "./PostModal.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTimesCircle,
+  faChevronDown,
+  faChevronUp,
+} from "@fortawesome/free-solid-svg-icons";
+
+const conditions = ["Great", "Good", "Fair", "Poor"];
 
 const PostModal = ({ onClose }) => {
+  const [condition, setCondition] = useState("Select");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   return (
     <div id="postModalBody">
       <div id="postBookHeaderContainer">
@@ -16,6 +24,7 @@ const PostModal = ({ onClose }) => {
             size="2x"
             color="#000000"
             onClick={onClose}
+            // style={{ "marginBottom": "7px" }}
           />
         </div>
       </div>
@@ -27,10 +36,59 @@ const PostModal = ({ onClose }) => {
           <CustomInputField name="ISBN" />
         </div>
         <div id="lowerFieldsContainer">
-          <CustomInputField name="Condition" />
+          <div id="conditionContainer">
+            <div id="conditionLabelContainer">
+              <p id="conditionLabel">Condition: </p>
+            </div>
+            <div id="conditionDropdownSection">
+              <button
+                id="conditionDropdownButton"
+                className="conditionText"
+                onClick={() => setDropdownOpen((arg) => !arg)}
+              >
+                <p style={{ margin: "0px 10px 0px 0px", display: "inline" }}>
+                  {condition}
+                </p>
+                {dropdownOpen && (
+                  <FontAwesomeIcon
+                    icon={faChevronUp}
+                    size="sm"
+                    color="#fffaff"
+                  />
+                )}
+                {!dropdownOpen && (
+                  <FontAwesomeIcon
+                    icon={faChevronDown}
+                    size="sm"
+                    color="#fffaff"
+                  />
+                )}
+              </button>
+              {dropdownOpen && (
+                <div id="conditionDropdown">
+                  {conditions.map((cond, index) => (
+                    <button
+                      key={index}
+                      onClick={() => {
+                        setCondition(cond);
+                        setDropdownOpen(false);
+                      }}
+                      className={
+                        index < conditions.length - 1
+                          ? "conditionDropdownCell conditionText cellWithBorder"
+                          : "conditionDropdownCell conditionText"
+                      }
+                    >
+                      {cond}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
           <CustomInputField name="Points" />
         </div>
-        <Button color="blue">Post Book</Button>
+        <Button color="red">Post Book</Button>
       </div>
     </div>
   );
