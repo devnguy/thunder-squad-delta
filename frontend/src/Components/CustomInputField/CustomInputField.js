@@ -1,7 +1,13 @@
 import React from "react";
 import "./CustomInputField.css";
 
-const CustomInputField = ({ name, onChange, value, type = "text" }) => {
+const CustomInputField = ({
+  name,
+  onChange,
+  value,
+  type = "text",
+  ...props
+}) => {
   return (
     <input
       className="customField"
@@ -10,6 +16,7 @@ const CustomInputField = ({ name, onChange, value, type = "text" }) => {
       name={name}
       onChange={onChange}
       value={value}
+      {...props}
     />
   );
 };

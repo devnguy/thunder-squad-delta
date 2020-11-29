@@ -29,6 +29,12 @@ function Login() {
     history.push(`/`);
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      login.request(userName, passWord);
+    }
+  };
+
   const goToRegistration = () => {
     history.push("/register");
   };
@@ -51,9 +57,10 @@ function Login() {
           type="password"
           value={passWord}
           onChange={(e) => setpassWord(e.target.value)}
+          onKeyDown={handleKeyDown}
         />
         <Button onClick={() => login.request(userName, passWord)}>
-          Submit
+          Log In
         </Button>
         <Button outline color="blue" onClick={goToRegistration}>
           No Account? Register
