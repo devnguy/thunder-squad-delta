@@ -3,7 +3,6 @@
 @import url("https://fonts.googleapis.com/css?family=Inconsolata");
 
 .customField {
-  width: calc(100% - 35px);
   height: 40px;
   min-height: 40px;
   margin: 10px 0px 10px 0px;

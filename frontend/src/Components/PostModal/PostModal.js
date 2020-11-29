@@ -8,6 +8,7 @@ import {
   faChevronDown,
   faChevronUp,
 } from "@fortawesome/free-solid-svg-icons";
+import Dropdown from "../Dropdown/Dropdown";
 
 const conditions = ["Great", "Good", "Fair", "Poor"];
 
@@ -56,51 +57,7 @@ const PostModal = ({ onClose }) => {
             <div id="conditionLabelContainer">
               <p id="conditionLabel">Condition: </p>
             </div>
-            <div id="conditionDropdownSection">
-              <button
-                id="conditionDropdownButton"
-                className="conditionText"
-                onClick={() => setDropdownOpen((arg) => !arg)}
-              >
-                <p style={{ margin: "0px 10px 0px 0px", display: "inline" }}>
-                  {condition}
-                </p>
-                {dropdownOpen && (
-                  <FontAwesomeIcon
-                    icon={faChevronUp}
-                    size="sm"
-                    color="#fffaff"
-                  />
-                )}
-                {!dropdownOpen && (
-                  <FontAwesomeIcon
-                    icon={faChevronDown}
-                    size="sm"
-                    color="#fffaff"
-                  />
-                )}
-              </button>
-              {dropdownOpen && (
-                <div id="conditionDropdown">
-                  {conditions.map((cond, index) => (
-                    <button
-                      key={index}
-                      onClick={() => {
-                        setCondition(cond);
-                        setDropdownOpen(false);
-                      }}
-                      className={
-                        index < conditions.length - 1
-                          ? "conditionDropdownCell conditionText cellWithBorder"
-                          : "conditionDropdownCell conditionText"
-                      }
-                    >
-                      {cond}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
+            <Dropdown options={conditions} title="Select" />
           </div>
           <div style={{ width: "80%", marginBottom: "3px", marginTop: "3px" }}>
             <CustomInputField

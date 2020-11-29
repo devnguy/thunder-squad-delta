@@ -46,3 +46,15 @@
   font-size: 36px;
   font-family: "Inconsolata";
 }
+
+#stateZipFields {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 40px;
+  width: 100%;
+  max-width: 330px;
+  min-width: 330px;
+  margin: 10px;
+  overflow: visible;
+}

@@ -9,6 +9,7 @@ import { CustomInputField, Button } from "../../Components";
 import StatesData from "./states";
 import RegIcon from "../../Assets/RegIcon.png";
 import "./RegistrationPage.css";
+import Dropdown from "../../Components/Dropdown/Dropdown";
 
 function RegistrationPage(props) {
   const [username, setUsername] = useState("");
@@ -26,7 +27,15 @@ function RegistrationPage(props) {
 
   const handleRegister = () => {
     if (username !== "" && email !== "" && password !== "") {
-      registration.request(username, email, password);
+      // registration.request(username, email, password);
+      console.log(username);
+      console.log(email);
+      console.log(password);
+      console.log(confirmPassword);
+      console.log(street);
+      console.log(city);
+      console.log(state);
+      console.log(zipCode);
     }
   };
 
@@ -77,11 +86,24 @@ function RegistrationPage(props) {
           value={city}
           onChange={(e) => setCity(e.target.value)}
         />
-        <CustomInputField
-          name="Zip Code"
-          value={zipCode}
-          onChange={(e) => setZipCode(e.target.value)}
-        />
+        <div id="stateZipFields">
+          <CustomInputField
+            name="Zip Code"
+            value={zipCode}
+            onChange={(e) => setZipCode(e.target.value)}
+            style={{
+              width: "35%",
+              margin: "0px",
+              padding: "0px 10px 0px 23px",
+            }}
+          />
+          <Dropdown
+            options={StatesData}
+            title="State"
+            buttonHeight="44px"
+            style={{ width: "40%" }}
+          />
+        </div>
         <Button onClick={handleRegister}>Register</Button>
       </div>
     </div>

@@ -51,14 +51,14 @@ function SearchBar({ navBarVariant = false }) {
             )}
           </button>
           {filterOpen && (
-            <div className="dropdown">
+            <div className="searchDropdown">
               {filter_categories.map((category, index) => (
                 <button
                   key={index}
                   className={
                     index < 3
-                      ? "dropdownCell filterText cellWithBorder"
-                      : "dropdownCell filterText"
+                      ? "searchDropdownCell filterText searchCellWithBorder"
+                      : "searchDropdownCell filterText"
                   }
                   onClick={() => {
                     setFilterTerm(category);

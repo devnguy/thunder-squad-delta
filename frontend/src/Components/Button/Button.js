@@ -6,7 +6,13 @@ const palette = {
   blue: "#3e92cc",
 };
 
-const Button = ({ children, onClick, color = "red", outline = false }) => {
+const Button = ({
+  children,
+  onClick,
+  color = "red",
+  outline = false,
+  ...props
+}) => {
   const themeColor = palette[color];
   return (
     <div
@@ -17,6 +23,7 @@ const Button = ({ children, onClick, color = "red", outline = false }) => {
           : { backgroundColor: themeColor }
       }
       onClick={onClick}
+      {...props}
     >
       <p className="buttonText" style={outline ? { color: themeColor } : null}>
         {children}
