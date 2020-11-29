@@ -84,15 +84,16 @@ exports.getUserProfile = async function (req, res, next) {
 exports.registerUser = async function (req, res, next) {
   try {
     // Confirm required fields were passed.
-    if (!req.body.user.name || !req.body.user.email || !req.body.user.password) {
+    if (!req.body.user || !req.body.user.name || !req.body.user.email || !req.body.user.password) {
       throw new MissingAttributeError()
     }
     // FIXME: Enforce unique username and email constraint
     // Salt and hash the password before storing in db.
     const hash = await bcrypt.hash(req.body.user.password, 10)
     const response = await db.query(SQL`
-      INSERT INTO user (name, email, password)
-      VALUES (${req.body.user.name}, ${req.body.user.email}, ${hash})
+      INSERT INTO user (name, email, password, street, city, state, zip)
+      VALUES (${req.body.user.name}, ${req.body.user.email}, ${hash}, ${req.body.user.street}, 
+        ${req.body.user.city}, ${req.body.user.state}, ${req.body.user.zip})
     `)
     if (response.error) throw new DatabaseError(response.error)
 
@@ -202,7 +203,7 @@ exports.deleteUser = async function (req, res, next) {
     if (result.error) throw new DatabaseError(result.error)
     return res.status(200).json({
       status: true,
-      message: "User successfully deleted!"
+      message: 'User successfully deleted!',
     })
   } catch (error) {
     return next(error)
