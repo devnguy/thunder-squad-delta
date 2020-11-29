@@ -45,6 +45,7 @@
   display: flex;
   font-size: 36px;
   font-family: "Inconsolata";
+  margin: 0px 0px 5px 0px;
 }
 
 #stateZipFields {

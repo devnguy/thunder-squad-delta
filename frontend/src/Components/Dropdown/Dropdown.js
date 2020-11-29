@@ -3,7 +3,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import "./Dropdown.css";
 
-const Dropdown = ({ title, options, buttonHeight = "40px", ...props }) => {
+const Dropdown = ({
+  title,
+  options,
+  buttonHeight = "40px",
+  onSelect,
+  ...props
+}) => {
   const [selected, setSelected] = useState(title);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   return (
@@ -31,6 +37,7 @@ const Dropdown = ({ title, options, buttonHeight = "40px", ...props }) => {
               onClick={() => {
                 setSelected(option);
                 setDropdownOpen(false);
+                onSelect(option);
               }}
               className={
                 index < options.length - 1

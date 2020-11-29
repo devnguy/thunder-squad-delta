@@ -18,23 +18,27 @@ function RegistrationPage(props) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [street, setStreet] = useState("");
   const [city, setCity] = useState("");
-  const [state, setState] = useState("");
+  const [stateCode, setStateCode] = useState("");
   const [zipCode, setZipCode] = useState("");
 
   const registration = useApi(requests.registerUser);
   const { setUserId } = useContext(AuthContext);
   let history = useHistory();
 
+  const handleStateSelect = (stateCode) => {
+    setStateCode(stateCode);
+  };
+
   const handleRegister = () => {
     if (username !== "" && email !== "" && password !== "") {
-      // registration.request(username, email, password);
+      registration.request(username, email, password);
       console.log(username);
       console.log(email);
       console.log(password);
       console.log(confirmPassword);
       console.log(street);
       console.log(city);
-      console.log(state);
+      console.log(stateCode);
       console.log(zipCode);
     }
   };
@@ -101,7 +105,8 @@ function RegistrationPage(props) {
             options={StatesData}
             title="State"
             buttonHeight="44px"
-            style={{ width: "40%" }}
+            style={{ width: "50%" }}
+            onSelect={handleStateSelect}
           />
         </div>
         <Button onClick={handleRegister}>Register</Button>
