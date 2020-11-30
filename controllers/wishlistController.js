@@ -43,13 +43,77 @@ exports.getWish = async function (req, res, next) {
     }
 }
 
-// Delete a wishlist book
+// Create a wishlist book.
+exports.postWish = async function (req, res, next) {
+    try {
+        // Check for missing attributes
+        if (!req.body.title ||
+            !req.body.author ||
+            !req.body.publisher ||
+            !req.body.image) {
+            throw new MissingAttributeError()
+        }
+        // Check if book exists in database
+        const bookCheck = await db.query(SQL`
+        SELECT * FROM book WHERE 
+        title = ${req.body.title} AND 
+        author = ${req.body.author} AND
+        publisher = ${req.body.publisher}`)
+        if (bookCheck.error) throw new DatabaseError()
+        // If not found, insert the book into the database
+        let newBookId;
+        if (!bookCheck.length) {
+            const newBook = {
+                title: req.body.title,
+                author: req.body.author,
+                genre: req.body.genre ? req.body.genre : null,
+                description: req.body.description ? req.body.description : null,
+                year_published: req.body.year_published ? req.body.year_published : null,
+                publisher: req.body.publisher,
+                image: req.body.image
+            }
+            const addNewBook = await db.query(SQL`
+            INSERT INTO book 
+            (title, author, genre, description, year_published, publisher, image)
+            VALUES (
+                ${newBook.title}, 
+                ${newBook.author}, 
+                ${newBook.genre}, 
+                ${newBook.description},
+                ${newBook.year_published},
+                ${newBook.publisher},
+                ${newBook.image})`
+            )
+            if (addNewBook.error) throw new DatabaseError()
+            newBookId = addNewBook.insertId
+        } else {
+            newBookId = bookCheck[0].book_id
+        }
+        // Add book to users wishlist
+        const addWish = await db.query(SQL`
+        INSERT INTO wishlist
+        (book_id, user_id, status)
+        VALUES ( ${newBookId}, ${req.params.userId}, "active")`)
+        if (addWish.error) throw new DatabaseError()
+
+        // Send confirmation message
+        return res.status(201).json({
+            message: "Book added to wishlist",
+            insertId: addWish.insertId
+        })
+    } catch (error) {
+        return next(error)
+    }
+}
+
+
+// Delete a wishlist book.
 exports.deleteWish = async function (req, res, next) {
     try {
-        // Check if the Book exists before deleting
+        // Check if the wishlist book exists before deleting
         const book = await db.query(SQL`SELECT * FROM wishlist WHERE wish_id = ${req.params.wishId}`)
         if (book.error) throw new DatabaseError(book.error)
-        if (!book.length) throw new BookNotFoundError()
+        if (!book.length) throw new WishlistItemNotFoundError()
         // If the wishilst book with that id exists, delete it and return a message
         const result = await db.query(SQL`DELETE FROM wishlist WHERE wish_id = ${req.params.wishId}`)
         if (result.error) throw new DatabaseError(result.error)

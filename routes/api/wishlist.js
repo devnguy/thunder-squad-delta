@@ -8,13 +8,10 @@ router.get('/', wishlistController.getWishes)
 router.get('/:userId', wishlistController.getUserWishes)
 
 // Create a new wishlist book.
-// router.post('/', wishlistController.postWish)
+router.post('/:userId', wishlistController.postWish)
 
 // Get a wishlist book by id.
 router.get('/wish/:wishId', wishlistController.getWish)
-
-// Edit an existing wishlist book.
-// router.patch('/:wishId', wishlistController.editBook)
 
 // Remove a wishlist book.
 router.delete('/:wishId', wishlistController.deleteWish)
