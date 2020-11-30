@@ -214,7 +214,7 @@ exports.deleteSwap = async function (req, res, next) {
     if (!swap.length) throw new SwapNotFoundError()
     // if the swap with the given ID is valid AND
     // status != complete or status != in progress, delete it
-    if (swap[0].status != 'complete' && swap[0].status != 'in progess'){
+    if (swap[0].status == 'available' || swap[0].status == 'requested'){
       const result = await db.query(SQL`DELETE FROM swap WHERE swap_id = ${req.params.swapId}`)
       if (result.error) throw new DatabaseError(result.error)
       return res.status(200).json({
