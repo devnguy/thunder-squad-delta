@@ -13,6 +13,9 @@ const getBookDetails = (bookId) => client.get(`/swaps/${bookId}`);
 // Profile Page
 const getProfileDetails = (userId) => client.get(`/users/${userId}/profile`);
 
+// Library Page
+const getUserSwaps = (userId) => client.get(`users/${userId}/swaps`);
+
 // Register Page
 const registerUser = (username, email, password) =>
   client.post("/users", {
@@ -39,6 +42,7 @@ const requests = {
   getSearchResults,
   getBookDetails,
   getProfileDetails,
+  getUserSwaps,
   registerUser,
   loginUser,
   searchGoogleBooks,

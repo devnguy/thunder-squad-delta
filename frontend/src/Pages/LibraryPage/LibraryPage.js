@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import "./LibraryPage.css";
-import { Button, Book, PostModal } from "../../Components";
 import AboutPostIcon from "../../Assets/About Post Icon.png";
 import BookCover from "../../Assets/Book Cover.png";
+import { Button, Book, PostModal } from "../../Components";
+import useApi from "../../Api/useApi";
+import requests from "../../Api/requests";
+import AuthContext from "../../Context/AuthContext";
 
 const book_array = [
   {
@@ -85,6 +88,8 @@ const book_array = [
 ];
 
 const LibraryPage = () => {
+  const userSwaps = useApi(requests.getUserSwaps);
+  const { userId } = useContext(AuthContext);
   let history = useHistory();
   const [bookRows, setBookRows] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -94,7 +99,7 @@ const LibraryPage = () => {
   };
 
   const booksToRows = () => {
-    const rows = book_array.reduce(function (rows, book, index) {
+    const rows = userSwaps.data.reduce(function (rows, book, index) {
       return (
         (index % 4 === 0
           ? rows.push([book])
@@ -105,8 +110,14 @@ const LibraryPage = () => {
   };
 
   useEffect(() => {
-    booksToRows();
+    userSwaps.request(userId);
   }, []);
+
+  useEffect(() => {
+    if (userSwaps.data.length > 0) {
+      booksToRows();
+    }
+  }, [userSwaps.data]);
 
   return (
     <>
@@ -119,11 +130,8 @@ const LibraryPage = () => {
           <p id="myLibraryHeader">My Library</p>
           <img src={AboutPostIcon} alt="" id="postBookIcon" />
           <Button onClick={() => setModalVisible(true)}>Post Book</Button>
-          <Button outline onClick={() => goToWishlist()}>
+          <Button outline color="blue" onClick={() => goToWishlist()}>
             Wishlist
-          </Button>
-          <Button outline color="blue">
-            Tutorial
           </Button>
         </div>
         <div
@@ -131,10 +139,15 @@ const LibraryPage = () => {
           style={modalVisible ? { opacity: "50%" } : null}
         >
           {bookRows &&
-            bookRows.map((row, index) => (
-              <div className="libraryBookRow" key={index}>
-                {row.map((book, bookIndex) => (
-                  <Book key={bookIndex} props={book} />
+            bookRows.map((row, rowIndex) => (
+              <div className="libraryBookRow" key={rowIndex}>
+                {row.map((swap, swapIndex) => (
+                  <Book
+                    key={swapIndex}
+                    cover={swap.book.image}
+                    title={swap.book.title}
+                    author={swap.book.author}
+                  />
                 ))}
               </div>
             ))}
