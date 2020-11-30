@@ -7,7 +7,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import "./PostModal.css";
-import BookCover from "../../Assets/Book Cover.png";
 import Lottie from "react-lottie";
 import * as LoadingAnimation from "../../Assets/Animations/Loading.json";
 
@@ -30,6 +29,7 @@ const PostModal = ({ onClose }) => {
   const [thumbsDown, setThumbsDown] = useState(false);
   const [suggestionVisible, setSuggestionVisible] = useState(false);
   const [readyToSubmit, setReadyToSubmit] = useState(false);
+  const [readyToReport, setReadyToReport] = useState(false);
   const [userPrompt, setUserPrompt] = useState(
     "Provide some basic information"
   );
@@ -49,21 +49,17 @@ const PostModal = ({ onClose }) => {
   };
 
   const searchSuggestions = () => {
-    if (title !== "" && author !== "") {
-      setThumbsUp(false);
-      setThumbsDown(false);
-      setSuggestionVisible(true);
-      if (searchTimerRef.current) {
-        clearTimeout(searchTimerRef.current);
-      }
-      searchTimerRef.current = setTimeout(() => {
-        let concatTitle = title.replace(/\s+/g, "+").toLowerCase();
-        let concatAuthor = author.replace(/\s+/g, "+").toLowerCase();
-        suggestion.request(concatTitle, concatAuthor);
-      }, 2000);
-    } else {
-      setSuggestionVisible(false);
+    setThumbsUp(false);
+    setThumbsDown(false);
+    if (searchTimerRef.current) {
+      clearTimeout(searchTimerRef.current);
     }
+    searchTimerRef.current = setTimeout(() => {
+      setSuggestionVisible(true);
+      let concatTitle = title.replace(/\s+/g, "+").toLowerCase();
+      let concatAuthor = author.replace(/\s+/g, "+").toLowerCase();
+      suggestion.request(concatTitle, concatAuthor);
+    }, 2000);
   };
 
   const checkSuggestionWindow = () => {
@@ -76,6 +72,11 @@ const PostModal = ({ onClose }) => {
   useEffect(() => {
     if (title !== "" && author !== "") {
       searchSuggestions();
+    } else {
+      setSuggestionVisible(false);
+      setReadyToSubmit(false);
+      setReadyToReport(false);
+      setUserPrompt("Provide some basic information");
     }
   }, [title, author]);
 
@@ -89,7 +90,9 @@ const PostModal = ({ onClose }) => {
     } else {
       setUserPrompt("Is this the book you'd like to post?");
     }
-  }, [suggestion.loading, suggestion.error]);
+    setReadyToSubmit(false);
+    setReadyToReport(false);
+  }, [suggestion.loading, suggestion.error, suggestion.data]);
 
   return (
     <div id="postModalBody">
@@ -158,6 +161,7 @@ const PostModal = ({ onClose }) => {
                       setThumbsUp(true);
                       setThumbsDown(false);
                       setReadyToSubmit(true);
+                      setReadyToReport(false);
                     }}
                   />
                   <ThumbButton
@@ -169,6 +173,7 @@ const PostModal = ({ onClose }) => {
                       setThumbsUp(false);
                       setThumbsDown(true);
                       setReadyToSubmit(false);
+                      setReadyToReport(true);
                     }}
                   />
                 </div>
@@ -196,6 +201,25 @@ const PostModal = ({ onClose }) => {
               />
             </div>
             <Button color="red">Post Book</Button>
+          </>
+        )}
+        {readyToReport && (
+          <>
+            <div id="reportSectionContainer">
+              <p className="reportSectionHeading">Make sure you've:</p>
+              <ul style={{ margin: "0px", padding: "0px", listStyle: "none" }}>
+                <li className="reportSectionBulletItem">
+                  • Spelled the author and title correctly
+                </li>
+                <li className="reportSectionBulletItem">
+                  • Left spaces between every word in your search
+                </li>
+                <li className="reportSectionBulletItem">
+                  • Still no luck? Let us know and submit a report
+                </li>
+              </ul>
+            </div>
+            <Button color="red">Submit Report</Button>
           </>
         )}
       </div>
