@@ -30,6 +30,10 @@ const loginUser = (email, password) =>
     password: password,
   });
 
+// Post Book Modal - Search for Book Suggestion
+const searchGoogleBooks = (title, author) =>
+  client.get(`googleBooks/${title}/${author}`);
+
 const requests = {
   getBooks,
   getSearchResults,
@@ -37,6 +41,7 @@ const requests = {
   getProfileDetails,
   registerUser,
   loginUser,
+  searchGoogleBooks,
 };
 
 export default requests;

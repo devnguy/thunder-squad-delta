@@ -11,7 +11,7 @@ import PostModal from "./PostModal";
 import SearchBar from "./SearchBar";
 import SearchResultRow from "./SearchResultRow";
 import SearchSort from "./SearchSort";
-
+import ThumbButton from "./ThumbButton";
 export {
   Book,
   BookRow,
@@ -26,4 +26,5 @@ export {
   SearchBar,
   SearchResultRow,
   SearchSort,
+  ThumbButton,
 };
