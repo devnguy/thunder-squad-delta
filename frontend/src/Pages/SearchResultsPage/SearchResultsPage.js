@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import { SearchResultRow, SearchSort } from "../../Components";
@@ -9,18 +9,17 @@ import "./SearchResultsPage.css";
 
 function SearchResultsPage(props) {
   const books = useApi(requests.getSearchResults);
-  const [bookArray, setBookArray] = useState([]);
   let { filterTerm, searchTerm } = useParams();
 
-  useEffect(() => {
+  const handleSearch = () => {
+    // console.log("Filter:" + filterTerm);
+    // console.log("Search:" + searchTerm);
     books.request(searchTerm, filterTerm);
-  }, []);
+  };
 
   useEffect(() => {
-    if (books.data !== []) {
-      setBookArray(books.data);
-    }
-  }, [books.data]);
+    handleSearch();
+  }, [searchTerm, filterTerm]);
 
   return (
     <div className="searchPageContainer">
@@ -28,13 +27,10 @@ function SearchResultsPage(props) {
         {books.loading && (
           <p className="nowShowing">Loading Search Results...</p>
         )}
-        {!books.loading && bookArray !== [] && (
+        {!books.loading && (
           <p className="nowShowing">
-            Showing {bookArray.length} results for "{searchTerm}"
+            Showing {books.data.length} results for "{searchTerm}"
           </p>
-        )}
-        {!books.loading && bookArray === [] && (
-          <p className="nowShowing">Showing 0 results for "{searchTerm}"</p>
         )}
         <div className="sortContainer">
           <p className="sortLabel">Sort Results By: </p>
@@ -42,9 +38,9 @@ function SearchResultsPage(props) {
         </div>
       </div>
       <div className="rowHolder">
-        {bookArray && bookArray !== [] && (
+        {!books.loading && (
           <>
-            {bookArray.map(({ book, owner, condition, cost }, index) => (
+            {books.data.map(({ book, owner, condition, cost }, index) => (
               <SearchResultRow
                 cover={book.image}
                 title={book.title}

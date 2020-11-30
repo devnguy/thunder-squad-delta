@@ -2,82 +2,60 @@
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Inconsolata");
 
-html,
-body,
-#app,
-#app > div {
-  margin: 0;
-}
+/* Whole Page */
 
-.bigReg {
-  display: grid;
+.registerPage {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  height: calc(100vh - 150px);
+  min-width: 900px;
+  padding: 0px 100px 0px 100px;
   background-color: #fffaff;
-  height: 60vh;
-  grid-template-columns: 5% 45% auto;
-  grid-template-rows: 17% 10% auto;
-  margin: 0;
 }
 
-.formReg {
-  grid-column-start: 3;
-  grid-column-end: 4;
-  grid-row-start: 2;
-  grid-row-end: 3;
+/* Icon Container */
+
+#regIconSection {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.requirementsReg {
-  text-align: left;
-  list-style: none;
-  padding-left: 20px;
-  font-size: 1.4em;
-  font-family: Inconsolata;
-}
-
-.fieldReg:focus {
-  outline-width: 0;
-}
-
-.fieldReg {
-  background-color: #fffaff;
-  display: block;
-  margin: 2%;
-  height: 40px;
-  border-radius: 20px;
-  padding-left: 30px;
-  width: 59%;
-  font-size: 2em;
-  font-family: montserrat;
-  border: 1px solid #1e1b18;
-}
-
-#regIconHolder {
-  grid-column-start: 2;
-  grid-column-end: 3;
-  grid-row-start: 3;
-  grid-row-end: 4;
-}
-
-.regIcon {
-  max-width: 90%;
+#regIcon {
+  width: 150%;
   height: auto;
 }
 
-#Zip {
-  width: 25%;
-  display: inline;
-}
+/* Form Container */
 
-#submitRegistration {
-  width: 25%;
-  background-color: #d8315b;
-  color: #fffaff;
-  margin-left: 36%;
-  text-align: center;
-}
-
-#State {
-  height: 40px;
+#regFormSection {
   width: 30%;
-  display: inline;
-  color: rgba(12, 11, 9, 0.5);
+  display: flex;
+  justify-self: center;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.regTitle {
+  display: flex;
+  font-size: 36px;
+  font-family: "Inconsolata";
+  margin: 0px 0px 5px 0px;
+}
+
+#stateZipFields {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 40px;
+  width: 100%;
+  max-width: 330px;
+  min-width: 330px;
+  margin: 10px;
+  overflow: visible;
 }
