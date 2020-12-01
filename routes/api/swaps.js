@@ -4,9 +4,6 @@ const swapController = require('../../controllers/swapController')
 // Get all swaps matching query.
 router.get('/', swapController.getSwaps)
 
-// Get all swaps for a specific book.
-// router.get('/:bookId', swapController.getSwapsByBookId)
-
 // Get a swap by id.
 router.get('/:swapId', swapController.getSwapById)
 
