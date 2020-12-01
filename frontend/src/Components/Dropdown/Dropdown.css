@@ -1,0 +1,59 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Inconsolata");
+
+
+.dropdownSection {
+  width: 100%;
+  height: 225px;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdownButton {
+  width: 100%;
+  border-radius: 9999px;
+  background-color: #3e92cc;
+  z-index: 1200;
+  border: 0px;
+  outline: none;
+}
+
+.dropdown {
+  width: 100%;
+  background-color: #3e92cc;
+  z-index: 1200;
+  border-radius: 15px;
+  margin-top: 5px;
+  overflow: scroll;
+}
+
+.dropdownCell {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0px 0px 0px 15px;
+  background-color: transparent;
+  border: 0px;
+  outline: none;
+}
+
+.cellWithBorder {
+  border-bottom: 1px solid #fffaff;
+}
+
+.optionText {
+  font-family: Montserrat;
+  font-size: 18px;
+  color: #fffaff;
+}
+
+.dropdownCell:hover {
+  background-color: #65a4d1;
+}
+
+.dropdownCell:active,
+.dropdownButton:active {
+  opacity: 70%;
+}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import SearchBar from "../SearchBar";
 import NavBarLink from "../NavBarLink";
@@ -27,7 +27,7 @@ const dropdown_buttons = [
   },
 ];
 
-const navSearchPages = ["/about", "/profile"];
+const navSearchPages = ["/about", "/profile", "/library"];
 
 const NavBar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);

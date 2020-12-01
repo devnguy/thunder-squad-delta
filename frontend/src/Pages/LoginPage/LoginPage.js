@@ -1,75 +1,70 @@
 import React, { useEffect, useContext } from "react";
+import { Link, useHistory } from "react-router-dom";
+
 import "./LoginPage.css";
+import LoginIcon from "../../Assets/LoginIcon.png";
 import useApi from "../../Api/useApi";
 import requests from "../../Api/requests";
-import LoginIcon from "../../Assets/LoginIcon.png";
-import { Link, useHistory } from "react-router-dom";
 import AuthContext from "../../Context/AuthContext";
+import { CustomInputField, Button } from "../../Components";
 
 function Login() {
-  const Login = useApi(requests.loginUser);
+  const login = useApi(requests.loginUser);
   const [userName, setuserName] = React.useState("");
   const [passWord, setpassWord] = React.useState("");
-  const { userId, setUserId } = useContext(AuthContext);
+  const { setUserId } = useContext(AuthContext);
   let history = useHistory();
 
-  function handleUsername(event) {
-    setuserName(event.target.value);
-  }
-
-  function handlepassWord(event) {
-    setpassWord(event.target.value);
-  }
-
   useEffect(() => {
-    if (Login.data.status === true) {
-      console.log(Login.data.id);
-      setUserId(Login.data.id);
-      history.push(`/`);
-    } else if (Login.data.status === false) {
+    if (login.data.status === true) {
+      loginUser();
+    } else {
       console.log("Error");
     }
-  }, [Login.data.status]);
+  }, [login.data]);
 
-  function LoginUser(e) {
-    Login.request(userName, passWord);
-  }
+  const loginUser = () => {
+    console.log(login.data.id);
+    setUserId(login.data.id);
+    history.push(`/`);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      login.request(userName, passWord);
+    }
+  };
+
+  const goToRegistration = () => {
+    history.push("/register");
+  };
 
   return (
     <div className="loginPage">
-      <div id="regIcon">
+      <div id="loginIconSection">
         <img src={LoginIcon} alt="Woman reading" />
       </div>
-      <div className="loginFlow">
-        <div className="loginForm">
-          <h2 className="title"> Login </h2>
-          <div className="labels">
-            <input
-              className="fieldLogin"
-              placeholder="Username"
-              type="text"
-              name="Username"
-              value={userName}
-              onChange={handleUsername}
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              name="password"
-              className="fieldLogin"
-              value={passWord}
-              onChange={handlepassWord}
-            />
-          </div>
-          <div id="links">
-            <h4>
-              <Link to="/Register">Sign Up</Link>
-            </h4>
-          </div>
-          <button id="LoginSubmit" className="fieldLogin" onClick={LoginUser}>
-            Submit
-          </button>
-        </div>
+      <div id="loginFormSection">
+        <p className="loginTitle">Login</p>
+        <CustomInputField
+          name="Username"
+          value={userName}
+          onChange={(e) => setuserName(e.target.value)}
+          type="text"
+        />
+        <CustomInputField
+          name="Password"
+          type="password"
+          value={passWord}
+          onChange={(e) => setpassWord(e.target.value)}
+          onKeyDown={handleKeyDown}
+        />
+        <Button onClick={() => login.request(userName, passWord)}>
+          Log In
+        </Button>
+        <Button outline color="blue" onClick={goToRegistration}>
+          No Account? Register
+        </Button>
       </div>
     </div>
   );

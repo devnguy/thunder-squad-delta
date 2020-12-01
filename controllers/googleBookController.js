@@ -1,7 +1,7 @@
 const fetch = require('cross-fetch')
 
 const formatBooks = require('./util/formatGoogleBooks')
-const { MissingAttributeError } = require('../errors')
+const { ApplicationError, GoogleBookNotFoundError, MissingAttributeError } = require('../errors')
 
 // Get all google books that relate to the supplied keyword header.
 exports.getGoogleBooks = async function (req, response, next) {
@@ -14,10 +14,12 @@ exports.getGoogleBooks = async function (req, response, next) {
 
     const res = await fetch(path)
     if (response.status >= 400) {
-      throw new Error('Bad response from server')
+      throw new ApplicationError()
     }
     const books = await res.json()
-
+    if (books.totalItems === 0 ){
+      throw new GoogleBookNotFoundError()
+    }
     // I want to make the commented out call below, but there is an unhandled promise rejection
     return response.status(200).json(formatBooks(books))
     // return response.status(200).json(books)
