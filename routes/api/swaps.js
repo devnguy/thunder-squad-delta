@@ -7,8 +7,8 @@ router.get('/', swapController.getSwaps)
 // Get a swap by id.
 router.get('/:swapId', swapController.getSwapById)
 
-// // Edit an existing swap.
-// router.patch('/:swapId', userController.editSwap)
+// Update an existing swap.
+router.patch('/:swapId', swapController.updateSwap)
 
 // // Delete an existing swap.
 router.delete('/:swapId', swapController.deleteSwap)

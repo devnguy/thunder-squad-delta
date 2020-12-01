@@ -31,7 +31,7 @@ router.get('/:userId/swaps', swapController.getSwapsByUserId)
 router.post('/:userId/swaps', bookController.postBook, swapController.createSwap)
 
 // Complete a swap for a swap owner.
-router.patch('/:userId/swaps/:swapId', swapController.completeSwap)
+// router.patch('/:userId/swaps/:swapId', swapController.completeSwap)
 
 // Delete an existing User
 router.delete('/:userId', userController.deleteUser)

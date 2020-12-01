@@ -238,30 +238,55 @@ exports.createSwap = async function (req, res, next) {
   }
 }
 
-// Complete a swap by setting 'completed' property to true.
-// This needs to be updated with new 'status' column.
-exports.completeSwap = async function (req, res) {
+// Update a swap's status and/or receiver.
+exports.updateSwap = async function (req, res, next) {
   try {
+    if (
+      req.body.status !== 'accepted' ||
+      req.body.status !== 'requested' ||
+      req.body.status !== 'shipping' ||
+      req.body.status !== 'completed'
+    ) {
+      throw new MissingAttributeError('Invalid status value')
+    }
+    let updateResponse = undefined
     const [swap] = await db.query(SQL`SELECT * FROM swap WHERE swap_id = ${req.params.swapId}`)
     if (!swap) {
-      return res.status(404).json({ status: false, msg: 'No swap with that swap_id exists' })
+      throw new SwapNotFoundError()
     }
     // Don't update the swap if it's already completed.
-    if (swap.completed) {
-      return res.status(400).json({ error: 'This swap has already been completed' })
+    if (swap.status === 'completed') {
+      throw new SwapInProgressError('Swap already completed')
     }
-    const response = await db.query(SQL`
-      UPDATE swap
-      SET completed = true
-      WHERE swap_id = ${req.params.swapId}
-    `)
-    if (response.error) {
-      return res.status(500).json(response.error)
+    switch (req.body.status.toLowerCase()) {
+      case 'available':
+        updateResponse = await db.query(SQL`
+          UPDATE swap
+          SET status = ${req.body.status},
+              receiver_id = null
+          WHERE swap_id = ${req.params.swapId}
+        `)
+        break
+      case 'requested':
+        updateResponse = await db.query(SQL`
+          UPDATE swap
+          SET status = ${req.body.status},
+              receiver_id = ${req.body.receiverId}
+          WHERE swap_id = ${req.params.swapId}
+        `)
+        break
+      default:
+        updateResponse = await db.query(SQL`
+          UPDATE swap
+          SET status = ${req.body.status}
+          WHERE swap_id = ${req.params.swapId}
+        `)
+        break
     }
-    return res.status(200).json({ success: `Swap with swap_id ${req.params.swapId} completed` })
+    if (updateResponse.error) throw new DatabaseError(updateResponse.error)
+    return res.status(200).json({ status: true, msg: updateResponse.message })
   } catch (error) {
-    console.log(error)
-    return res.status(400).json(error)
+    return next(error)
   }
 }
 
