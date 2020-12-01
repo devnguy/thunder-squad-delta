@@ -7,9 +7,8 @@ const {
   UserNotFoundError,
   SwapNotFoundError,
   DatabaseError,
-  SwapInProgressError
+  SwapInProgressError,
 } = require('../errors')
-
 
 // Search for swaps.
 // There is some nastiness below. I would parameterize the table that's being
@@ -150,6 +149,31 @@ exports.getSwapsByBookId = async function (req, res, next) {
   }
 }
 
+// Get one swap by its id.
+exports.getSwapById = async function (req, res, next) {
+  try {
+    const swap = await db.query(SQL`
+      SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, date_requested, 
+        owner.user_id as owner_id, owner.name as owner_name, receiver.user_id as receiver_id,
+        receiver.name as receiver_name, book.book_id, book.title, book.author, book.genre,
+        book.description, book.year_published, book.publisher, book.image, owner.street as
+        owner_street, owner.city as owner_city, owner.state as owner_state, owner.zip as
+        owner_zip, receiver.street as receiver_street, receiver.city as receiver_city, 
+        receiver.state as receiver_state, receiver.zip as receiver_zip
+      FROM swap
+      JOIN book ON swap.book_id = book.book_id
+      LEFT JOIN user AS receiver ON swap.receiver_id = receiver.user_id
+      JOIN user AS owner on swap.owner_id = owner.user_id
+      WHERE swap_id = ${req.params.swapId}
+    `)
+    if (swap.error) throw new DatabaseError(swap.error)
+
+    return res.status(200).json(formatSwaps(swap)[0])
+  } catch (error) {
+    return next(error)
+  }
+}
+
 // Create a swap.
 exports.createSwap = async function (req, res, next) {
   try {
@@ -214,17 +238,16 @@ exports.deleteSwap = async function (req, res, next) {
     if (!swap.length) throw new SwapNotFoundError()
     // if the swap with the given ID is valid AND
     // status != complete or status != in progress, delete it
-    if (swap[0].status != 'complete' && swap[0].status != 'in progess'){
+    if (swap[0].status != 'complete' && swap[0].status != 'in progess') {
       const result = await db.query(SQL`DELETE FROM swap WHERE swap_id = ${req.params.swapId}`)
       if (result.error) throw new DatabaseError(result.error)
       return res.status(200).json({
         status: true,
-        message: "Swap successfully deleted!"
+        message: 'Swap successfully deleted!',
       })
     } else {
       throw new SwapInProgressError()
     }
-
   } catch (error) {
     return next(error)
   }

@@ -1,15 +1,14 @@
 const router = require('express').Router()
 const swapController = require('../../controllers/swapController')
 
-// Get all swaps.
+// Get all swaps matching query.
 router.get('/', swapController.getSwaps)
 
 // Get all swaps for a specific book.
-router.get('/:bookId', swapController.getSwapsByBookId)
+// router.get('/:bookId', swapController.getSwapsByBookId)
 
-// TODO
-// // Get a swap by id.
-// router.get('/:swapId', userController.getSwap)
+// Get a swap by id.
+router.get('/:swapId', swapController.getSwapById)
 
 // // Edit an existing swap.
 // router.patch('/:swapId', userController.editSwap)
