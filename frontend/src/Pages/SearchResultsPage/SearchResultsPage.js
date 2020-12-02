@@ -46,6 +46,7 @@ function SearchResultsPage(props) {
           <>
             {bookArray.map(({ book, owner, condition, cost }, index) => (
               <SearchResultRow
+                id={book.id}
                 cover={book.image}
                 title={book.title}
                 author={book.author}

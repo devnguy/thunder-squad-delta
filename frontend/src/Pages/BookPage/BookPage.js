@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 
 import BookCover from "../../Assets/Book Cover.png";
@@ -12,19 +12,19 @@ const filter_categories = ["Title", "Author", "Genre", "User"];
 const condition_categories = ["Perfect", "Great", "Good", "Poor"];
 
 function BookPage(props) {
-  const books = useApi(requests.getSearchResults);
+  const book = useApi(requests.getBookDetails);
   const [bookArray, setBookArray] = useState([]);
-  let { filterTerm, searchTerm } = useParams();
+  let { bookId } = useParams();
 
   useEffect(() => {
-    books.request(searchTerm, filterTerm);
+    book.request(bookId);
   }, []);
 
   useEffect(() => {
-    if (books.data !== []) {
-      setBookArray(books.data);
+    if (book.data !== []) {
+      setBookArray(book.data);
     }
-  }, [books.data]);
+  }, [book.data]);
 
   return (
     <div className="bookPage">
@@ -40,7 +40,7 @@ function BookPage(props) {
           <div className="bookData">
             <div className="titleDiv">
               <h2 id="titlePlaceholder">Title: </h2>
-              <h2 id="bookTitle">The Hobbit</h2>
+              <h2 id="bookTitle">{book.title}</h2>
             </div>
             <div className="condDiv">
               <h2 id="condPlacehoder">Condition: </h2>
