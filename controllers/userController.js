@@ -32,8 +32,8 @@ exports.getUser = async function (req, res, next) {
       FROM user 
       WHERE user_id = ${req.params.userId}
     `)
+    if (!user) throw new UserNotFoundError()
     if (user.error) throw new DatabaseError(user.error)
-    if (!user.length) throw new UserNotFoundError()
 
     return res.status(200).json(user)
   } catch (error) {
