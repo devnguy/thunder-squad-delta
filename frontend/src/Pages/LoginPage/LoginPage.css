@@ -8,7 +8,7 @@
   justify-content: space-evenly;
   padding: 50px 100px 0px 100px;
   background-color: #fffaff;
-  height: calc(100vh - 100px);
+  height: calc(100vh - 150px);
   min-width: 900px;
 }
 

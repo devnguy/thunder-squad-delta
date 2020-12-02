@@ -1,5 +1,15 @@
 import client from "./client";
 
+// Register Page
+const registerUser = (user) => client.post("/users", { user });
+
+// Login Page
+const loginUser = (email, password) =>
+  client.post("/users/login", {
+    email: email,
+    password: password,
+  });
+
 // Browse Page
 const getBooks = () => client.get("/books");
 
@@ -18,23 +28,6 @@ const getUserSwaps = (userId) => client.get(`/users/${userId}/swaps`);
 
 // Wishlist Page
 const getUserWishes = (userId) => client.get(`/wishlist/${userId}`);
-
-// Register Page
-const registerUser = (username, email, password) =>
-  client.post("/users", {
-    user: {
-      name: username,
-      email: email,
-      password: password,
-    },
-  });
-
-// Login Page
-const loginUser = (email, password) =>
-  client.post("/users/login", {
-    email: email,
-    password: password,
-  });
 
 // Post Book Modal - Search for Book Suggestion
 const searchGoogleBooks = (title, author) =>
@@ -69,14 +62,14 @@ const postWishlistItem = (userId, book) =>
   });
 
 const requests = {
+  registerUser,
+  loginUser,
   getBooks,
   getSearchResults,
   getBookDetails,
   getProfileDetails,
   getUserSwaps,
   getUserWishes,
-  registerUser,
-  loginUser,
   searchGoogleBooks,
   postSwap,
   postWishlistItem,
