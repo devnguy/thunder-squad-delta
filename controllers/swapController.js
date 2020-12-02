@@ -242,9 +242,9 @@ exports.createSwap = async function (req, res, next) {
 exports.updateSwap = async function (req, res, next) {
   try {
     if (
-      req.body.status !== 'accepted' ||
-      req.body.status !== 'requested' ||
-      req.body.status !== 'shipping' ||
+      req.body.status !== 'available' &&
+      req.body.status !== 'requested' &&
+      req.body.status !== 'shipping' &&
       req.body.status !== 'completed'
     ) {
       throw new MissingAttributeError('Invalid status value')
@@ -263,7 +263,8 @@ exports.updateSwap = async function (req, res, next) {
         updateResponse = await db.query(SQL`
           UPDATE swap
           SET status = ${req.body.status},
-              receiver_id = null
+              receiver_id = null,
+              date_requested = null
           WHERE swap_id = ${req.params.swapId}
         `)
         break
@@ -271,7 +272,8 @@ exports.updateSwap = async function (req, res, next) {
         updateResponse = await db.query(SQL`
           UPDATE swap
           SET status = ${req.body.status},
-              receiver_id = ${req.body.receiverId}
+              receiver_id = ${req.body.receiverId},
+              date_requested = CURRENT_TIMESTAMP
           WHERE swap_id = ${req.params.swapId}
         `)
         break
