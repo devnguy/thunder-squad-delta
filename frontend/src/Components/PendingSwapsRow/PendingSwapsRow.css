@@ -1,0 +1,68 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+.pSwapRow {
+  display: flex;
+  flex-direction: row;
+  
+  align-items: center;
+  width: 100%;
+  font-family: Montserrat;
+  margin-left: 4%;
+  height: 200px;
+}
+
+.pSwapCell {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+  height: 100%;
+  font-size: 1.5em;
+}
+.pSwapStatus {
+  width: 15%;
+}
+
+
+
+
+.pSwapBookDetails {
+  display: flex;
+  flex-direction: row;
+  /* justify-content: space-evenly; */
+  width: 25%;
+}
+
+.fakeCover {
+  display: flex;
+  flex-direction: row;
+  width: 50px;
+  height: 75px;
+  background-color: royalblue;
+}
+
+.pSwapTitleTxt {
+  display: flex;
+  flex-direction: column;
+}
+
+.pSwapDate {
+  width: 12%;
+}
+
+.pSwapOtherUser {
+    width: 12%;
+  }
+
+.pSwapCost {
+  width: 12%;
+}
+
+.pSwapActions {
+    
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 16%;
+}

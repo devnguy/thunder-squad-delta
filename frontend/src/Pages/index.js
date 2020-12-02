@@ -8,6 +8,7 @@ import BrowsePage from "./BrowsePage";
 import BookPage from "./BookPage";
 import LoginPage from "./LoginPage";
 import ResetPasswordPage from "./ResetPasswordPage";
+import PendingSwapsPage from "./PendingSwapsPage";
 export {
   HomePage,
   LibraryPage,
@@ -19,4 +20,5 @@ export {
   BookPage,
   LoginPage,
   ResetPasswordPage,
+  PendingSwapsPage,
 };

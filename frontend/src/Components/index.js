@@ -12,6 +12,8 @@ import SearchBar from "./SearchBar";
 import SearchResultRow from "./SearchResultRow";
 import SearchSort from "./SearchSort";
 import ThumbButton from "./ThumbButton";
+import PendingSwapsRow from "./PendingSwapsRow";
+
 export {
   Book,
   BookRow,
@@ -27,4 +29,5 @@ export {
   SearchResultRow,
   SearchSort,
   ThumbButton,
+  PendingSwapsRow,
 };
