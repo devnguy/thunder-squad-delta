@@ -1,27 +1,27 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
-import "./LibraryPage.css";
+import "./WishlistPage.css";
 import AboutPostIcon from "../../Assets/About Post Icon.png";
 import { Button, Book, PostModal } from "../../Components";
 import useApi from "../../Api/useApi";
 import requests from "../../Api/requests";
 import AuthContext from "../../Context/AuthContext";
 
-const LibraryPage = () => {
-  const userSwaps = useApi(requests.getUserSwaps);
-  const postSwap = useApi(requests.postSwap);
+const WishlistPage = () => {
+  const userWishes = useApi(requests.getUserWishes);
+  const postWish = useApi(requests.postWishlistItem);
   const { userId } = useContext(AuthContext);
-  let history = useHistory();
   const [bookRows, setBookRows] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+  let history = useHistory();
 
-  const goToWishlist = () => {
-    history.push("/wishlist");
+  const goToLibrary = () => {
+    history.push("/library");
   };
 
   const booksToRows = () => {
-    const rows = userSwaps.data.owned.reduce(function (rows, book, index) {
+    const rows = userWishes.data.reduce(function (rows, book, index) {
       return (
         (index % 4 === 0
           ? rows.push([book])
@@ -31,59 +31,60 @@ const LibraryPage = () => {
     setBookRows(rows);
   };
 
-  const handlePostBook = (condition, cost, suggestion) => {
-    if (userId && condition !== "Select" && cost !== "" && suggestion) {
-      postSwap.request(userId, condition, cost, suggestion);
+  const handlePostWishlistItem = (condition, cost, book) => {
+    if (userId && book) {
+      postWish.request(userId, book);
       setModalVisible(false);
     }
   };
 
   useEffect(() => {
     if (userId) {
-      userSwaps.request(userId);
+      userWishes.request(userId);
     }
   }, []);
 
   useEffect(() => {
-    if (userSwaps.data.length !== 0) {
+    if (userWishes.data.length !== 0) {
       booksToRows();
     }
-  }, [userSwaps.data]);
+  }, [userWishes.data]);
 
   return (
     <>
       {modalVisible && (
         <PostModal
-          postBookVariant
           onClose={() => setModalVisible(false)}
-          onSubmit={handlePostBook}
+          onSubmit={handlePostWishlistItem}
         />
       )}
-      <div id="libraryPageBody">
+      <div id="wishlistPageBody">
         <div
-          id="libraryPageSidebar"
+          id="wishlistPageSidebar"
           style={modalVisible ? { opacity: "50%" } : null}
         >
-          <p id="myLibraryHeader">My Library</p>
-          <img src={AboutPostIcon} alt="" id="postBookIcon" />
-          <Button onClick={() => setModalVisible(true)}>Post Book</Button>
-          <Button outline color="blue" onClick={() => goToWishlist()}>
-            Wishlist
+          <p id="myWishlistHeader">My Wishlist</p>
+          <img src={AboutPostIcon} alt="" id="postWishlistItemIcon" />
+          <Button color="blue" onClick={() => setModalVisible(true)}>
+            Post to Wishlist
+          </Button>
+          <Button outline onClick={() => goToLibrary()}>
+            Library
           </Button>
         </div>
         <div
-          id="libraryPageBookBlock"
+          id="wishlistPageBookBlock"
           style={modalVisible ? { opacity: "50%" } : null}
         >
           {bookRows &&
             bookRows.map((row, rowIndex) => (
-              <div className="libraryBookRow" key={rowIndex}>
-                {row.map((swap, swapIndex) => (
+              <div className="wishlistBookRow" key={rowIndex}>
+                {row.map((wishItem, wishIndex) => (
                   <Book
-                    key={swapIndex}
-                    cover={swap.book.image}
-                    title={swap.book.title}
-                    author={swap.book.author}
+                    key={wishIndex}
+                    cover={wishItem.image}
+                    title={wishItem.title}
+                    author={wishItem.author}
                   />
                 ))}
               </div>
@@ -94,4 +95,4 @@ const LibraryPage = () => {
   );
 };
 
-export default LibraryPage;
+export default WishlistPage;

@@ -19,7 +19,7 @@ import requests from "../../Api/requests";
 
 const conditions = ["Great", "Good", "Fair", "Poor"];
 
-const PostModal = ({ onClose }) => {
+const PostModal = ({ postBookVariant = false, onClose, onSubmit }) => {
   const suggestion = useApi(requests.searchGoogleBooks);
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -88,7 +88,7 @@ const PostModal = ({ onClose }) => {
     } else if (suggestion.data.length === 0) {
       setUserPrompt("Provide some basic information");
     } else {
-      setUserPrompt("Is this the book you'd like to post?");
+      setUserPrompt("Is this the book you're looking for?");
     }
     setReadyToSubmit(false);
     setReadyToReport(false);
@@ -97,7 +97,9 @@ const PostModal = ({ onClose }) => {
   return (
     <div id="postModalBody">
       <div id="postBookHeaderContainer">
-        <p id="postBookHeader">Post Book</p>
+        <p id="postBookHeader">
+          {postBookVariant ? "Post Book" : "Post to Wishlist"}
+        </p>
         <div id="closeModalIcon">
           <FontAwesomeIcon
             icon={faTimesCircle}
@@ -185,13 +187,16 @@ const PostModal = ({ onClose }) => {
             <div id="lowerFieldsContainer">
               <div id="conditionContainer">
                 <div id="conditionLabelContainer">
-                  <p id="conditionLabel">Condition: </p>
+                  <p id="conditionLabel">
+                    {postBookVariant ? "Condition:" : "Desired Condition:"}
+                  </p>
                 </div>
                 <Dropdown
                   options={conditions}
                   title="Select"
                   style={{ width: "50%" }}
                   onSelect={onSelectCondition}
+                  color={postBookVariant ? "blue" : "red"}
                 />
               </div>
               <CustomInputField
@@ -200,7 +205,12 @@ const PostModal = ({ onClose }) => {
                 value={points}
               />
             </div>
-            <Button color="red">Post Book</Button>
+            <Button
+              color={postBookVariant ? "red" : "blue"}
+              onClick={() => onSubmit(condition, points, suggestion.data[0])}
+            >
+              {postBookVariant ? "Post Book" : "Add to Wishlist"}
+            </Button>
           </>
         )}
         {readyToReport && (
@@ -219,7 +229,7 @@ const PostModal = ({ onClose }) => {
                 </li>
               </ul>
             </div>
-            <Button color="red">Submit Report</Button>
+            <Button>Submit Report</Button>
           </>
         )}
       </div>

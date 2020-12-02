@@ -15,11 +15,12 @@ function ProfilePage(props) {
   const [userInfo, setUserInfo] = useState(null);
   const [library, setLibrary] = useState(null);
   const [wishlist, setWishlist] = useState(null);
-
   const { userId } = useContext(AuthContext);
 
   useEffect(() => {
-    profileDetails.request(userId);
+    if (userId) {
+      profileDetails.request(userId);
+    }
   }, []);
 
   useEffect(() => {

@@ -2,7 +2,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Inconsolata");
 
-
 .dropdownSection {
   width: 100%;
   height: 225px;
@@ -13,15 +12,14 @@
 .dropdownButton {
   width: 100%;
   border-radius: 9999px;
-  background-color: #3e92cc;
   z-index: 1200;
   border: 0px;
   outline: none;
+  cursor: pointer;
 }
 
 .dropdown {
   width: 100%;
-  background-color: #3e92cc;
   z-index: 1200;
   border-radius: 15px;
   margin-top: 5px;
@@ -37,6 +35,7 @@
   background-color: transparent;
   border: 0px;
   outline: none;
+  cursor: pointer;
 }
 
 .cellWithBorder {
@@ -50,7 +49,7 @@
 }
 
 .dropdownCell:hover {
-  background-color: #65a4d1;
+  opacity: 70%;
 }
 
 .dropdownCell:active,
