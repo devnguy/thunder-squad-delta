@@ -185,29 +185,33 @@ const PostModal = ({ postBookVariant = false, onClose, onSubmit }) => {
         {readyToSubmit && (
           <>
             <div id="lowerFieldsContainer">
-              <div id="conditionContainer">
-                <div id="conditionLabelContainer">
-                  <p id="conditionLabel">
-                    {postBookVariant ? "Condition:" : "Desired Condition:"}
-                  </p>
-                </div>
-                <Dropdown
-                  options={conditions}
-                  title="Select"
-                  style={{ width: "50%" }}
-                  onSelect={onSelectCondition}
-                  color={postBookVariant ? "blue" : "red"}
-                />
-              </div>
-              <CustomInputField
-                name="Points"
-                onChange={(e) => setPoints(e.target.value)}
-                value={points}
-              />
+              {postBookVariant && (
+                <>
+                  <div id="conditionContainer">
+                    <div id="conditionLabelContainer">
+                      <p id="conditionLabel">
+                        {postBookVariant ? "Condition:" : "Desired Condition:"}
+                      </p>
+                    </div>
+                    <Dropdown
+                      options={conditions}
+                      title="Select"
+                      style={{ width: "50%" }}
+                      onSelect={onSelectCondition}
+                      color={postBookVariant ? "blue" : "red"}
+                    />
+                  </div>
+                  <CustomInputField
+                    name="Points"
+                    onChange={(e) => setPoints(e.target.value)}
+                    value={points}
+                  />
+                </>
+              )}
             </div>
             <Button
               color={postBookVariant ? "red" : "blue"}
-              onClick={() => onSubmit(condition, points, suggestion.data[0])}
+              onClick={() => onSubmit(suggestion.data[0], condition, points)}
             >
               {postBookVariant ? "Post Book" : "Add to Wishlist"}
             </Button>

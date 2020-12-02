@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import Lottie from "react-lottie";
 
+import * as LoadingAnimation from "../../Assets/Animations/Loading.json";
 import "./LibraryPage.css";
 import AboutPostIcon from "../../Assets/About Post Icon.png";
 import { Button, Book, PostModal } from "../../Components";
@@ -15,6 +17,15 @@ const LibraryPage = () => {
   let history = useHistory();
   const [bookRows, setBookRows] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: LoadingAnimation.default,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
 
   const goToWishlist = () => {
     history.push("/wishlist");
@@ -31,7 +42,7 @@ const LibraryPage = () => {
     setBookRows(rows);
   };
 
-  const handlePostBook = (condition, cost, suggestion) => {
+  const handlePostBook = (suggestion, condition, cost) => {
     if (userId && condition !== "Select" && cost !== "" && suggestion) {
       postSwap.request(userId, condition, cost, suggestion);
       setModalVisible(false);
@@ -75,6 +86,15 @@ const LibraryPage = () => {
           id="libraryPageBookBlock"
           style={modalVisible ? { opacity: "50%" } : null}
         >
+          {!bookRows && (
+            <Lottie
+              options={defaultOptions}
+              height={200}
+              width={400}
+              isStopped={false}
+              isPaused={false}
+            />
+          )}
           {bookRows &&
             bookRows.map((row, rowIndex) => (
               <div className="libraryBookRow" key={rowIndex}>

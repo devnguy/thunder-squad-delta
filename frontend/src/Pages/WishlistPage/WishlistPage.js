@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import Lottie from "react-lottie";
 
+import * as LoadingAnimation from "../../Assets/Animations/Loading.json";
 import "./WishlistPage.css";
 import AboutPostIcon from "../../Assets/About Post Icon.png";
 import { Button, Book, PostModal } from "../../Components";
@@ -15,6 +17,15 @@ const WishlistPage = () => {
   const [bookRows, setBookRows] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   let history = useHistory();
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: LoadingAnimation.default,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
 
   const goToLibrary = () => {
     history.push("/library");
@@ -31,7 +42,7 @@ const WishlistPage = () => {
     setBookRows(rows);
   };
 
-  const handlePostWishlistItem = (condition, cost, book) => {
+  const handlePostWishlistItem = (book, condition, cost) => {
     if (userId && book) {
       postWish.request(userId, book);
       setModalVisible(false);
@@ -76,6 +87,15 @@ const WishlistPage = () => {
           id="wishlistPageBookBlock"
           style={modalVisible ? { opacity: "50%" } : null}
         >
+          {!bookRows && (
+            <Lottie
+              options={defaultOptions}
+              height={200}
+              width={400}
+              isStopped={false}
+              isPaused={false}
+            />
+          )}
           {bookRows &&
             bookRows.map((row, rowIndex) => (
               <div className="wishlistBookRow" key={rowIndex}>
