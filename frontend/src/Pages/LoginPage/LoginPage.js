@@ -18,13 +18,10 @@ function Login() {
   useEffect(() => {
     if (login.data.status === true) {
       loginUser();
-    } else {
-      console.log("Error");
     }
   }, [login.data]);
 
   const loginUser = () => {
-    console.log(login.data.id);
     setUserId(login.data.id);
     history.push(`/`);
   };

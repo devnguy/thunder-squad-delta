@@ -3,89 +3,10 @@ import { useHistory } from "react-router-dom";
 
 import "./LibraryPage.css";
 import AboutPostIcon from "../../Assets/About Post Icon.png";
-import BookCover from "../../Assets/Book Cover.png";
 import { Button, Book, PostModal } from "../../Components";
 import useApi from "../../Api/useApi";
 import requests from "../../Api/requests";
 import AuthContext from "../../Context/AuthContext";
-
-const book_array = [
-  {
-    title: "1The Hobbit",
-    author: "J.R.R. Tolkien",
-    cover: BookCover,
-  },
-  {
-    title: "2The Hobbit",
-    author: "J.R.R. Tolkien",
-    cover: BookCover,
-  },
-  {
-    title: "3The Hobbit",
-    author: "J.R.R. Tolkien",
-    cover: BookCover,
-  },
-  {
-    title: "4The Hobbit",
-    author: "J.R.R. Tolkien",
-    cover: BookCover,
-  },
-  {
-    title: "5Harry Potter",
-    author: "J.K. Rowling",
-    cover: BookCover,
-  },
-  {
-    title: "6Harry Potter",
-    author: "J.K. Rowling",
-    cover: BookCover,
-  },
-  {
-    title: "7Harry Potter",
-    author: "J.K. Rowling",
-    cover: BookCover,
-  },
-  {
-    title: "8The Hobbit",
-    author: "J.R.R. Tolkien",
-    cover: BookCover,
-  },
-  {
-    title: "9Harry Potter",
-    author: "J.K. Rowling",
-    cover: BookCover,
-  },
-  {
-    title: "7Harry Potter",
-    author: "J.K. Rowling",
-    cover: BookCover,
-  },
-  {
-    title: "8The Hobbit",
-    author: "J.R.R. Tolkien",
-    cover: BookCover,
-  },
-  {
-    title: "9Harry Potter",
-    author: "J.K. Rowling",
-    cover: BookCover,
-  },
-  {
-    title: "7Harry Potter",
-    author: "J.K. Rowling",
-    cover: BookCover,
-  },
-  {
-    title: "8The Hobbit",
-    author: "J.R.R. Tolkien",
-    cover: BookCover,
-  },
-  {
-    title: "9Harry Potter",
-    author: "J.K. Rowling",
-    cover: BookCover,
-  },
-];
 
 const LibraryPage = () => {
   const userSwaps = useApi(requests.getUserSwaps);
@@ -99,7 +20,7 @@ const LibraryPage = () => {
   };
 
   const booksToRows = () => {
-    const rows = userSwaps.data.reduce(function (rows, book, index) {
+    const rows = userSwaps.data.owned.reduce(function (rows, book, index) {
       return (
         (index % 4 === 0
           ? rows.push([book])
@@ -114,7 +35,7 @@ const LibraryPage = () => {
   }, []);
 
   useEffect(() => {
-    if (userSwaps.data.length > 0) {
+    if (userSwaps.data.length !== 0) {
       booksToRows();
     }
   }, [userSwaps.data]);

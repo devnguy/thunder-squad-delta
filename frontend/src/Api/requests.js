@@ -14,7 +14,7 @@ const getBookDetails = (bookId) => client.get(`/swaps/${bookId}`);
 const getProfileDetails = (userId) => client.get(`/users/${userId}/profile`);
 
 // Library Page
-const getUserSwaps = (userId) => client.get(`users/${userId}/swaps`);
+const getUserSwaps = (userId) => client.get(`/users/${userId}/swaps`);
 
 // Register Page
 const registerUser = (username, email, password) =>
