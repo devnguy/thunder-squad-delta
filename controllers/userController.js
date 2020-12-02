@@ -57,7 +57,7 @@ exports.getUserProfile = async function (req, res, next) {
     FROM book AS b
     LEFT JOIN wishlist AS w ON w.book_id = b.book_id
     LEFT JOIN swap AS s ON s.book_id = b.book_id
-    JOIN user AS u ON s.owner_id = u.user_id OR w.user_id = u.user_id
+    RIGHT JOIN user AS u ON s.owner_id = u.user_id OR w.user_id = u.user_id
     WHERE w.user_id = ${req.params.userId} OR s.owner_id = ${req.params.userId} OR s.receiver_id = ${req.params.userId} OR u.user_id = ${req.params.userId};
     `)
     if (user.error) throw new DatabaseError(user.error)
