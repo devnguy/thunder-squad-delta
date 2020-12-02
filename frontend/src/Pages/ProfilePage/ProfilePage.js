@@ -9,6 +9,7 @@ import "./ProfilePage.css";
 import AuthContext from "../../Context/AuthContext";
 
 const headings = ["Username's Library", "Username's Wishlist"];
+const headingLinks = ["/library", "/wishlist"];
 
 function ProfilePage(props) {
   const profileDetails = useApi(requests.getProfileDetails);
@@ -59,7 +60,11 @@ function ProfilePage(props) {
         </div>
       </div>
       <div className="librarySection">
-        <Library headings={headings} book_arrays={[library, wishlist]} />
+        <Library
+          headings={headings}
+          book_arrays={[library, wishlist]}
+          headingLinks={headingLinks}
+        />
       </div>
     </div>
   );

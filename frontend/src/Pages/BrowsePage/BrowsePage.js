@@ -32,11 +32,17 @@ function BrowsePage(props) {
         <SearchBar />
       </div>
       <div className="librarySection">
-        <Library
-          headings={headings}
-          book_arrays={[bookArray, bookArray, bookArray]}
-          left_start
-        />
+        {bookArray && (
+          <Library
+            headings={headings}
+            book_arrays={[
+              bookArray.slice(0, 4),
+              bookArray.slice(4, 8),
+              bookArray.slice(8, 12),
+            ]}
+            leftStart
+          />
+        )}
       </div>
     </div>
   );

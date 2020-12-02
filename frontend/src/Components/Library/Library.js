@@ -2,7 +2,7 @@ import React from "react";
 import BookRow from "../BookRow";
 import "./Library.css";
 
-function Library({ book_arrays, headings, left_start = true }) {
+function Library({ book_arrays, headings, headingLinks, leftStart = true }) {
   return (
     <>
       {book_arrays.map((book_array, index) => (
@@ -10,7 +10,8 @@ function Library({ book_arrays, headings, left_start = true }) {
           <BookRow
             books={book_array}
             heading={headings[index]}
-            {...{ left_start }}
+            headingLink={headingLinks ? headingLinks[index] : null}
+            {...{ leftStart }}
           />
         </div>
       ))}
