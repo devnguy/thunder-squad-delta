@@ -12,7 +12,7 @@ const filter_categories = ["Title", "Author", "Genre", "User"];
 const condition_categories = ["Perfect", "Great", "Good", "Poor"];
 
 function BookPage(props) {
-  const swap = useApi(requests.getSwapDetails);
+  const swap = useApi(requests.getBookDetails);
   let { swapId } = useParams();
 
   useEffect(() => {
@@ -20,13 +20,22 @@ function BookPage(props) {
   }, []);
 
   useEffect(() => {
-    if (swap.data.length > 0) {
-      console.log(swap.data);
+    if (swap.data !== []) {
+      
     }
   }, [swap.data]);
 
+  const print = () => {
+    console.log(swap.data);
+  };
+
   return (
     <div className="bookPage">
+      {swap.loading && (
+        <p className="nowShowing">Loading Search Results...</p>
+      )}
+      {swap.data.book && (
+        print(),
       <section className="container">
         <div className="bookImg">
           <img
@@ -39,23 +48,23 @@ function BookPage(props) {
           <div className="bookData">
             <div className="titleDiv">
               <h2 id="titlePlaceholder">Title: </h2>
-              <h2 id="bookTitle">{swap.title}</h2>
+              <h2 id="bookTitle"> {swap.data.book.title}</h2>
             </div>
             <div className="condDiv">
               <h2 id="condPlacehoder">Condition: </h2>
-              <h2 id="bookCond">Perfect</h2>
+      <h2 id="bookCond"> {swap.data.condition}</h2>
             </div>
             <div className="userDiv">
               <h2 id="userPlaceholder">User: </h2>
-              <h2 id="bookUser">BigJon420</h2>
+              <h2 id="bookUser"> {swap.data.owner.name}</h2>
             </div>
             <div className="locDiv">
               <h2 id="locPlaceholder">Location: </h2>
-              <h2 id="userLoc">Massachussetts, US</h2>
+              <h2 id="userLoc"> {swap.data.owner.state}</h2>
             </div>
             <div className="priceDiv">
               <h2 id="pricePlacehoder">Price: </h2>
-              <h2 id="bookPrice">20 Bookpoints</h2>
+      <h2 id="bookPrice"> {swap.data.cost} Bookpoints</h2>
             </div>
           </div>
           <div className="bookButtons">
@@ -128,6 +137,7 @@ function BookPage(props) {
           </div>
         </section>
       </section>
+      )}
     </div>
   );
 }
