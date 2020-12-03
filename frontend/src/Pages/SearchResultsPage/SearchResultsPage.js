@@ -1,19 +1,64 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { SearchResultRow, SearchSort } from "../../Components";
+import { SearchResultRow, Dropdown } from "../../Components";
 import useApi from "../../Api/useApi";
 import requests from "../../Api/requests";
-
 import "./SearchResultsPage.css";
+
+const filterCategories = [
+  "Cost (↓)",
+  "Cost (↑)",
+  "Condition (↓)",
+  "Condition (↑)",
+];
 
 function SearchResultsPage(props) {
   const books = useApi(requests.getSearchResults);
   let { filterTerm, searchTerm } = useParams();
+  const [sortTerm, setSortTerm] = useState("Cost (↑)");
+  const [bookArray, setBookArray] = useState([]);
 
   const handleSearch = () => {
     books.request(searchTerm, filterTerm);
   };
+
+  const sortBy = () => {
+    if (sortTerm === "Cost (↑)") {
+      let sorted = [...books.data].sort((a, b) => {
+        return a.cost - b.cost;
+      });
+      setBookArray(sorted);
+    } else if (sortTerm === "Cost (↓)") {
+      let sorted = [...books.data].sort((a, b) => {
+        return b.cost - a.cost;
+      });
+      setBookArray(sorted);
+    } else if (sortTerm === "Condition (↑)") {
+      let sorted = [...books.data].sort((a, b) => {
+        return a.condition - b.condition;
+      });
+      setBookArray(sorted);
+    } else if (sortTerm === "Condition (↓)") {
+      let sorted = [...books.data].sort((a, b) => {
+        return b.condition - a.condition;
+      });
+      setBookArray(sorted);
+    }
+  };
+
+  useEffect(() => {
+    if (books.data.length > 0) {
+      setBookArray(books.data);
+      sortBy();
+    }
+  }, [books.data]);
+
+  useEffect(() => {
+    if (books.data.length > 0) {
+      sortBy();
+    }
+  }, [sortTerm]);
 
   useEffect(() => {
     handleSearch();
@@ -32,13 +77,19 @@ function SearchResultsPage(props) {
         )}
         <div className="sortContainer">
           <p className="sortLabel">Sort Results By: </p>
-          <SearchSort className="searchSortStyle" />
+          <Dropdown
+            title="Cost (↑)"
+            options={filterCategories}
+            buttonHeight="50px"
+            style={{ width: "50%" }}
+            onSelect={setSortTerm}
+          />
         </div>
       </div>
       <div className="rowHolder">
-        {!books.loading && (
+        {!books.loading && bookArray && (
           <>
-            {books.data.map(({ id, book, owner, condition, cost }, index) => (
+            {bookArray.map(({ id, book, owner, condition, cost }, index) => (
               <SearchResultRow
                 id={id}
                 cover={book.image}
