@@ -29,17 +29,35 @@ function RegistrationPage(props) {
     setStateCode(stateCode);
   };
 
+  const allFieldsFilled = () => {
+    if (
+      username !== "" &&
+      email !== "" &&
+      password !== "" &&
+      password === confirmPassword &&
+      street !== "" &&
+      city !== "" &&
+      stateCode !== "" &&
+      zipCode !== ""
+    ) {
+      return true;
+    }
+    return false;
+  };
+
   const handleRegister = () => {
-    if (username !== "" && email !== "" && password !== "") {
-      registration.request(username, email, password);
-      console.log(username);
-      console.log(email);
-      console.log(password);
-      console.log(confirmPassword);
-      console.log(street);
-      console.log(city);
-      console.log(stateCode);
-      console.log(zipCode);
+    if (allFieldsFilled()) {
+      let newUser = {
+        name: username,
+        email,
+        password,
+        street,
+        city,
+        state: stateCode,
+        zip: zipCode,
+      };
+      registration.request(newUser);
+      console.log(newUser);
     }
   };
 
@@ -107,6 +125,7 @@ function RegistrationPage(props) {
             buttonHeight="44px"
             style={{ width: "50%" }}
             onSelect={handleStateSelect}
+            color="blue"
           />
         </div>
         <Button onClick={handleRegister}>Register</Button>

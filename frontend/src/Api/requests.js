@@ -1,5 +1,15 @@
 import client from "./client";
 
+// Register Page
+const registerUser = (user) => client.post("/users", { user });
+
+// Login Page
+const loginUser = (email, password) =>
+  client.post("/users/login", {
+    email: email,
+    password: password,
+  });
+
 // Browse Page
 const getBooks = () => client.get("/books");
 
@@ -18,37 +28,54 @@ const getProfileDetails = (userId) => client.get(`/users/${userId}/profile`);
 // Library Page
 const getUserSwaps = (userId) => client.get(`/users/${userId}/swaps`);
 
-// Register Page
-const registerUser = (username, email, password) =>
-  client.post("/users", {
-    user: {
-      name: username,
-      email: email,
-      password: password,
-    },
-  });
-
-// Login Page
-const loginUser = (email, password) =>
-  client.post("/users/login", {
-    email: email,
-    password: password,
-  });
+// Wishlist Page
+const getUserWishes = (userId) => client.get(`/wishlist/${userId}`);
 
 // Post Book Modal - Search for Book Suggestion
 const searchGoogleBooks = (title, author) =>
   client.get(`googleBooks/${title}/${author}`);
 
+// Post Book Modal - Post New Swap
+const postSwap = (userId, condition, cost, swap) =>
+  client.post(`/users/${userId}/swaps`, {
+    condition,
+    cost,
+    book: {
+      title: swap.title,
+      author: swap.author,
+      genre: swap.genre,
+      description: swap.description,
+      year_published: swap.year_published,
+      publisher: swap.publisher,
+      image: swap.image,
+    },
+  });
+
+// Post Book Modal - Post New Wishlist Item
+const postWishlistItem = (userId, book) =>
+  client.post(`/wishlist/${userId}`, {
+    title: book.title,
+    author: book.author,
+    genre: book.genre,
+    description: book.description,
+    year_published: book.year_published,
+    publisher: book.publisher,
+    image: book.image,
+  });
+
 const requests = {
+  registerUser,
+  loginUser,
   getBooks,
   getSearchResults,
   getBookDetails,
   getProfileDetails,
   getUserSwaps,
-  registerUser,
-  loginUser,
+  getUserWishes,
   getSwapDetails,
   searchGoogleBooks,
+  postSwap,
+  postWishlistItem,
 };
 
 export default requests;

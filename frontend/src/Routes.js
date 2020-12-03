@@ -12,6 +12,7 @@ import {
   BookPage,
   LoginPage,
   ResetPasswordPage,
+  WishlistPage,
 } from "./Pages";
 
 export default function Routes() {
@@ -46,6 +47,9 @@ export default function Routes() {
       </Route>
       <Route path="/search/:filterTerm/:searchTerm">
         <SearchResultsPage />
+      </Route>
+      <Route path="/wishlist">
+        <WishlistPage />
       </Route>
     </Switch>
   );

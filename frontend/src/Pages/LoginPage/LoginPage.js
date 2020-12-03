@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import "./LoginPage.css";
@@ -10,8 +10,8 @@ import { CustomInputField, Button } from "../../Components";
 
 function Login() {
   const login = useApi(requests.loginUser);
-  const [userName, setuserName] = React.useState("");
-  const [passWord, setpassWord] = React.useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const { setUserId } = useContext(AuthContext);
   let history = useHistory();
 
@@ -28,7 +28,7 @@ function Login() {
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
-      login.request(userName, passWord);
+      login.request(email, password);
     }
   };
 
@@ -44,19 +44,19 @@ function Login() {
       <div id="loginFormSection">
         <p className="loginTitle">Login</p>
         <CustomInputField
-          name="Username"
-          value={userName}
-          onChange={(e) => setuserName(e.target.value)}
+          name="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           type="text"
         />
         <CustomInputField
           name="Password"
           type="password"
-          value={passWord}
-          onChange={(e) => setpassWord(e.target.value)}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           onKeyDown={handleKeyDown}
         />
-        <Button onClick={() => login.request(userName, passWord)}>
+        <Button onClick={() => login.request(email, password)}>
           Log In
         </Button>
         <Button outline color="blue" onClick={goToRegistration}>

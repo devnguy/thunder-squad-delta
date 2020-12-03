@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
-
-import Book from "../Book";
-import "./BookRow.css";
-
-import Lottie from "react-lottie";
-import * as LoadingAnimation from "../../Assets/Animations/Loading.json";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
+import Lottie from "react-lottie";
+import { Link } from "react-router-dom";
 
-function BookRow({ books, heading, left_start }) {
+import "./BookRow.css";
+import * as LoadingAnimation from "../../Assets/Animations/Loading.json";
+import Book from "../Book";
+
+function BookRow({ books, heading, headingLink, leftStart }) {
   const [arrayOffset, setArrayOffset] = useState(
-    left_start || books.length < 5 ? 0 : Math.floor(books.length / 2)
+    leftStart || books.length < 5 ? 0 : Math.floor(books.length / 2)
   );
   const [booksArray, setBooksArray] = useState(null);
 
@@ -84,7 +84,17 @@ function BookRow({ books, heading, left_start }) {
       </div>
       <div className="booksAndTitle">
         <div className="rowTitleContainer">
-          <p className="rowTitle">{heading}</p>
+          {headingLink && (
+            <Link to={headingLink}>
+              <p
+                className="rowTitle"
+                style={{ color: "#1e1b18", textDecoration: "none" }}
+              >
+                {heading}
+              </p>
+            </Link>
+          )}
+          {!headingLink && <p className="rowTitle">{heading}</p>}
         </div>
         <div className="bookRowContainer">{booksArray}</div>
       </div>

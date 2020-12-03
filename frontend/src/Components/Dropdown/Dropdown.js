@@ -3,11 +3,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import "./Dropdown.css";
 
+const theme = {
+  red: {
+    primary: "#d8315b",
+    background: "#e26584",
+  },
+  blue: {
+    primary: "#3e92cc",
+    secondary: "#65a4d1",
+  },
+};
+
 const Dropdown = ({
   title,
   options,
   buttonHeight = "40px",
   onSelect,
+  color = "red",
   ...props
 }) => {
   const [selected, setSelected] = useState(title);
@@ -16,7 +28,11 @@ const Dropdown = ({
     <div className="dropdownSection" {...props}>
       <button
         className="dropdownButton optionText"
-        style={{ height: buttonHeight, minHeight: buttonHeight }}
+        style={{
+          height: buttonHeight,
+          minHeight: buttonHeight,
+          backgroundColor: theme[color]["primary"],
+        }}
         onClick={() => setDropdownOpen((arg) => !arg)}
       >
         <p style={{ margin: "0px 10px 0px 0px", display: "inline" }}>
@@ -30,7 +46,10 @@ const Dropdown = ({
         )}
       </button>
       {dropdownOpen && (
-        <div className="dropdown">
+        <div
+          className="dropdown"
+          style={{ backgroundColor: theme[color]["primary"] }}
+        >
           {options.map((option, index) => (
             <button
               key={index}

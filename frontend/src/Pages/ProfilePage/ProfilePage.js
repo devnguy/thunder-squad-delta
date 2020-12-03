@@ -9,17 +9,19 @@ import "./ProfilePage.css";
 import AuthContext from "../../Context/AuthContext";
 
 const headings = ["Username's Library", "Username's Wishlist"];
+const headingLinks = ["/library", "/wishlist"];
 
 function ProfilePage(props) {
   const profileDetails = useApi(requests.getProfileDetails);
   const [userInfo, setUserInfo] = useState(null);
   const [library, setLibrary] = useState(null);
   const [wishlist, setWishlist] = useState(null);
-
   const { userId } = useContext(AuthContext);
 
   useEffect(() => {
-    profileDetails.request(userId);
+    if (userId) {
+      profileDetails.request(userId);
+    }
   }, []);
 
   useEffect(() => {
@@ -58,7 +60,11 @@ function ProfilePage(props) {
         </div>
       </div>
       <div className="librarySection">
-        <Library headings={headings} book_arrays={[library, wishlist]} />
+        <Library
+          headings={headings}
+          book_arrays={[library, wishlist]}
+          headingLinks={headingLinks}
+        />
       </div>
     </div>
   );

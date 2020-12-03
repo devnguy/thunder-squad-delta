@@ -5,3 +5,8 @@
   width: 900px;
   margin: 1% 0px 1% 0px;
 }
+
+.libraryRow a {
+  color: #1e1b18;
+  text-decoration: none;
+}
