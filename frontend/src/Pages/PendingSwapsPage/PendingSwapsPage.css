@@ -3,11 +3,14 @@
 .pSwapPageContainer {
   display: flex;
   flex-direction: column;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 .pSwapTitle {
   font-size: 45px;
   font-family: Inconsolata;
-  margin-left: 150px;
+  
+  margin-left:350px;
   font-weight: bold;
 }
 
@@ -15,12 +18,11 @@
   display: flex;
   flex-direction: row;
   position: relative;
-  left:45%;
+  left: 45%;
   height: 50px;
   top: 1px;
   background-color: white;
 }
-
 
 
 .pSwapTab {

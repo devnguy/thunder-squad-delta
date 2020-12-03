@@ -6,7 +6,7 @@ import Button from "../Button";
 
 import DefaultImage from "../../Assets/Book Cover.png";
 
-function PendingSwapsRow(status, cover, title, dateRequested, otherUser, cost) {
+function PendingSwapsRow({status, cover, title, dateRequested, otherUser, cost, swap_id}) {
   return (
     <div className="pSwapRow">
       <div className="pSwapStatus pSwapCell">
@@ -26,10 +26,19 @@ function PendingSwapsRow(status, cover, title, dateRequested, otherUser, cost) {
       <div className="pSwapCost pSwapCell">
         <p className="pSwapCostTxt"> {cost}</p>
       </div>
+      {status ==="requested" &&
       <div className="pSwapActions pSwapCell">
             <Button style={{background:"#12BA85", width:"40%"}}>Accept</Button>
             <Button style={{background:"#D8315B", width: "40%"}}>Reject</Button>
-      </div>
+      </div>}
+      {status ==="accepted" &&
+      <div className="pSwapActions pSwapCell">
+            <Button style={{background:"#12BA85", width:"40%"}}>Shipping Info</Button>
+      </div>}
+      {status ==="completed" || "shipping" &&
+      <div className="pSwapActions pSwapCell">
+            <Button style={{background:"#12BA85", width:"40%"}}>Shipping Info</Button>
+      </div>}
     </div>
   );
 }

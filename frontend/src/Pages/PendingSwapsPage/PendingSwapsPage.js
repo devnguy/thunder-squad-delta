@@ -10,10 +10,10 @@ import "./PendingSwapsPage.css";
 function PendingSwapsPage(props) {
   const allSwaps = useApi(requests.getUserSwaps);
   const { userId } = useContext(AuthContext);
-  const [giveSwaps, setGiveSwaps] = useState(null);
+  const [tabSelect, setTabSelect] = useState("give");
 
   useEffect(() => {
-    allSwaps.request(userId);
+    allSwaps.request("1");
   }, []);
 
   return (
@@ -21,10 +21,17 @@ function PendingSwapsPage(props) {
       <div className="topHolder">
         <div className="pSwapTitle"> Pending Swaps</div>
         <div className="pSwapTabHolder">
-          <div className="pSwapTab" style={{ border: "1px solid black" }}>
+          <div
+            onClick={()=>setTabSelect("get")}
+            className="pSwapTab"
+            style={tabSelect=== "give" ? { borderBottom: "1px solid black" }:null}
+          >
             Get
           </div>
-          <div className="pSwapTab">Give</div>
+          <div onClick={()=>setTabSelect("give")} className="pSwapTab"
+          style={tabSelect=== "get" ? { borderBottom: "1px solid black" }:null}>
+            Give
+          </div>
         </div>
       </div>
 
@@ -32,26 +39,54 @@ function PendingSwapsPage(props) {
       <div className="pSwapTableHeader">
         <div className="pSwapHeaderStatus pSwapHeaderCell">Status</div>
         <div className="pSwapHeaderBookDetails pSwapHeaderCell">Book</div>
-        <div className="pSwapHeaderDate pSwapHeaderCell">Date</div>
+        <div className="pSwapHeaderDate pSwapHeaderCell">Date Requested</div>
         <div className="pSwapHeaderOtherUser pSwapHeaderCell">Other User</div>
         <div className="pSwapHeaderCost pSwapHeaderCell">Cost</div>
         <div className="pSwapHeaderActions pSwapHeaderCell">Actions</div>
       </div>
       <div className="pSwapRowHolder ">
-        <>
-          {allSwaps.data.owned.map(
-            ({ status, book, date_requested, receiver, cost }, index) => (
-              <PendingSwapsRow
-                key={index}
-                cover={book.image}
-                title={book.title}
-                otherUser={receiver.name}
-                {...{ cost }}
-                {...{ date_requested }}
-                {...{ status }}
-              />
-            )
-          )}
+          <>
+        {tabSelect === "give" && 
+            allSwaps.data.owned &&
+              allSwaps.data.owned.map(
+                (
+                  { status, book, date_requested, receiver, cost, id },
+                  index
+                ) => (status != "available" &&
+                <PendingSwapsRow
+                    key={index}
+                    cover={book.image}
+                    title={book.title}
+                    otherUser={receiver ? receiver.name : null}
+                    swap_id={id}
+                    {...{ cost }}
+                    {...{ date_requested }}
+                    {...{ status }}
+                  />
+              
+                  
+                )
+              )
+        }
+
+
+        {tabSelect === "get" && 
+            allSwaps.data.requested &&
+              allSwaps.data.requested.map(
+                ({ status, book, date_requested, owner, cost, id }, index) => (
+                  <PendingSwapsRow
+                    key={index}
+                    cover={book.image}
+                    title={book.title}
+                    otherUser={owner.name}
+                    swap_id={id}
+                    {...{ cost }}
+                    {...{ date_requested }}
+                    {...{ status }}
+                  />
+                )
+              )
+        }
         </>
       </div>
     </div>
