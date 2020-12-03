@@ -44,9 +44,9 @@ function SearchResultsPage(props) {
       <div className="rowHolder">
         {bookArray && bookArray !== [] && (
           <>
-            {bookArray.map(({ book, owner, condition, cost }, index) => (
+            {bookArray.map(({ id, book, owner, condition, cost }, index) => (
               <SearchResultRow
-                id={book.id}
+                id={id}
                 cover={book.image}
                 title={book.title}
                 author={book.author}

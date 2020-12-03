@@ -22,7 +22,7 @@ export default function Routes() {
       <Route path="/about">
         <AboutPage />
       </Route>
-      <Route path="/book">
+      <Route path="/book/:swapId">
         <BookPage />
       </Route>
       <Route path="/browse">

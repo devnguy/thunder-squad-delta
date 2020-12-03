@@ -5,7 +5,6 @@ import "./SearchResultRow.css";
 import { Link, useHistory } from "react-router-dom";
 
 function SearchResultRow({ id, cover, title, author, condition, giver, cost }) {
-  const book = useApi(requests.getBookDetails);
   let history = useHistory();
 
   const bookPageRedirect = () => {
@@ -35,7 +34,7 @@ function SearchResultRow({ id, cover, title, author, condition, giver, cost }) {
         <p className="costTxt">{cost} Points</p>
       </div>
       <div className="infoButtonHolder">
-        <button className="infoButton" onClick={() => bookPageRedirect({id})}>More Info</button>
+        <button className="infoButton" onClick={() => bookPageRedirect(id)}>More Info</button>
       </div>
     </div>
   );

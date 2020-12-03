@@ -12,19 +12,18 @@ const filter_categories = ["Title", "Author", "Genre", "User"];
 const condition_categories = ["Perfect", "Great", "Good", "Poor"];
 
 function BookPage(props) {
-  const book = useApi(requests.getBookDetails);
-  const [bookArray, setBookArray] = useState([]);
-  let { bookId } = useParams();
+  const swap = useApi(requests.getSwapDetails);
+  let { swapId } = useParams();
 
   useEffect(() => {
-    book.request(bookId);
+    swap.request(swapId);
   }, []);
 
   useEffect(() => {
-    if (book.data !== []) {
-      setBookArray(book.data);
+    if (swap.data.length > 0) {
+      console.log(swap.data);
     }
-  }, [book.data]);
+  }, [swap.data]);
 
   return (
     <div className="bookPage">
@@ -40,7 +39,7 @@ function BookPage(props) {
           <div className="bookData">
             <div className="titleDiv">
               <h2 id="titlePlaceholder">Title: </h2>
-              <h2 id="bookTitle">{book.title}</h2>
+              <h2 id="bookTitle">{swap.title}</h2>
             </div>
             <div className="condDiv">
               <h2 id="condPlacehoder">Condition: </h2>
