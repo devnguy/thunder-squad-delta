@@ -8,9 +8,7 @@
   margin: 0 10% 0 10%;
   font-family: Montserrat;
   font-size: 1.2em;
-  /* position: relative; */
-  /* height: 50px; */
-  /* right: 0; */
+  min-width: 875px;
   overflow: visible;
   max-height: 61px;
 }

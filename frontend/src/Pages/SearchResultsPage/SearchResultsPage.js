@@ -81,7 +81,6 @@ function SearchResultsPage(props) {
             title="Cost (↑)"
             options={filterCategories}
             buttonHeight="50px"
-            style={{ width: "50%" }}
             onSelect={setSortTerm}
           />
         </div>

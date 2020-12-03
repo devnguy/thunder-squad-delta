@@ -122,7 +122,6 @@ function RegistrationPage(props) {
             options={StatesData}
             title="State"
             buttonHeight="44px"
-            style={{ width: "50%" }}
             onSelect={handleStateSelect}
             color="blue"
           />

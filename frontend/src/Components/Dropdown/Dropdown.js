@@ -20,12 +20,15 @@ const Dropdown = ({
   buttonHeight = "40px",
   onSelect,
   color = "red",
-  ...props
+  width = "50%",
 }) => {
   const [selected, setSelected] = useState(title);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   return (
-    <div className="dropdownSection" {...props}>
+    <div
+      className="dropdownSection"
+      style={{ width, height: options.length > 4 ? "225px" : buttonHeight }}
+    >
       <button
         className="dropdownButton optionText"
         style={{
@@ -48,7 +51,10 @@ const Dropdown = ({
       {dropdownOpen && (
         <div
           className="dropdown"
-          style={{ backgroundColor: theme[color]["primary"] }}
+          style={{
+            backgroundColor: theme[color]["primary"],
+            overflow: options.length > 4 ? "scroll" : null,
+          }}
         >
           {options.map((option, index) => (
             <button
