@@ -5,14 +5,6 @@
   background-color: #fffaff;
 }
 
-.bookSearchContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  width: 100%;
-  overflow: visible;
-}
-
 .bookFilterContainer {
   width: 24%;
   height: 255px;
@@ -36,6 +28,7 @@
 
 .conditionContainer {
   display: flex;
+  flex:1;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -77,103 +70,35 @@
   border: 0px;
 }
 
-.bookDropdown {
+.bookButtons {
+  display:flex;
+  width:90%;
+}
+
+.proposeButton {
+  display:flex;
+  flex:1;
+}
+
+#proposeCurrent {
+  height: 50px;
   width: 50%;
-  height: 180px;
-  margin-top: 5px;
   background-color: #d8315b;
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  overflow: hidden;
-  z-index: 500;
-}
-
-.conditionDropdown {
-  width: 100%;
-  height: 180px;
-  margin-top: 5px;
-  background-color: #d8315b;
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  overflow: hidden;
-  z-index: 500;
-}
-
-.bookDropdownCell {
-  width: 100%;
-  height: 25%;
-  display: flex;
-  align-items: center;
-  padding: 0px 0px 0px 50px;
-  background-color: transparent;
-  border: 0px;
-}
-
-.bookDropdownCell:hover {
-  background-color: #e26584;
-}
-
-.bookCellWithBorder {
-  border-bottom: 1px solid #fffaff;
-}
-
-.bookSearchBar {
-  display: flex;
-  flex:.25;
-  align-items: center;
-  justify-content: space-between;
-  height: 100%;
-  width: 75%;
-  background: #fffaff;
-  border: 3px solid #3e92cc;
-  box-sizing: border-box;
   border-radius: 9999px;
   display: flex;
+  flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-}
-
-.bookSearchBarPrompt {
-  font-family: Montserrat;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 20px;
-  line-height: 34px;
-  color: #1e1b18;
-  opacity: 70%;
-
-  position: relative;
-  left: 5%;
-  border: none;
-}
-
-input:focus,
-textarea:focus {
-  outline: none;
-}
-
-.bookSearchButton {
-  width: 12%;
-  height: 82.4%;
-  background-color: #3e92cc;
-  position: relative;
-  right: 1%;
-  border-radius: 9999px;
-  display: flex;
   justify-content: center;
-  align-items: center;
+  color: white;
   border: 0px;
 }
+
 
 .bookImg {
   display: flex;
   flex-direction: row;
   justify-content:center;
-
+  height: 90%;
   flex:1;
   padding: 1rem;
 }
@@ -198,23 +123,55 @@ textarea:focus {
   flex: 0 0 100%;
 }
 
-.Title{
+.bookData {
   display: flex;
   flex-direction: row;
-  flex: 0 0 100%;
+  flex-wrap: wrap;
+  flex: 0 0 50%;
 }
 
-#titlePlaceholder{
-  display: flex;
-  flex:.25;
-  justify-content: center;
-  align-content: center;
-  padding: 0 0 20px 0;
-}
 
-#bookTitle{
+.titleDiv{
   display: flex;
   flex:1;
+  width:100%;
+  height:0%;
+  justify-content: flex-start;
+  align-content: center;
+}
+
+.condDiv{
+  display: flex;
+  flex:1;
+  width:100%;
+  height:0%;
+  justify-content: flex-start;
+  align-content: center;
+}
+
+.userDiv{
+  display: flex;
+  flex:1;
+  width:100%;
+  height:0%;
+  justify-content: flex-start;
+  align-content: center;
+}
+
+.locDiv{
+  display: flex;
+  flex:1;
+  width:100%;
+  height:0%;
+  justify-content: flex-start;
+  align-content: center;
+}
+
+.priceDiv{
+  display: flex;
+  flex:1;
+  width:100%;
+  height:0%;
   justify-content: flex-start;
   align-content: center;
 }
@@ -261,11 +218,3 @@ td:first-child, th:first-child {
   color: white;
   border: 0px;
 }
-
-.return{
-  display: flex;
-  flex: 0 0 100%;
-  color:#3E92CC;
-  font-family: Montserrat;
-
-} 

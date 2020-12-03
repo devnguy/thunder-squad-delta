@@ -1,9 +1,16 @@
-import React from "react";
-
+import { useState } from "react";
+import useApi from "../../Api/useApi";
+import requests from "../../Api/requests";
 import "./SearchResultRow.css";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
-function SearchResultRow({ cover, title, author, condition, giver, cost }) {
+function SearchResultRow({ id, cover, title, author, condition, giver, cost }) {
+  let history = useHistory();
+
+  const bookPageRedirect = () => {
+    history.push(`/book/${id}`);
+  };
+
   return (
     <div className="searchRow">
       <div className="coverHolder">
@@ -27,9 +34,7 @@ function SearchResultRow({ cover, title, author, condition, giver, cost }) {
         <p className="costTxt">{cost} Points</p>
       </div>
       <div className="infoButtonHolder">
-        <button className="infoButton">
-          <Link to="/book">More Info</Link>
-        </button>
+        <button className="infoButton" onClick={() => bookPageRedirect(id)}>More Info</button>
       </div>
     </div>
   );
