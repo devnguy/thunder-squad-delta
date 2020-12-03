@@ -4,29 +4,31 @@ import "./PendingSwapsRow.css";
 import { Link } from "react-router-dom";
 import Button from "../Button";
 
-function PendingSwapsRow() {
+import DefaultImage from "../../Assets/Book Cover.png";
+
+function PendingSwapsRow(status, cover, title, dateRequested, otherUser, cost) {
   return (
     <div className="pSwapRow">
       <div className="pSwapStatus pSwapCell">
-        {/* <p className="pSwapStatusTxt">Waiting on Response</p> */}
+        <p className="pSwapStatusTxt">{status}</p>
       </div>
       <div className="pSwapBookDetails pSwapCell">
-        <div className="fakeCover"></div> 
-        {/* <img className="pSwapBookImg" alt="" src={cover} /> */}
-        {/* <p className="pSwapTitleTxt">The Hobbit</p> */}
+        
+        <img className="pSwapBookImg" alt="" src={cover ? cover : DefaultImage} />
+        <p className="pSwapTitleTxt">{title}</p>
       </div>
       <div className="pSwapDate pSwapCell">
-        {/* <p className="pSwapDateTxt">1/3/2020</p> */}
+        <p className="pSwapDateTxt">{dateRequested}</p>
       </div>
       <div className="pSwapOtherUser pSwapCell">
-        {/* <p className="pSwapGetterTxt">Joe</p> */}
+  <p className="pSwapGetterTxt">{otherUser}</p>
       </div>
       <div className="pSwapCost pSwapCell">
-        {/* <p className="pSwapCostTxt"> 20</p> */}
+        <p className="pSwapCostTxt"> {cost}</p>
       </div>
       <div className="pSwapActions pSwapCell">
-            <Button>Accept</Button>
-            <Button>Reject</Button>
+            <Button style={{background:"#12BA85", width:"40%"}}>Accept</Button>
+            <Button style={{background:"#D8315B", width: "40%"}}>Reject</Button>
       </div>
     </div>
   );

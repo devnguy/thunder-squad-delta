@@ -5,7 +5,7 @@
   flex-direction: column;
 }
 .pSwapTitle {
-  font-size: 2em;
+  font-size: 45px;
   font-family: Inconsolata;
   margin-left: 150px;
   font-weight: bold;
@@ -15,27 +15,23 @@
   display: flex;
   flex-direction: row;
   position: relative;
-  left:50%;
+  left:45%;
   height: 50px;
   top: 1px;
-
   background-color: white;
 }
 
-.pSwapTabHolder {
-  display: flex;
-  flex-direction: row;
-}
+
 
 .pSwapTab {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 10%;
+  width: 15%;
   z-index: 1;
   margin-right: 40px;
   font-family: Inconsolata;
-  font-size: 30px;
+  font-size: 40px;
   background-color: white;
   border: 1px solid black;
   border-bottom: 0;
