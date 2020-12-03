@@ -10,6 +10,8 @@ const getSearchResults = (searchterm, filterterm) =>
 // Book Page
 const getBookDetails = (bookId) => client.get(`/swaps/${bookId}`);
 
+const getSwapDetails = (swapId) => client.get(`/swaps/${swapId}`);
+
 // Profile Page
 const getProfileDetails = (userId) => client.get(`/users/${userId}/profile`);
 
@@ -45,6 +47,7 @@ const requests = {
   getUserSwaps,
   registerUser,
   loginUser,
+  getSwapDetails,
   searchGoogleBooks,
 };
 

@@ -40,8 +40,9 @@ function SearchResultsPage(props) {
       <div className="rowHolder">
         {!books.loading && (
           <>
-            {books.data.map(({ book, owner, condition, cost }, index) => (
+            {bookArray.map(({ id, book, owner, condition, cost }, index) => (
               <SearchResultRow
+                id={id}
                 cover={book.image}
                 title={book.title}
                 author={book.author}
