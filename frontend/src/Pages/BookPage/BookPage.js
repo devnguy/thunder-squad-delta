@@ -13,20 +13,20 @@ const condition_categories = ["Perfect", "Great", "Good", "Poor"];
 
 function BookPage(props) {
   const swap = useApi(requests.getBookDetails);
-  let { swapId } = useParams();
+  const books = useApi(requests.getSearchResults);
+  let { swapId, filterTerm, searchTerm } = useParams();
 
   useEffect(() => {
     swap.request(swapId);
   }, []);
 
-  useEffect(() => {
-    if (swap.data !== []) {
-      
-    }
-  }, [swap.data]);
+  const tableFill = () => {
+    setTimeout(() => { books.request(swap.data.book.title, 'Title'); }, 1000);
+  };
 
   const print = () => {
     console.log(swap.data);
+    console.log(books.data);
   };
 
   return (
@@ -34,8 +34,10 @@ function BookPage(props) {
       {swap.loading && (
         <p className="nowShowing">Loading Search Results...</p>
       )}
-      {swap.data.book && (
-        print(),
+      {swap.data.book && !books.data.length && (
+        tableFill()
+       )}
+      {books.data.length && (
       <section className="container">
         <div className="bookImg">
           <img
@@ -70,7 +72,7 @@ function BookPage(props) {
           <div className="bookButtons">
             
             <div className="proposeButton">
-              <button id="proposeCurrent">ProposeTrade</button>
+              <button id="proposeCurrent" onClick={() => print()}>ProposeTrade</button>
             </div>
           </div>
 
