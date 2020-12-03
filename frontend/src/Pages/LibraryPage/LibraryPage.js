@@ -56,6 +56,12 @@ const LibraryPage = () => {
   }, []);
 
   useEffect(() => {
+    if (postSwap.data.status && postSwap.data.status === true) {
+      userSwaps.request(userId);
+    }
+  }, [postSwap.data]);
+
+  useEffect(() => {
     if (userSwaps.data.length !== 0) {
       booksToRows();
     }
@@ -86,7 +92,7 @@ const LibraryPage = () => {
           id="libraryPageBookBlock"
           style={modalVisible ? { opacity: "50%" } : null}
         >
-          {!bookRows && (
+          {!bookRows && userSwaps.loading && (
             <Lottie
               options={defaultOptions}
               height={200}
@@ -95,7 +101,21 @@ const LibraryPage = () => {
               isPaused={false}
             />
           )}
-          {bookRows &&
+          {userSwaps.data.owned &&
+            userSwaps.data.owned.length === 0 &&
+            !userSwaps.loading && (
+              <div className="bookRowEmptyContainer">
+                <p
+                  className="rowTitle"
+                  style={{ fontSize: "20px", opacity: "40%" }}
+                >
+                  Looks like there's nothing here
+                </p>
+              </div>
+            )}
+          {userSwaps.data.owned &&
+            userSwaps.data.owned.length > 0 &&
+            bookRows &&
             bookRows.map((row, rowIndex) => (
               <div className="libraryBookRow" key={rowIndex}>
                 {row.map((swap, swapIndex) => (

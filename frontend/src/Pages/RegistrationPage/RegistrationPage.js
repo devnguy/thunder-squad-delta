@@ -57,7 +57,6 @@ function RegistrationPage(props) {
         zip: zipCode,
       };
       registration.request(newUser);
-      console.log(newUser);
     }
   };
 

@@ -56,7 +56,14 @@ const WishlistPage = () => {
   }, []);
 
   useEffect(() => {
+    if (postWish.data.status && postWish.data.status === true) {
+      userWishes.request(userId);
+    }
+  }, [postWish.data]);
+
+  useEffect(() => {
     if (userWishes.data.length !== 0) {
+      console.log("Change!");
       booksToRows();
     }
   }, [userWishes.data]);
@@ -87,7 +94,7 @@ const WishlistPage = () => {
           id="wishlistPageBookBlock"
           style={modalVisible ? { opacity: "50%" } : null}
         >
-          {!bookRows && (
+          {!bookRows && userWishes.loading && (
             <Lottie
               options={defaultOptions}
               height={200}
@@ -96,7 +103,18 @@ const WishlistPage = () => {
               isPaused={false}
             />
           )}
-          {bookRows &&
+          {userWishes.data.length === 0 && !userWishes.loading && (
+            <div className="bookRowEmptyContainer">
+              <p
+                className="rowTitle"
+                style={{ fontSize: "20px", opacity: "40%" }}
+              >
+                Looks like there's nothing here
+              </p>
+            </div>
+          )}
+          {userWishes.data.length > 0 &&
+            bookRows &&
             bookRows.map((row, rowIndex) => (
               <div className="wishlistBookRow" key={rowIndex}>
                 {row.map((wishItem, wishIndex) => (
