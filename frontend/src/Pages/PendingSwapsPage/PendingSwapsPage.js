@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 
-import { PendingSwapsRow } from "../../Components";
+import { Button, PendingSwapsRow, ShippingModal } from "../../Components";
 import useApi from "../../Api/useApi";
 import requests from "../../Api/requests";
 import AuthContext from "../../Context/AuthContext";
@@ -22,14 +22,21 @@ function PendingSwapsPage(props) {
         <div className="pSwapTitle"> Pending Swaps</div>
         <div className="pSwapTabHolder">
           <div
-            onClick={()=>setTabSelect("get")}
+            onClick={() => setTabSelect("get")}
             className="pSwapTab"
-            style={tabSelect=== "give" ? { borderBottom: "1px solid black" }:null}
+            style={
+              tabSelect === "give" ? { borderBottom: "1px solid black" } : null
+            }
           >
             Get
           </div>
-          <div onClick={()=>setTabSelect("give")} className="pSwapTab"
-          style={tabSelect=== "get" ? { borderBottom: "1px solid black" }:null}>
+          <div
+            onClick={() => setTabSelect("give")}
+            className="pSwapTab"
+            style={
+              tabSelect === "get" ? { borderBottom: "1px solid black" } : null
+            }
+          >
             Give
           </div>
         </div>
@@ -44,8 +51,7 @@ function PendingSwapsPage(props) {
         <div className="pSwapHeaderCost pSwapHeaderCell">Cost</div>
         <div className="pSwapHeaderActions pSwapHeaderCell">Actions</div>
       </div>
-      <div className="pSwapRowHolder ">
-          <>
+      <div className="pSwapRowHolder ">  
         {tabSelect === "give" && 
             allSwaps.data.owned &&
               allSwaps.data.owned.map(
@@ -63,12 +69,9 @@ function PendingSwapsPage(props) {
                     {...{ date_requested }}
                     {...{ status }}
                   />
-              
-                  
                 )
               )
         }
-
 
         {tabSelect === "get" && 
             allSwaps.data.requested &&
@@ -87,8 +90,8 @@ function PendingSwapsPage(props) {
                 )
               )
         }
-        </>
       </div>
+      <ShippingModal></ShippingModal>
     </div>
   );
 }
