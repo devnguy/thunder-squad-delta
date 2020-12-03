@@ -32,8 +32,8 @@ exports.getUser = async function (req, res, next) {
       FROM user 
       WHERE user_id = ${req.params.userId}
     `)
+    if (!user) throw new UserNotFoundError()
     if (user.error) throw new DatabaseError(user.error)
-    if (!user.length) throw new UserNotFoundError()
 
     return res.status(200).json(user)
   } catch (error) {
@@ -57,7 +57,7 @@ exports.getUserProfile = async function (req, res, next) {
     FROM book AS b
     LEFT JOIN wishlist AS w ON w.book_id = b.book_id
     LEFT JOIN swap AS s ON s.book_id = b.book_id
-    JOIN user AS u ON s.owner_id = u.user_id OR w.user_id = u.user_id
+    RIGHT JOIN user AS u ON s.owner_id = u.user_id OR w.user_id = u.user_id
     WHERE w.user_id = ${req.params.userId} OR s.owner_id = ${req.params.userId} OR s.receiver_id = ${req.params.userId} OR u.user_id = ${req.params.userId};
     `)
     if (user.error) throw new DatabaseError(user.error)
@@ -84,15 +84,16 @@ exports.getUserProfile = async function (req, res, next) {
 exports.registerUser = async function (req, res, next) {
   try {
     // Confirm required fields were passed.
-    if (!req.body.user.name || !req.body.user.email || !req.body.user.password) {
+    if (!req.body.user || !req.body.user.name || !req.body.user.email || !req.body.user.password) {
       throw new MissingAttributeError()
     }
     // FIXME: Enforce unique username and email constraint
     // Salt and hash the password before storing in db.
     const hash = await bcrypt.hash(req.body.user.password, 10)
     const response = await db.query(SQL`
-      INSERT INTO user (name, email, password)
-      VALUES (${req.body.user.name}, ${req.body.user.email}, ${hash})
+      INSERT INTO user (name, email, password, street, city, state, zip)
+      VALUES (${req.body.user.name}, ${req.body.user.email}, ${hash}, ${req.body.user.street}, 
+        ${req.body.user.city}, ${req.body.user.state}, ${req.body.user.zip})
     `)
     if (response.error) throw new DatabaseError(response.error)
 
@@ -202,7 +203,7 @@ exports.deleteUser = async function (req, res, next) {
     if (result.error) throw new DatabaseError(result.error)
     return res.status(200).json({
       status: true,
-      message: "User successfully deleted!"
+      message: 'User successfully deleted!',
     })
   } catch (error) {
     return next(error)

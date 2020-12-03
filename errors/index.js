@@ -37,13 +37,26 @@ class SwapNotFoundError extends ApplicationError {
 
 class SwapInProgressError extends ApplicationError {
   constructor(message) {
-    super(message || 'It is too late to remove the swap.', 404)
+    super(message || 'It is too late to remove the swap.', 405)
   }
 }
 
 class BookNotFoundError extends ApplicationError {
   constructor(message) {
-    super(message || 'No book with this book_id exists', 405)
+    super(message || 'No book with this book_id exists', 404)
+  }
+}
+
+class GoogleBookNotFoundError extends ApplicationError {
+  constructor(message) {
+    super(message || 'The author/title combination did not match any books', 404)
+  }
+}
+
+
+class WishlistItemNotFoundError extends ApplicationError {
+  constructor(message) {
+    super(message || 'No wishlist item with this wish_id exists', 404)
   }
 }
 
@@ -64,6 +77,8 @@ module.exports = {
   SwapNotFoundError,
   SwapInProgressError,
   BookNotFoundError,
+  GoogleBookNotFoundError,
+  WishlistItemNotFoundError,
   MissingAttributeError,
   DatabaseError,
   InvalidPasswordError,

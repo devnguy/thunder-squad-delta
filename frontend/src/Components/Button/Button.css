@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+.buttonContainer {
+  height: 40px;
+  min-height: 40px;
+  width: 80%;
+  border-radius: 9999px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.buttonContainer:active {
+  opacity: 70%;
+}
+
+.buttonText {
+  font-family: Montserrat;
+  font-size: 18px;
+  color: #fffaff;
+  margin: 0;
+}
