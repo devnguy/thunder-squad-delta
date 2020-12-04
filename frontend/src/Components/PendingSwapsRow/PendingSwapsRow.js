@@ -5,9 +5,15 @@ import Button from "../Button";
 
 import DefaultImage from "../../Assets/Book Cover.png";
 
-function Capitalize(str) {
+function capitalize(str) {
   if (str !== null) {
     return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+}
+
+function dateFormat(date) {
+  if (date && date !== null) {
+    return date.slice(5, 7) + "/" + date.slice(8, 10) + "/" + date.slice(0, 4);
   }
 }
 
@@ -28,7 +34,7 @@ function PendingSwapsRow({
   return (
     <div className="pSwapRow">
       <div className="pSwapStatus pSwapCell">
-        <p className="pSwapStatusTxt">{Capitalize(status)}</p>
+        <p className="pSwapStatusTxt">{capitalize(status)}</p>
       </div>
       <div className="pSwapBookDetails pSwapCell">
         <img
@@ -39,7 +45,7 @@ function PendingSwapsRow({
         <p className="pSwapTitleTxt">{title}</p>
       </div>
       <div className="pSwapDate pSwapCell">
-        <p className="pSwapDateTxt">{dateRequested}</p>
+        <p className="pSwapDateTxt">{dateFormat(dateRequested)}</p>
       </div>
       <div className="pSwapOtherUser pSwapCell">
         <p className="pSwapGetterTxt">{otherUser}</p>
@@ -47,27 +53,31 @@ function PendingSwapsRow({
       <div className="pSwapCost pSwapCell">
         <p className="pSwapCostTxt"> {cost}</p>
       </div>
-      {status === "requested" && (
+      {status === "requested" && !isGet && (
         <div className="pSwapActions pSwapCell">
           <Button
             onClick={onAccept}
-            style={{ background: "#12BA85", width: "40%" }}
+            style={{ background: "#12BA85", width: "100px" }}
           >
             Accept
           </Button>
           <Button
             onClick={onReject}
-            style={{ background: "#D8315B", width: "40%" }}
+            style={{ background: "#D8315B", width: "100px" }}
           >
             Reject
           </Button>
         </div>
       )}
-      {status === "accepted" && (
+      {status === "accepted" && !isGet && (
         <div className="pSwapActions pSwapCell">
           <Button
             onClick={openShip}
-            style={{ background: "#0A2463", width: "50%", height: "30%" }}
+            style={{
+              background: "#0A2463",
+              width: "120px",
+              height: "30%",
+            }}
           >
             Shipping Info
           </Button>
@@ -77,15 +87,27 @@ function PendingSwapsRow({
         <div className="pSwapActions pSwapCell">
           <Button
             onClick={onConfirm}
-            style={{ background: "#12BA85", width: "50%", height: "30%" }}
+            style={{
+              background: "#12BA85",
+              width: "120px",
+              height: "30%",
+            }}
           >
             Confirm Receipt
           </Button>
         </div>
       )}
-      {status !== "accepted" &&
-        status !== "requested" && !isGet &&
-          <div className="pSwapActions pSwapCell"></div>}
+
+      {isGet === false && status !== "accepted" && status !== "requested" && (
+        <div className="pSwapActions pSwapCell"></div>
+      )}
+
+      {isGet === true &&
+        (status === "completed" ||
+          status === "requested" ||
+          status === "accepted") && (
+          <div className="pSwapActions pSwapCell"></div>
+        )}
     </div>
   );
 }

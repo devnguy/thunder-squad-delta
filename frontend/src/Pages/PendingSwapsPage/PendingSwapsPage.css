@@ -5,25 +5,27 @@
   flex-direction: column;
   max-width: 100%;
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 .pSwapTitle {
-  font-size: 45px;
+  position: relative;
+  top: 20px;
+  font-size: 40px;
   font-family: Inconsolata;
-  
-  margin-left:350px;
-  font-weight: bold;
+  margin-left: 10%;
+  font-weight: 500;
 }
 
 .pSwapTabHolder {
   display: flex;
   flex-direction: row;
   position: relative;
+
   left: 45%;
   height: 50px;
   top: 1px;
   background-color: white;
 }
-
 
 .pSwapTab {
   display: flex;
@@ -41,6 +43,7 @@
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .pSwapTableSeparator {
@@ -62,12 +65,13 @@
   align-items: center;
   display: flex;
   justify-content: center;
+  text-align: center;
   border-left: 1px solid black;
   border-right: 1px solid black;
-  height: 30px;
+  height: 50px;
   font-family: Inconsolata;
-  font-size: 30px;
-  font-weight: bold;
+  font-size: 24px;
+  font-weight: 500;
 }
 
 .pSwapHeaderStatus {
@@ -80,6 +84,7 @@
 
 .pSwapHeaderDate {
   width: 12%;
+  text-align: center;
 }
 
 .pSwapHeaderOtherUser {
@@ -93,5 +98,3 @@
 .pSwapHeaderActions {
   width: 16%;
 }
-
-

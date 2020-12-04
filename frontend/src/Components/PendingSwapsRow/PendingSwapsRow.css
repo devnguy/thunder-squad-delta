@@ -3,7 +3,6 @@
 .pSwapRow {
   display: flex;
   flex-direction: row;
-  
   align-items: center;
   width: 100%;
   font-family: Montserrat;
@@ -18,7 +17,8 @@
   justify-content: center;
   border: 1px solid black;
   height: 100%;
-  font-size: 1.5em;
+  font-size: 20px;
+  text-align: center;
 }
 
 .pSwapStatus {
