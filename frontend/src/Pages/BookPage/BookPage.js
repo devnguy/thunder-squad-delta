@@ -86,7 +86,7 @@ function BookPage(props) {
           </div>
           {userId && (
             <div id="proposeContainer">
-              <Button onClick={requested ? proposeTrade : null}>
+              <Button onClick={!requested ? proposeTrade : null}>
                 {requested ? "Requested!" : "Request Trade"}
               </Button>
             </div>

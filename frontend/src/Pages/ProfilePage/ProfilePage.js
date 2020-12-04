@@ -12,19 +12,24 @@ const headings = ["Username's Library", "Username's Wishlist"];
 const headingLinks = ["/library", "/wishlist"];
 
 function ProfilePage(props) {
-  const profileDetails = useApi(requests.getProfileDetails);
+  const userDetails = useApi(requests.getUser);
   const library = useApi(requests.getUserSwaps);
   const wishlist = useApi(requests.getUserWishes);
-  const [userInfo, setUserInfo] = useState(null);
   const { userId } = useContext(AuthContext);
 
   useEffect(() => {
     if (userId) {
-      profileDetails.request(userId);
+      userDetails.request(userId);
       library.request(userId);
       wishlist.request(userId);
     }
   }, []);
+
+  useEffect(() => {
+    if (userDetails.data.user_id) {
+      console.log(userDetails.data.user_id);
+    }
+  }, [userDetails.data]);
 
   return (
     <div className="pageBody">
@@ -32,46 +37,36 @@ function ProfilePage(props) {
         <div className="profileHeader">
           <img src={MaleAvatarProfile} alt="Avatar" className="avatarProfile" />
           <p className="profileInfo">
-            {profileDetails.data.userInfo
-              ? profileDetails.data.userInfo.username
-              : "..."}
+            {userDetails.data.name ? userDetails.data.name : "..."}
           </p>
           <p className="profileEmail">
-            {profileDetails.data.userInfo
-              ? profileDetails.data.userInfo.email
-              : "..."}
+            {userDetails.data.email ? userDetails.data.email : "..."}
           </p>
         </div>
         <div className="profileFooter">
           <InfoRow
             label="Points Spent"
             value={
-              profileDetails.data.userInfo
-                ? profileDetails.data.userInfo.pointsSpent
+              userDetails.data.points_spent
+                ? userDetails.data.points_spent
                 : "0"
             }
           />
           <InfoRow
             label="Points in Wallet"
-            value={
-              profileDetails.data.userInfo
-                ? profileDetails.data.userInfo.pointsInWallet
-                : "0"
-            }
+            value={userDetails.data.points ? userDetails.data.points : "0"}
           />
           <InfoRow
             label="Books Given"
             value={
-              profileDetails.data.userInfo
-                ? profileDetails.data.userInfo.booksGiven
-                : "0"
+              userDetails.data.booksGiven ? userDetails.data.booksGiven : "0"
             }
           />
           <InfoRow
             label="Book Requested"
             value={
-              profileDetails.data.userInfo
-                ? profileDetails.data.userInfo.booksReceived
+              userDetails.data.booksRequested
+                ? userDetails.data.booksGiven
                 : "0"
             }
           />

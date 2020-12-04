@@ -61,6 +61,7 @@ exports.getUserProfile = async function (req, res, next) {
     `);
     if (user.error) throw new DatabaseError(user.error);
     if (!user.length) throw new UserNotFoundError();
+    console.log(user);
     const formattedUser = {
       userInfo: {
         username: user[0].name,
