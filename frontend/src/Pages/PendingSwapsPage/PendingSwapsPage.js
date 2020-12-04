@@ -10,6 +10,7 @@ import "./PendingSwapsPage.css";
 function PendingSwapsPage(props) {
   const allSwaps = useApi(requests.getUserSwaps);
   const statusChange = useApi(requests.changeSwapStatus);
+  const pointChange = useApi(requests.changePoints);
   const { userId } = useContext(AuthContext);
   const [tabSelect, setTabSelect] = useState("give");
   const [shippingVisible, setShippingVisible] = useState(false);
@@ -18,7 +19,6 @@ function PendingSwapsPage(props) {
 
   useEffect(() => {
     allSwaps.request("3");
-    console.log(allSwaps.data);
   }, []);
 
   useEffect(() => {
@@ -89,15 +89,16 @@ function PendingSwapsPage(props) {
                     setCurrentSwap(allSwaps.data.owned[index]);
                   }}
                   onAccept={() => {
-                    console.log("accept")
+                    console.log("accept");
                     statusChange.request(id, "accepted");
                     setNewData(!newData);
                   }}
                   onReject={() => {
-                    console.log("reject")
+                    console.log("reject");
                     statusChange.request(id, "available");
                     setNewData(!newData);
                   }}
+                  isGet={false}
                 />
               )
           )}
@@ -105,7 +106,10 @@ function PendingSwapsPage(props) {
         {tabSelect === "get" &&
           allSwaps.data.requested &&
           allSwaps.data.requested.map(
-            ({ status, book, date_requested, owner, cost, id }, index) => (
+            (
+              { status, book, date_requested, owner, cost, id, receiver },
+              index
+            ) => (
               <PendingSwapsRow
                 key={index}
                 cover={book.image}
@@ -115,6 +119,17 @@ function PendingSwapsPage(props) {
                 {...{ cost }}
                 {...{ date_requested }}
                 {...{ status }}
+                isGet={true}
+                onConfirm={() => {
+                  statusChange.request(id, "completed");
+                  console.log(owner.id);
+                  console.log(receiver.id);
+                  console.log(cost * -1);
+                  pointChange.request(owner.id, cost);
+                  pointChange.request(receiver.id, cost * -1);
+
+                  setNewData(!newData);
+                }}
               />
             )
           )}

@@ -22,6 +22,8 @@ function PendingSwapsRow({
   openShip,
   onAccept,
   onReject,
+  onConfirm,
+  isGet,
 }) {
   return (
     <div className="pSwapRow">
@@ -71,9 +73,19 @@ function PendingSwapsRow({
           </Button>
         </div>
       )}
-      {status !== "accepted" && status !== "requested" && (
-        <div className="pSwapActions pSwapCell"></div>
+      {status === "shipping" && isGet && (
+        <div className="pSwapActions pSwapCell">
+          <Button
+            onClick={onConfirm}
+            style={{ background: "#12BA85", width: "50%", height: "30%" }}
+          >
+            Confirm Receipt
+          </Button>
+        </div>
       )}
+      {status !== "accepted" &&
+        status !== "requested" &&
+        status !== "shipping" && <div className="pSwapActions pSwapCell"></div>}
     </div>
   );
 }

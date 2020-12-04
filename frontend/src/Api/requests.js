@@ -16,11 +16,21 @@ const getProfileDetails = (userId) => client.get(`/users/${userId}/profile`);
 // Library Page
 const getUserSwaps = (userId) => client.get(`/users/${userId}/swaps`);
 
-//PendingSwaps Page
+//Pending Swaps Page
 const changeSwapStatus = (swapId, status) =>
   client.patch(`/swaps/${swapId}`, {
     status: status,
   });
+
+
+// Pending Swaps Page
+const changePoints = (userId, delta) =>
+  client.patch(`/users/${userId}`, {
+    user: {
+      points:delta
+    },
+  }
+  )
 
 // Register Page
 const registerUser = (username, email, password) =>
@@ -53,6 +63,7 @@ const requests = {
   loginUser,
   searchGoogleBooks,
   changeSwapStatus,
+  changePoints,
 };
 
 export default requests;

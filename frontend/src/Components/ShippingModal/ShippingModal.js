@@ -16,9 +16,12 @@ function ShippingModal({ closeModal, currentSwap, onShipped }) {
           Please ship {currentSwap.book.title} to the address below:
         </p>
         <div className="pSwapAddressHolder">
-          <p className="pSwapAddressTxt"> John Smith </p>
-          <p className="pSwapAddressTxt"> 1234 Weast St </p>
-          <p className="pSwapAddressTxt"> Georgetown, GA 12345 </p>
+          <p className="pSwapAddressTxt"> {currentSwap.receiver.name} </p>
+          <p className="pSwapAddressTxt"> {currentSwap.receiver.street} </p>
+          <p className="pSwapAddressTxt">
+            {" "}
+            {currentSwap.receiver.city}, {currentSwap.receiver.state}{" "}
+          </p>
         </div>
       </div>
       <div className="rightShippingModal">
