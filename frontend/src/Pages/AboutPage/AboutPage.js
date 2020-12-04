@@ -61,9 +61,9 @@ function AboutPage(props) {
         <div className="infoTextSection">
           <p className="subHeadingText">Points</p>
           <p className="sectionBodyText">
-            Books are worth a certain amount of points. Once we have figured
-            that part out, this section will be updated for your reading
-            pleasure.
+            Users decide how many points they think their books are worth. If
+            you're having trouble trading your books, you can lower the cost at
+            any time from the pending swaps page.
           </p>
         </div>
       </div>
@@ -73,8 +73,7 @@ function AboutPage(props) {
         <p className="bioSubHeader">Thunder Squad Delta</p>
         <p className="sectionBodyText">
           We’re just a rogue group of computer scientists saving the world one
-          book at a time. Enough said. I guess you could check out our profiles
-          below if you are really interested...
+          book at a time. Enough said.
         </p>
         <div className="profiles">
           <div className="profileContainer">

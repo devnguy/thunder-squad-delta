@@ -13,6 +13,7 @@ import {
   LoginPage,
   ResetPasswordPage,
   PendingSwapsPage,
+  WishlistPage,
 } from "./Pages";
 
 export default function Routes() {
@@ -24,7 +25,7 @@ export default function Routes() {
       <Route path="/about">
         <AboutPage />
       </Route>
-      <Route path="/book">
+      <Route path="/book/:swapId">
         <BookPage />
       </Route>
       <Route path="/browse">
@@ -50,6 +51,9 @@ export default function Routes() {
       </Route>
       <Route path="/pending">
         <PendingSwapsPage />
+      </Route>
+      <Route path="/wishlist">
+        <WishlistPage />
       </Route>
     </Switch>
   );

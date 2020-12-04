@@ -2,6 +2,11 @@
 
 .libraryRow {
   height: 48%;
-  width: 900px;
+  width: 850px;
   margin: 1% 0px 1% 0px;
+}
+
+.libraryRow a {
+  color: #1e1b18;
+  text-decoration: none;
 }

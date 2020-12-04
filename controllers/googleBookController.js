@@ -17,12 +17,9 @@ exports.getGoogleBooks = async function (req, response, next) {
       throw new ApplicationError()
     }
     const books = await res.json()
-    if (books.totalItems === 0 ){
-      throw new GoogleBookNotFoundError()
-    }
-    // I want to make the commented out call below, but there is an unhandled promise rejection
+  
     return response.status(200).json(formatBooks(books))
-    // return response.status(200).json(books)
+
   } catch (error) {
     return next(error)
   }

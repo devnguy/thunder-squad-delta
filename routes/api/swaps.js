@@ -1,6 +1,9 @@
 const router = require('express').Router()
 const swapController = require('../../controllers/swapController')
 
+// Get all swaps
+router.get('/all', swapController.getAllSwaps)
+
 // Get all swaps matching query.
 router.get('/', swapController.getSwaps)
 

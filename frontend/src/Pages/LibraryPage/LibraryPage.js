@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import Lottie from "react-lottie";
 
+import * as LoadingAnimation from "../../Assets/Animations/Loading.json";
 import "./LibraryPage.css";
 import AboutPostIcon from "../../Assets/About Post Icon.png";
 import { Button, Book, PostModal } from "../../Components";
@@ -10,13 +12,29 @@ import AuthContext from "../../Context/AuthContext";
 
 const LibraryPage = () => {
   const userSwaps = useApi(requests.getUserSwaps);
+  const postSwap = useApi(requests.postSwap);
   const { userId } = useContext(AuthContext);
-  let history = useHistory();
   const [bookRows, setBookRows] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+  let history = useHistory();
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: LoadingAnimation.default,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
 
   const goToWishlist = () => {
     history.push("/wishlist");
+  };
+
+  const goToSwapPage = (swapId) => {
+    if (swapId) {
+      history.push(`/book/${swapId}`);
+    }
   };
 
   const booksToRows = () => {
@@ -30,9 +48,24 @@ const LibraryPage = () => {
     setBookRows(rows);
   };
 
+  const handlePostBook = (suggestion, condition, cost) => {
+    if (userId && condition !== "Select" && cost !== "" && suggestion) {
+      postSwap.request(userId, condition, cost, suggestion);
+      setModalVisible(false);
+    }
+  };
+
   useEffect(() => {
-    userSwaps.request(userId);
+    if (userId) {
+      userSwaps.request(userId);
+    }
   }, []);
+
+  useEffect(() => {
+    if (postSwap.data.status && postSwap.data.status === true) {
+      userSwaps.request(userId);
+    }
+  }, [postSwap.data]);
 
   useEffect(() => {
     if (userSwaps.data.length !== 0) {
@@ -42,7 +75,13 @@ const LibraryPage = () => {
 
   return (
     <>
-      {modalVisible && <PostModal onClose={() => setModalVisible(false)} />}
+      {modalVisible && (
+        <PostModal
+          postBookVariant
+          onClose={() => setModalVisible(false)}
+          onSubmit={handlePostBook}
+        />
+      )}
       <div id="libraryPageBody">
         <div
           id="libraryPageSidebar"
@@ -59,7 +98,30 @@ const LibraryPage = () => {
           id="libraryPageBookBlock"
           style={modalVisible ? { opacity: "50%" } : null}
         >
-          {bookRows &&
+          {!bookRows && userSwaps.loading && (
+            <Lottie
+              options={defaultOptions}
+              height={200}
+              width={400}
+              isStopped={false}
+              isPaused={false}
+            />
+          )}
+          {userSwaps.data.owned &&
+            userSwaps.data.owned.length === 0 &&
+            !userSwaps.loading && (
+              <div className="bookRowEmptyContainer">
+                <p
+                  className="rowTitle"
+                  style={{ fontSize: "20px", opacity: "40%" }}
+                >
+                  Looks like there's nothing here
+                </p>
+              </div>
+            )}
+          {userSwaps.data.owned &&
+            userSwaps.data.owned.length > 0 &&
+            bookRows &&
             bookRows.map((row, rowIndex) => (
               <div className="libraryBookRow" key={rowIndex}>
                 {row.map((swap, swapIndex) => (
@@ -68,6 +130,7 @@ const LibraryPage = () => {
                     cover={swap.book.image}
                     title={swap.book.title}
                     author={swap.book.author}
+                    onClick={() => goToSwapPage(swap.id)}
                   />
                 ))}
               </div>

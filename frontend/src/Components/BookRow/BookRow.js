@@ -1,21 +1,28 @@
 import React, { useEffect, useState } from "react";
-
-import Book from "../Book";
-import "./BookRow.css";
-
-import Lottie from "react-lottie";
-import * as LoadingAnimation from "../../Assets/Animations/Loading.json";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
+import Lottie from "react-lottie";
+import { Link, useHistory } from "react-router-dom";
 
-function BookRow({ books, heading, left_start }) {
+import "./BookRow.css";
+import * as LoadingAnimation from "../../Assets/Animations/Loading.json";
+import Book from "../Book";
+
+function BookRow({
+  linkBooks = true,
+  books,
+  heading,
+  headingLink,
+  leftStart,
+}) {
   const [arrayOffset, setArrayOffset] = useState(
-    left_start || books.length < 5 ? 0 : Math.floor(books.length / 2)
+    leftStart || books.length < 5 ? 0 : Math.floor(books.length / 2)
   );
   const [booksArray, setBooksArray] = useState(null);
+  let history = useHistory();
 
   const defaultOptions = {
     loop: true,
@@ -24,6 +31,12 @@ function BookRow({ books, heading, left_start }) {
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
     },
+  };
+
+  const goToSwapPage = (swapId) => {
+    if (swapId) {
+      history.push(`/book/${swapId}`);
+    }
   };
 
   useEffect(() => {
@@ -52,19 +65,29 @@ function BookRow({ books, heading, left_start }) {
         <>
           {books
             .slice(arrayOffset, arrayOffset + 4)
-            .map(({ image, title, author }, index) => (
-              <Book key={index} cover={image} title={title} author={author} />
+            .map(({ id, book }, index) => (
+              <Book
+                key={index}
+                cover={book.image}
+                title={book.title}
+                author={book.author}
+                onClick={linkBooks ? () => goToSwapPage(id) : null}
+              />
             ))}
         </>
       );
     } else if (books && books.length <= arrayOffset + 4) {
       setBooksArray(
         <>
-          {books
-            .slice(arrayOffset, books.length)
-            .map(({ image, title, author }, index) => (
-              <Book key={index} cover={image} title={title} author={author} />
-            ))}
+          {books.slice(arrayOffset, books.length).map(({ id, book }, index) => (
+            <Book
+              key={index}
+              cover={book.image}
+              title={book.title}
+              author={book.author}
+              onClick={linkBooks ? () => goToSwapPage(id) : null}
+            />
+          ))}
         </>
       );
     }
@@ -84,7 +107,17 @@ function BookRow({ books, heading, left_start }) {
       </div>
       <div className="booksAndTitle">
         <div className="rowTitleContainer">
-          <p className="rowTitle">{heading}</p>
+          {headingLink && (
+            <Link to={headingLink}>
+              <p
+                className="rowTitle"
+                style={{ color: "#1e1b18", textDecoration: "none" }}
+              >
+                {heading}
+              </p>
+            </Link>
+          )}
+          {!headingLink && <p className="rowTitle">{heading}</p>}
         </div>
         <div className="bookRowContainer">{booksArray}</div>
       </div>
