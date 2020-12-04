@@ -11,6 +11,8 @@ function BookPage(props) {
   const swap = useApi(requests.getBookDetails);
   const books = useApi(requests.getSearchResults);
   const update = useApi(requests.updateSwap);
+  
+  const pointChange = useApi(requests.changePoints);
   const { userId } = useContext(AuthContext);
   let { swapId } = useParams();
   let history = useHistory();

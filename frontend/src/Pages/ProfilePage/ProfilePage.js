@@ -22,6 +22,7 @@ function ProfilePage(props) {
       userDetails.request(userId);
       library.request(userId);
       wishlist.request(userId);
+      console.log(userId);
     }
   }, []);
 

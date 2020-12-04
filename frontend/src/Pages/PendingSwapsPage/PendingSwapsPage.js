@@ -89,12 +89,10 @@ function PendingSwapsPage(props) {
                     setCurrentSwap(allSwaps.data.owned[index]);
                   }}
                   onAccept={() => {
-                    console.log("accept");
                     statusChange.request(id, "accepted");
                     setNewData(!newData);
                   }}
                   onReject={() => {
-                    console.log("reject");
                     statusChange.request(id, "available");
                     setNewData(!newData);
                   }}
@@ -122,12 +120,7 @@ function PendingSwapsPage(props) {
                 isGet={true}
                 onConfirm={() => {
                   statusChange.request(id, "completed");
-                  console.log(owner.id);
-                  console.log(receiver.id);
-                  console.log(cost * -1);
                   pointChange.request(owner.id, cost);
-                  pointChange.request(receiver.id, cost * -1);
-
                   setNewData(!newData);
                 }}
               />
