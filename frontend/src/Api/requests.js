@@ -38,31 +38,12 @@ const changeSwapStatus = (swapId, status) =>
     status: status,
   });
 
-
 // Pending Swaps Page
 const changePoints = (userId, delta) =>
   client.patch(`/users/${userId}`, {
     user: {
-      points:delta
+      points: delta,
     },
-  }
-  )
-
-// Register Page
-const registerUser = (username, email, password) =>
-  client.post("/users", {
-    user: {
-      name: username,
-      email: email,
-      password: password,
-    },
-  });
-
-// Login Page
-const loginUser = (email, password) =>
-  client.post("/users/login", {
-    email: email,
-    password: password,
   });
 
 // Post Book Modal - Search for Book Suggestion
