@@ -49,7 +49,7 @@
 .pSwapTableSeparator {
   position: relative;
   height: 10px;
-  width: 92.5%;
+  width: calc(92% + 10px);
   margin-left: 4%;
   border: 1px solid black;
   border-bottom: 0;

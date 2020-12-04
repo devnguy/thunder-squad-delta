@@ -29,6 +29,7 @@ function PendingSwapsRow({
   onAccept,
   onReject,
   onConfirm,
+  onCancel,
   isGet,
 }) {
   return (
@@ -83,7 +84,7 @@ function PendingSwapsRow({
           </Button>
         </div>
       )}
-      {status === "shipping" && isGet && (
+      {status === "shipping" && isGet === true && (
         <div className="pSwapActions pSwapCell">
           <Button
             onClick={onConfirm}
@@ -97,14 +98,27 @@ function PendingSwapsRow({
           </Button>
         </div>
       )}
+      {status === "requested" && isGet === true && (
+        <div className="pSwapActions pSwapCell">
+          <Button
+            onClick={onCancel}
+            style={{
+              background: "#d8315b",
+              width: "120px",
+              height: "30%",
+            }}
+          >
+            Cancel Request
+          </Button>
+        </div>
+      )}
 
       {isGet === false && status !== "accepted" && status !== "requested" && (
         <div className="pSwapActions pSwapCell"></div>
       )}
 
       {isGet === true &&
-        (status === "completed" ||
-          status === "requested" ||
+        (status === "completed"  ||
           status === "accepted") && (
           <div className="pSwapActions pSwapCell"></div>
         )}

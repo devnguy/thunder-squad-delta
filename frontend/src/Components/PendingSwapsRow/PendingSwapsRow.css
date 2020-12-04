@@ -45,7 +45,7 @@
 
 .pSwapBookImg{
     width: 20%;
-    height: auto
+    height: auto;
 }
 
 
@@ -62,11 +62,10 @@
   width: 12%;
 }
 
-.pSwapActions {
-    
+.pSwapActions { 
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   width: 16%;
-  padding: 0
+  padding: 0;
 }
