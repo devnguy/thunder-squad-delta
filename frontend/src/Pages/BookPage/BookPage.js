@@ -15,6 +15,7 @@ const condition_categories = ["Perfect", "Great", "Good", "Poor"];
 function BookPage(props) {
   const swap = useApi(requests.getBookDetails);
   const books = useApi(requests.getSearchResults);
+  const update = useApi(requests.updateSwap);
   const { userId } = useContext(AuthContext);
   let { swapId, filterTerm, searchTerm } = useParams();
   let history = useHistory();
@@ -27,12 +28,17 @@ function BookPage(props) {
     if(swap.data.book){
       books.request(swap.data.book.title, 'Title');
       console.log(swap.data.book);
-      console.log(userId);
+      console.log(parseInt(JSON.stringify(userId)));
     }
   }, [swap.data]);
 
   const bookPageRedirect = (id) => {
     history.push(`/book/${id}`);
+  };
+
+  const proposeTrade = () => {
+    update.request(swapId, "requested", parseInt(JSON.stringify(userId)));
+    console.log(update.response);
   };
 
   return (
@@ -75,7 +81,7 @@ function BookPage(props) {
           <div className="bookButtons">
             
             <div className="proposeButton">
-              <button id="proposeCurrent" >ProposeTrade</button>
+              <button id="proposeCurrent" onClick={() => proposeTrade()}>ProposeTrade</button>
             </div>
           </div>
         </section>

@@ -61,6 +61,13 @@ const postWishlistItem = (userId, book) =>
     image: book.image,
   });
 
+// Update swap from BookPage
+const updateSwap = (swapId, status, recId) =>
+  client.patch(`/swaps/${swapId}`, {
+    status: status,
+    receiverId: recId,
+  });
+
 const requests = {
   registerUser,
   loginUser,
@@ -73,6 +80,7 @@ const requests = {
   searchGoogleBooks,
   postSwap,
   postWishlistItem,
+  updateSwap,
 };
 
 export default requests;
