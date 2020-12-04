@@ -2,6 +2,7 @@ import Book from "./Book";
 import BookRow from "./BookRow";
 import Button from "./Button";
 import CustomInputField from "./CustomInputField";
+import Dropdown from "./Dropdown";
 import IconSquare from "./IconSquare";
 import InfoRow from "./InfoRow";
 import Library from "./Library";
@@ -17,6 +18,7 @@ export {
   BookRow,
   Button,
   CustomInputField,
+  Dropdown,
   IconSquare,
   InfoRow,
   Library,

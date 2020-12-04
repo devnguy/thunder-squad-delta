@@ -3,9 +3,9 @@ import "./Book.css";
 
 import DefaultImage from "../../Assets/Book Cover.png";
 
-function Book({ cover, title, author }) {
+function Book({ onClick, cover, title, author }) {
   return (
-    <div className="book">
+    <div className="book" onClick={onClick}>
       <div className="coverSection">
         <img className="bookCover" alt="" src={cover ? cover : DefaultImage} />
       </div>
