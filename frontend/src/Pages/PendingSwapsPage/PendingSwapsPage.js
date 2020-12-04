@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 
-import { Button, PendingSwapsRow, ShippingModal } from "../../Components";
+import { PendingSwapsRow, ShippingModal } from "../../Components";
 import useApi from "../../Api/useApi";
 import requests from "../../Api/requests";
 import AuthContext from "../../Context/AuthContext";
@@ -9,12 +9,29 @@ import "./PendingSwapsPage.css";
 
 function PendingSwapsPage(props) {
   const allSwaps = useApi(requests.getUserSwaps);
+  const statusChange = useApi(requests.changeSwapStatus);
   const { userId } = useContext(AuthContext);
   const [tabSelect, setTabSelect] = useState("give");
+  const [shippingVisible, setShippingVisible] = useState(false);
+  const [currentSwap, setCurrentSwap] = useState(null);
+  const [newData, setNewData] = useState(false);
 
   useEffect(() => {
-    allSwaps.request("1");
+    allSwaps.request("3");
+    console.log(allSwaps.data);
   }, []);
+
+  useEffect(() => {
+    allSwaps.request("3");
+  }, [shippingVisible]);
+
+  useEffect(() => {
+    allSwaps.request("3");
+  }, [newData]);
+
+  const onShipped = () => {
+    statusChange.request(currentSwap.id, "shipping");
+  };
 
   return (
     <div className="pSwapPageContainer">
@@ -51,47 +68,67 @@ function PendingSwapsPage(props) {
         <div className="pSwapHeaderCost pSwapHeaderCell">Cost</div>
         <div className="pSwapHeaderActions pSwapHeaderCell">Actions</div>
       </div>
-      <div className="pSwapRowHolder ">  
-        {tabSelect === "give" && 
-            allSwaps.data.owned &&
-              allSwaps.data.owned.map(
-                (
-                  { status, book, date_requested, receiver, cost, id },
-                  index
-                ) => (status != "available" &&
+      <div className="pSwapRowHolder ">
+        {tabSelect === "give" &&
+          allSwaps.data.owned &&
+          allSwaps.data.owned.map(
+            ({ status, book, date_requested, receiver, cost, id }, index) =>
+              status != "available" &&
+              status != null && (
                 <PendingSwapsRow
-                    key={index}
-                    cover={book.image}
-                    title={book.title}
-                    otherUser={receiver ? receiver.name : null}
-                    swap_id={id}
-                    {...{ cost }}
-                    {...{ date_requested }}
-                    {...{ status }}
-                  />
-                )
+                  key={index}
+                  cover={book.image}
+                  title={book.title}
+                  otherUser={receiver ? receiver.name : null}
+                  swap_id={id}
+                  {...{ cost }}
+                  dateRequested={date_requested}
+                  {...{ status }}
+                  openShip={() => {
+                    setShippingVisible(true);
+                    setCurrentSwap(allSwaps.data.owned[index]);
+                  }}
+                  onAccept={() => {
+                    console.log("accept")
+                    statusChange.request(id, "accepted");
+                    setNewData(!newData);
+                  }}
+                  onReject={() => {
+                    console.log("reject")
+                    statusChange.request(id, "available");
+                    setNewData(!newData);
+                  }}
+                />
               )
-        }
+          )}
 
-        {tabSelect === "get" && 
-            allSwaps.data.requested &&
-              allSwaps.data.requested.map(
-                ({ status, book, date_requested, owner, cost, id }, index) => (
-                  <PendingSwapsRow
-                    key={index}
-                    cover={book.image}
-                    title={book.title}
-                    otherUser={owner.name}
-                    swap_id={id}
-                    {...{ cost }}
-                    {...{ date_requested }}
-                    {...{ status }}
-                  />
-                )
-              )
-        }
+        {tabSelect === "get" &&
+          allSwaps.data.requested &&
+          allSwaps.data.requested.map(
+            ({ status, book, date_requested, owner, cost, id }, index) => (
+              <PendingSwapsRow
+                key={index}
+                cover={book.image}
+                title={book.title}
+                otherUser={owner.name}
+                swap_id={id}
+                {...{ cost }}
+                {...{ date_requested }}
+                {...{ status }}
+              />
+            )
+          )}
       </div>
-      <ShippingModal></ShippingModal>
+      {shippingVisible && (
+        <ShippingModal
+          currentSwap={currentSwap}
+          closeModal={() => setShippingVisible(false)}
+          onShipped={() => {
+            onShipped();
+            setShippingVisible(false);
+          }}
+        />
+      )}
     </div>
   );
 }

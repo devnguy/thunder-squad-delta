@@ -16,6 +16,12 @@ const getProfileDetails = (userId) => client.get(`/users/${userId}/profile`);
 // Library Page
 const getUserSwaps = (userId) => client.get(`/users/${userId}/swaps`);
 
+//PendingSwaps Page
+const changeSwapStatus = (swapId, status) =>
+  client.patch(`/swaps/${swapId}`, {
+    status: status,
+  });
+
 // Register Page
 const registerUser = (username, email, password) =>
   client.post("/users", {
@@ -46,6 +52,7 @@ const requests = {
   registerUser,
   loginUser,
   searchGoogleBooks,
+  changeSwapStatus,
 };
 
 export default requests;

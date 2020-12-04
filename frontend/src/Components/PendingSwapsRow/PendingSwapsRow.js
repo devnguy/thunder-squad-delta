@@ -1,10 +1,15 @@
 import React from "react";
 
 import "./PendingSwapsRow.css";
-import { Link } from "react-router-dom";
 import Button from "../Button";
 
 import DefaultImage from "../../Assets/Book Cover.png";
+
+function Capitalize(str) {
+  if (str !== null) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+}
 
 function PendingSwapsRow({
   status,
@@ -14,11 +19,14 @@ function PendingSwapsRow({
   otherUser,
   cost,
   swap_id,
+  openShip,
+  onAccept,
+  onReject,
 }) {
   return (
     <div className="pSwapRow">
       <div className="pSwapStatus pSwapCell">
-        <p className="pSwapStatusTxt">{status}</p>
+        <p className="pSwapStatusTxt">{Capitalize(status)}</p>
       </div>
       <div className="pSwapBookDetails pSwapCell">
         <img
@@ -39,30 +47,33 @@ function PendingSwapsRow({
       </div>
       {status === "requested" && (
         <div className="pSwapActions pSwapCell">
-          <Button style={{ background: "#12BA85", width: "40%" }}>
+          <Button
+            onClick={onAccept}
+            style={{ background: "#12BA85", width: "40%" }}
+          >
             Accept
           </Button>
-          <Button style={{ background: "#D8315B", width: "40%" }}>
+          <Button
+            onClick={onReject}
+            style={{ background: "#D8315B", width: "40%" }}
+          >
             Reject
           </Button>
         </div>
       )}
       {status === "accepted" && (
         <div className="pSwapActions pSwapCell">
-          <Button style={{ background: "#12BA85", width: "40%" }}>
+          <Button
+            onClick={openShip}
+            style={{ background: "#0A2463", width: "50%", height: "30%" }}
+          >
             Shipping Info
           </Button>
         </div>
       )}
-      {status === "completed" ||
-        (status === "shipping" && (
-          <div className="pSwapActions pSwapCell">
-            <Button style={{ background: "#0A2463", width: "40%" }}>
-              Shipping Info
-            </Button>
-          </div>
-        ))}
-      {status === null && <div className="pSwapActions pSwapCell"></div>}
+      {status !== "accepted" && status !== "requested" && (
+        <div className="pSwapActions pSwapCell"></div>
+      )}
     </div>
   );
 }
