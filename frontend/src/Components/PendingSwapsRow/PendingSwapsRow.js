@@ -5,13 +5,13 @@ import Button from "../Button";
 
 import DefaultImage from "../../Assets/Book Cover.png";
 
-function Capitalize(str) {
+function capitalize(str) {
   if (str !== null) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 }
 
-function DateFormat(date) {
+function dateFormat(date) {
   if (date && date !== null) {
     return date.slice(5, 7) + "/" + date.slice(8, 10) + "/" + date.slice(0, 4);
   }
@@ -34,7 +34,7 @@ function PendingSwapsRow({
   return (
     <div className="pSwapRow">
       <div className="pSwapStatus pSwapCell">
-        <p className="pSwapStatusTxt">{Capitalize(status)}</p>
+        <p className="pSwapStatusTxt">{capitalize(status)}</p>
       </div>
       <div className="pSwapBookDetails pSwapCell">
         <img
@@ -45,7 +45,7 @@ function PendingSwapsRow({
         <p className="pSwapTitleTxt">{title}</p>
       </div>
       <div className="pSwapDate pSwapCell">
-        <p className="pSwapDateTxt">{DateFormat(dateRequested)}</p>
+        <p className="pSwapDateTxt">{dateFormat(dateRequested)}</p>
       </div>
       <div className="pSwapOtherUser pSwapCell">
         <p className="pSwapGetterTxt">{otherUser}</p>

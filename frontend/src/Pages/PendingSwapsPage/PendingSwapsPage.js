@@ -19,7 +19,7 @@ function PendingSwapsPage(props) {
 
   useEffect(() => {
     allSwaps.request(userId);
-  }, []);
+  }, [shippingVisible,newData]);
 
   useEffect(() => {
     allSwaps.request(userId);
