@@ -30,8 +30,9 @@ function BookPage(props) {
   };
 
   const proposeTrade = () => {
-    update.request(swapId, "requested", parseInt(JSON.stringify(userId)));
-    console.log(update.response);
+    if (userId) {
+      update.request(swapId, "requested", userId);
+    }
   };
 
   return (
@@ -76,9 +77,11 @@ function BookPage(props) {
               USA
             </p>
           </div>
-          <div id="proposeContainer">
-            <Button>Request Trade</Button>
-          </div>
+          {userId && (
+            <div id="proposeContainer">
+              <Button onClick={proposeTrade}>Request Trade</Button>
+            </div>
+          )}
         </div>
       </div>
       <div id="tableTitleContainer">
