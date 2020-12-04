@@ -11,6 +11,7 @@ function PendingSwapsPage(props) {
   const allSwaps = useApi(requests.getUserSwaps);
   const statusChange = useApi(requests.changeSwapStatus);
   const pointChange = useApi(requests.changePoints);
+  const update = useApi(requests.updateSwap);
   const { userId } = useContext(AuthContext);
   const [tabSelect, setTabSelect] = useState("give");
   const [shippingVisible, setShippingVisible] = useState(false);
@@ -19,15 +20,7 @@ function PendingSwapsPage(props) {
 
   useEffect(() => {
     allSwaps.request(userId);
-  }, [shippingVisible,newData]);
-
-  useEffect(() => {
-    allSwaps.request(userId);
-  }, [shippingVisible]);
-
-  useEffect(() => {
-    allSwaps.request(userId);
-  }, [newData]);
+  }, [shippingVisible, newData]);
 
   const onShipped = () => {
     statusChange.request(currentSwap.id, "shipping");
@@ -59,7 +52,10 @@ function PendingSwapsPage(props) {
         </div>
       </div>
 
-      <div className="pSwapTableSeparator"></div>
+      <div
+        className="pSwapTableSeparator"
+        style={{ borderTopRightRadius: "10px", borderTopLeftRadius: "10px" }}
+      ></div>
       <div className="pSwapTableHeader">
         <div className="pSwapHeaderStatus pSwapHeaderCell">Status</div>
         <div className="pSwapHeaderBookDetails pSwapHeaderCell">Book</div>
@@ -89,12 +85,10 @@ function PendingSwapsPage(props) {
                     setCurrentSwap(allSwaps.data.owned[index]);
                   }}
                   onAccept={() => {
-                    console.log("accept");
                     statusChange.request(id, "accepted");
                     setNewData(!newData);
                   }}
                   onReject={() => {
-                    console.log("reject");
                     statusChange.request(id, "available");
                     setNewData(!newData);
                   }}
@@ -122,13 +116,13 @@ function PendingSwapsPage(props) {
                 isGet={true}
                 onConfirm={() => {
                   statusChange.request(id, "completed");
-                  console.log(owner.id);
-                  console.log(receiver.id);
-                  console.log(cost * -1);
                   pointChange.request(owner.id, cost);
-                  pointChange.request(receiver.id, cost * -1);
-
                   setNewData(!newData);
+                }}
+                onCancel={()=> {
+                  update.request(id, "available", null);
+                  pointChange.request(userId, cost)
+                  setNewData(arg => !arg);
                 }}
               />
             )

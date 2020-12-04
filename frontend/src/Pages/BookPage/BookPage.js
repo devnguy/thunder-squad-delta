@@ -11,13 +11,19 @@ function BookPage(props) {
   const swap = useApi(requests.getBookDetails);
   const books = useApi(requests.getSearchResults);
   const update = useApi(requests.updateSwap);
+  const userDetails = useApi(requests.getUser);
+  const pointChange = useApi(requests.changePoints);
   const { userId } = useContext(AuthContext);
+  const [buttonTxt, setButtonTxt] = useState("Request Trade");
   let { swapId } = useParams();
   let history = useHistory();
   const [requested, setRequested] = useState(false);
 
   useEffect(() => {
     swap.request(swapId);
+    if (userId) {
+      userDetails.request(userId);
+    }
   }, [swapId]);
 
   useEffect(() => {
@@ -28,7 +34,9 @@ function BookPage(props) {
 
   useEffect(() => {
     if (update.data.status && update.data.status === true) {
+      pointChange.request(userId, swap.data.cost * -1);
       setRequested(true);
+      setButtonTxt("Request Complete");
     }
   }, [update.data]);
 
@@ -37,8 +45,10 @@ function BookPage(props) {
   };
 
   const proposeTrade = () => {
-    if (userId) {
+    if (userId && userDetails.data.points >= swap.data.cost) {
       update.request(swapId, "requested", userId);
+    } else {
+      setButtonTxt("Not Enough Points");
     }
   };
 
@@ -87,7 +97,7 @@ function BookPage(props) {
           {userId && (
             <div id="proposeContainer">
               <Button onClick={!requested ? proposeTrade : null}>
-                {requested ? "Requested!" : "Request Trade"}
+                {buttonTxt}
               </Button>
             </div>
           )}
