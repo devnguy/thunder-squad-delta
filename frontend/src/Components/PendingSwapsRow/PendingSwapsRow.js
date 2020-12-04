@@ -11,6 +11,14 @@ function Capitalize(str) {
   }
 }
 
+function DateFormat(date) {
+
+  
+  if ((date) && (date !== null)) {
+    return date.slice(5,7) +"/" + date.slice(8,10) + "/" + date.slice(0,4)
+  }
+}
+
 function PendingSwapsRow({
   status,
   cover,
@@ -39,7 +47,7 @@ function PendingSwapsRow({
         <p className="pSwapTitleTxt">{title}</p>
       </div>
       <div className="pSwapDate pSwapCell">
-        <p className="pSwapDateTxt">{dateRequested}</p>
+        <p className="pSwapDateTxt">{DateFormat(dateRequested)}</p>
       </div>
       <div className="pSwapOtherUser pSwapCell">
         <p className="pSwapGetterTxt">{otherUser}</p>
@@ -47,27 +55,32 @@ function PendingSwapsRow({
       <div className="pSwapCost pSwapCell">
         <p className="pSwapCostTxt"> {cost}</p>
       </div>
-      {status === "requested" && (
+      {status === "requested" && !isGet &&(
         <div className="pSwapActions pSwapCell">
           <Button
             onClick={onAccept}
-            style={{ background: "#12BA85", width: "40%" }}
+            style={{ background: "#12BA85",  width: "100px" }}
           >
             Accept
           </Button>
           <Button
             onClick={onReject}
-            style={{ background: "#D8315B", width: "40%" }}
+            style={{ background: "#D8315B",  width: "100px" }}
           >
             Reject
           </Button>
         </div>
       )}
-      {status === "accepted" && (
+      {status === "accepted" && !isGet && (
         <div className="pSwapActions pSwapCell">
           <Button
             onClick={openShip}
-            style={{ background: "#0A2463", width: "50%", height: "30%" }}
+            style={{
+              background: "#0A2463",
+              width: "120px",
+      
+              height: "30%",
+            }}
           >
             Shipping Info
           </Button>
@@ -77,15 +90,28 @@ function PendingSwapsRow({
         <div className="pSwapActions pSwapCell">
           <Button
             onClick={onConfirm}
-            style={{ background: "#12BA85", width: "50%", height: "30%" }}
+            style={{
+              background: "#12BA85",
+              width: "120px",
+              height: "30%",
+            }}
           >
             Confirm Receipt
           </Button>
         </div>
       )}
-      {status !== "accepted" &&
-        status !== "requested" && !isGet &&
-          <div className="pSwapActions pSwapCell"></div>}
+
+      {isGet===false && (status !== "accepted" && status !== "requested") && 
+      <div className="pSwapActions pSwapCell"></div>}
+
+      {isGet===true && (status === "completed" || status === "requested" || status === "accepted") && 
+      <div className="pSwapActions pSwapCell"></div>}
+      {/* {(status !== "accepted" && status !== "requested" && !isGet) ||
+        (status === "completed") || (status === "shipping" && !isGet)&& (
+          <div className="pSwapActions pSwapCell"></div>
+        )}
+
+      {status === "completed" && <div className="pSwapActions pSwapCell"></div>} */}
     </div>
   );
 }

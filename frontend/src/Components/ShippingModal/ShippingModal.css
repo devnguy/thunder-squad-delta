@@ -12,6 +12,7 @@
   font-family: Montserrat;
   color: white;
   width: 30%;
+  min-width: 500px;
   height: 300px;
   border-radius: 10px;
   justify-content: space-evenly;
@@ -27,7 +28,11 @@
 
 .pSwapAddressHolder {
   padding-left: 40px;
-  padding-top: 30px;
+  padding-top: 10px;
+}
+
+.pSwapAddressTxt{
+  margin: 4px;
 }
 
 .rightShippingModal {
@@ -42,7 +47,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: 40px;
+  padding-top: 80px;
   padding-right: 40px;
-  width: 60%;
+  width: 150px;
 }

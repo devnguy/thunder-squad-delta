@@ -38,7 +38,7 @@ function ShippingModal({ closeModal, currentSwap, onShipped }) {
           </p>
           <Button
             onClick={onShipped}
-            style={{ background: "#3E92CC", width: "70%" }}
+            style={{ background: "#3E92CC", width: "100px" }}
           >
             Shipped!
           </Button>

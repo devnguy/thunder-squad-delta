@@ -18,15 +18,15 @@ function PendingSwapsPage(props) {
   const [newData, setNewData] = useState(false);
 
   useEffect(() => {
-    allSwaps.request("3");
+    allSwaps.request(userId);
   }, []);
 
   useEffect(() => {
-    allSwaps.request("3");
+    allSwaps.request(userId);
   }, [shippingVisible]);
 
   useEffect(() => {
-    allSwaps.request("3");
+    allSwaps.request(userId);
   }, [newData]);
 
   const onShipped = () => {
@@ -117,7 +117,7 @@ function PendingSwapsPage(props) {
                 otherUser={owner.name}
                 swap_id={id}
                 {...{ cost }}
-                {...{ date_requested }}
+                dateRequested={date_requested}
                 {...{ status }}
                 isGet={true}
                 onConfirm={() => {

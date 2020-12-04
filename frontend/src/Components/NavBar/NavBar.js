@@ -27,7 +27,7 @@ const dropdown_buttons = [
   },
 ];
 
-const navSearchPages = ["/about", "/profile", "/library", "/wishlist"];
+const navSearchPages = ["/about", "/profile", "/library", "/wishlist", "/pending"];
 
 const NavBar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
