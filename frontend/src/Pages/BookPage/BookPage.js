@@ -81,6 +81,9 @@ function BookPage(props) {
           </div>
         </div>
       </div>
+      <div id="tableTitleContainer">
+        <p id="tableTitle">All Available Copies</p>
+      </div>
       <div id="lowerPageSection">
         {books.data.length > 0 && (
           <div id="availableTable">
@@ -103,6 +106,7 @@ function BookPage(props) {
             </div>
             {books.data.map((swap, index) => (
               <div
+                key={index}
                 className={
                   index < books.data.length - 1
                     ? "tableRow borderBottom"

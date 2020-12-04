@@ -27,7 +27,13 @@ const dropdown_buttons = [
   },
 ];
 
-const navSearchPages = ["/about", "/profile", "/library", "/wishlist", "/pending"];
+const navSearchPages = [
+  "/about",
+  "/profile",
+  "/library",
+  "/wishlist",
+  "/pending",
+];
 
 const NavBar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -38,7 +44,8 @@ const NavBar = () => {
   useEffect(() => {
     if (
       navSearchPages.includes(location.pathname) ||
-      location.pathname.slice(0, 7) === "/search"
+      location.pathname.slice(0, 7) === "/search" ||
+      location.pathname.slice(0, 6) === "/book/"
     ) {
       setNavSearch(true);
     } else {
