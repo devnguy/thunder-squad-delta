@@ -21,8 +21,6 @@ const getSearchResults = (searchterm, filterterm) =>
 // Book Page
 const getBookDetails = (bookId) => client.get(`/swaps/${bookId}`);
 
-const getSwapDetails = (swapId) => client.get(`/swaps/${swapId}`);
-
 // Profile Page
 const getProfileDetails = (userId) => client.get(`/users/${userId}/profile`);
 
@@ -78,6 +76,13 @@ const postWishlistItem = (userId, book) =>
     image: book.image,
   });
 
+// Update swap from BookPage
+const updateSwap = (swapId, status, recId) =>
+  client.patch(`/swaps/${swapId}`, {
+    status: status,
+    receiverId: recId,
+  });
+
 const requests = {
   registerUser,
   loginUser,
@@ -88,12 +93,12 @@ const requests = {
   getProfileDetails,
   getUserSwaps,
   getUserWishes,
-  getSwapDetails,
   searchGoogleBooks,
   changeSwapStatus,
   changePoints,
   postSwap,
   postWishlistItem,
+  updateSwap,
 };
 
 export default requests;
