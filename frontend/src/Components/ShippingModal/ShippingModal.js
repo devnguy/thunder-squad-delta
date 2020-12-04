@@ -13,7 +13,7 @@ function ShippingModal({ closeModal, currentSwap, onShipped }) {
     <div className="shippingModal">
       <div className="leftShippingModal">
         <p className="pleaseTxt">
-          Please ship {currentSwap.book.title} to the address below:
+          Please ship "{currentSwap.book.title}" to the address below:
         </p>
         <div className="pSwapAddressHolder">
           <p className="pSwapAddressTxt"> {currentSwap.receiver.name} </p>

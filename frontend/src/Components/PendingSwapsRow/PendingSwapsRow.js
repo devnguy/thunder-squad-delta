@@ -84,8 +84,8 @@ function PendingSwapsRow({
         </div>
       )}
       {status !== "accepted" &&
-        status !== "requested" &&
-        status !== "shipping" && <div className="pSwapActions pSwapCell"></div>}
+        status !== "requested" && !isGet &&
+          <div className="pSwapActions pSwapCell"></div>}
     </div>
   );
 }
