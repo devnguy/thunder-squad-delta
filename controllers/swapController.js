@@ -11,6 +11,29 @@ const {
   BookNotFoundError,
 } = require('../errors')
 
+
+exports.getAllSwaps = async function (req, res, next) {
+  try {
+    const swaps = await db.query(SQL
+      `SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, date_requested, 
+      owner.user_id as owner_id, owner.name as owner_name,
+      owner.street as owner_street, owner.city as owner_city, owner.state as owner_state, owner.zip as
+      owner_zip, receiver_id,
+      book.book_id, book.title, book.author, book.genre, book.description, book.year_published, book.publisher, book.image
+      FROM swap
+      JOIN book ON swap.book_id = book.book_id
+      JOIN user AS owner on swap.owner_id = owner.user_id
+      WHERE receiver_id IS NULL
+      ORDER BY swap_id DESC;
+      `)
+
+    if (swaps.error) throw new DatabaseError(swaps.error)
+
+    return res.status(200).json(formatSwaps(swaps))
+  } catch (error) {
+    return next(error)
+  }
+}
 // Search for swaps either by query and searchby, or bookid.
 exports.getSwaps = async function (req, res, next) {
   try {
@@ -245,7 +268,8 @@ exports.updateSwap = async function (req, res, next) {
       req.body.status !== 'available' &&
       req.body.status !== 'requested' &&
       req.body.status !== 'shipping' &&
-      req.body.status !== 'completed'
+      req.body.status !== 'completed' &&
+      req.body.status !== 'accepted'
     ) {
       throw new MissingAttributeError('Invalid status value')
     }

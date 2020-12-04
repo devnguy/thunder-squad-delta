@@ -14,9 +14,9 @@ const LibraryPage = () => {
   const userSwaps = useApi(requests.getUserSwaps);
   const postSwap = useApi(requests.postSwap);
   const { userId } = useContext(AuthContext);
-  let history = useHistory();
   const [bookRows, setBookRows] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+  let history = useHistory();
 
   const defaultOptions = {
     loop: true,
@@ -29,6 +29,12 @@ const LibraryPage = () => {
 
   const goToWishlist = () => {
     history.push("/wishlist");
+  };
+
+  const goToSwapPage = (swapId) => {
+    if (swapId) {
+      history.push(`/book/${swapId}`);
+    }
   };
 
   const booksToRows = () => {
@@ -54,6 +60,12 @@ const LibraryPage = () => {
       userSwaps.request(userId);
     }
   }, []);
+
+  useEffect(() => {
+    if (postSwap.data.status && postSwap.data.status === true) {
+      userSwaps.request(userId);
+    }
+  }, [postSwap.data]);
 
   useEffect(() => {
     if (userSwaps.data.length !== 0) {
@@ -86,7 +98,7 @@ const LibraryPage = () => {
           id="libraryPageBookBlock"
           style={modalVisible ? { opacity: "50%" } : null}
         >
-          {!bookRows && (
+          {!bookRows && userSwaps.loading && (
             <Lottie
               options={defaultOptions}
               height={200}
@@ -95,7 +107,21 @@ const LibraryPage = () => {
               isPaused={false}
             />
           )}
-          {bookRows &&
+          {userSwaps.data.owned &&
+            userSwaps.data.owned.length === 0 &&
+            !userSwaps.loading && (
+              <div className="bookRowEmptyContainer">
+                <p
+                  className="rowTitle"
+                  style={{ fontSize: "20px", opacity: "40%" }}
+                >
+                  Looks like there's nothing here
+                </p>
+              </div>
+            )}
+          {userSwaps.data.owned &&
+            userSwaps.data.owned.length > 0 &&
+            bookRows &&
             bookRows.map((row, rowIndex) => (
               <div className="libraryBookRow" key={rowIndex}>
                 {row.map((swap, swapIndex) => (
@@ -104,6 +130,7 @@ const LibraryPage = () => {
                     cover={swap.book.image}
                     title={swap.book.title}
                     author={swap.book.author}
+                    onClick={() => goToSwapPage(swap.id)}
                   />
                 ))}
               </div>

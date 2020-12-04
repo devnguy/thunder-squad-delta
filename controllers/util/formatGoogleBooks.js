@@ -1,5 +1,10 @@
 function formatGoogleBooks(books) {
-    if (books) {
+
+    let formattedBooks;
+    if (books.totalItems === 0 ){
+        formattedBooks = []
+      }
+    else if (books) {
         formattedBooks = books.items.map((book) => ({
             title: book.volumeInfo.title,
             author: book.volumeInfo.authors[0],

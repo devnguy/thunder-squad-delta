@@ -50,9 +50,9 @@ exports.getUserProfile = async function (req, res, next) {
     s.swap_id, s.owner_id, s.receiver_id, s.cost, s.creation_date, s.condition, s.status, 
     u.user_id, u.name, u.email, u.points, u.street, u.city, u.state, u.zip, u.points_spent,
     (SELECT COUNT(swap.book_id) FROM swap
-      WHERE owner_id = ${req.params.userId} AND swap.status = 'complete') AS given_books,
+      WHERE owner_id = ${req.params.userId} AND swap.status = 'completed') AS given_books,
     (SELECT COUNT(swap.book_id) FROM swap
-      WHERE receiver_id = ${req.params.userId} AND swap.status = 'complete') AS received_books
+      WHERE receiver_id = ${req.params.userId} AND swap.status = 'completed') AS received_books
     FROM book AS b
     LEFT JOIN wishlist AS w ON w.book_id = b.book_id
     LEFT JOIN swap AS s ON s.book_id = b.book_id

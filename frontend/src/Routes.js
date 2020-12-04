@@ -12,6 +12,7 @@ import {
   BookPage,
   LoginPage,
   ResetPasswordPage,
+  PendingSwapsPage,
   WishlistPage,
 } from "./Pages";
 
@@ -47,6 +48,9 @@ export default function Routes() {
       </Route>
       <Route path="/search/:filterTerm/:searchTerm">
         <SearchResultsPage />
+      </Route>
+      <Route path="/pending">
+        <PendingSwapsPage />
       </Route>
       <Route path="/wishlist">
         <WishlistPage />
