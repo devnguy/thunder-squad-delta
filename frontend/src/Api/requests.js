@@ -32,6 +32,39 @@ const getUserSwaps = (userId) => client.get(`/users/${userId}/swaps`);
 // Wishlist Page
 const getUserWishes = (userId) => client.get(`/wishlist/${userId}`);
 
+//Pending Swaps Page
+const changeSwapStatus = (swapId, status) =>
+  client.patch(`/swaps/${swapId}`, {
+    status: status,
+  });
+
+
+// Pending Swaps Page
+const changePoints = (userId, delta) =>
+  client.patch(`/users/${userId}`, {
+    user: {
+      points:delta
+    },
+  }
+  )
+
+// Register Page
+const registerUser = (username, email, password) =>
+  client.post("/users", {
+    user: {
+      name: username,
+      email: email,
+      password: password,
+    },
+  });
+
+// Login Page
+const loginUser = (email, password) =>
+  client.post("/users/login", {
+    email: email,
+    password: password,
+  });
+
 // Post Book Modal - Search for Book Suggestion
 const searchGoogleBooks = (title, author) =>
   client.get(`googleBooks/${title}/${author}`);
@@ -76,6 +109,8 @@ const requests = {
   getUserWishes,
   getSwapDetails,
   searchGoogleBooks,
+  changeSwapStatus,
+  changePoints,
   postSwap,
   postWishlistItem,
 };

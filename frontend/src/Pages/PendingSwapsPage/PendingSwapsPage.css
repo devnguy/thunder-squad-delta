@@ -1,0 +1,97 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+.pSwapPageContainer {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+.pSwapTitle {
+  font-size: 45px;
+  font-family: Inconsolata;
+  
+  margin-left:350px;
+  font-weight: bold;
+}
+
+.pSwapTabHolder {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  left: 45%;
+  height: 50px;
+  top: 1px;
+  background-color: white;
+}
+
+
+.pSwapTab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 15%;
+  z-index: 1;
+  margin-right: 40px;
+  font-family: Inconsolata;
+  font-size: 40px;
+  background-color: white;
+  border: 1px solid black;
+  border-bottom: 0;
+  border-radius: 10px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  font-weight: bold;
+}
+
+.pSwapTableSeparator {
+  position: relative;
+  height: 10px;
+  width: 92.5%;
+  margin-left: 4%;
+  border: 1px solid black;
+  border-bottom: 0;
+}
+.pSwapTableHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 4%;
+  width: 100%;
+}
+.pSwapHeaderCell {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  height: 30px;
+  font-family: Inconsolata;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.pSwapHeaderStatus {
+  width: 15%;
+}
+
+.pSwapHeaderBookDetails {
+  width: 25%;
+}
+
+.pSwapHeaderDate {
+  width: 12%;
+}
+
+.pSwapHeaderOtherUser {
+  width: 12%;
+}
+
+.pSwapHeaderCost {
+  width: 12%;
+}
+
+.pSwapHeaderActions {
+  width: 16%;
+}
+
+

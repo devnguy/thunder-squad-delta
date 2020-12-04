@@ -268,7 +268,8 @@ exports.updateSwap = async function (req, res, next) {
       req.body.status !== 'available' &&
       req.body.status !== 'requested' &&
       req.body.status !== 'shipping' &&
-      req.body.status !== 'completed'
+      req.body.status !== 'completed' &&
+      req.body.status !== 'accepted'
     ) {
       throw new MissingAttributeError('Invalid status value')
     }
