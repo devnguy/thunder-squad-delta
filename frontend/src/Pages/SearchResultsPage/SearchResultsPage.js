@@ -72,7 +72,9 @@ function SearchResultsPage(props) {
         )}
         {!books.loading && (
           <p className="nowShowing">
-            Showing {books.data.length} results for "{searchTerm}"
+            Showing{" "}
+            {books.data.filter((swap) => swap.status === "available").length}{" "}
+            results for "{searchTerm}"
           </p>
         )}
         <div className="sortContainer">
@@ -88,18 +90,24 @@ function SearchResultsPage(props) {
       <div className="rowHolder">
         {!books.loading && bookArray && (
           <>
-            {books.data.map(({ id, book, owner, condition, cost }, index) => (
-              <SearchResultRow
-                id={id}
-                cover={book.image}
-                title={book.title}
-                author={book.author}
-                giver={owner.name}
-                {...{ condition }}
-                {...{ cost }}
-                key={index}
-              />
-            ))}
+            {books.data.map(
+              ({ id, status, book, owner, condition, cost }, index) => {
+                if (status === "available") {
+                  return (
+                    <SearchResultRow
+                      id={id}
+                      cover={book.image}
+                      title={book.title}
+                      author={book.author}
+                      giver={owner.name}
+                      {...{ condition }}
+                      {...{ cost }}
+                      key={index}
+                    />
+                  );
+                }
+              }
+            )}
           </>
         )}
       </div>

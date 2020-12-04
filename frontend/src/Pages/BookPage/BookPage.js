@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 
 import "./BookPage.css";
@@ -14,6 +14,7 @@ function BookPage(props) {
   const { userId } = useContext(AuthContext);
   let { swapId } = useParams();
   let history = useHistory();
+  const [requested, setRequested] = useState(false);
 
   useEffect(() => {
     swap.request(swapId);
@@ -24,6 +25,12 @@ function BookPage(props) {
       books.request(swap.data.book.title, "Title");
     }
   }, [swap.data]);
+
+  useEffect(() => {
+    if (update.data.status && update.data.status === true) {
+      setRequested(true);
+    }
+  }, [update.data]);
 
   const bookPageRedirect = (id) => {
     history.push(`/book/${id}`);
@@ -79,7 +86,9 @@ function BookPage(props) {
           </div>
           {userId && (
             <div id="proposeContainer">
-              <Button onClick={proposeTrade}>Request Trade</Button>
+              <Button onClick={requested ? proposeTrade : null}>
+                {requested ? "Requested!" : "Request Trade"}
+              </Button>
             </div>
           )}
         </div>
@@ -107,42 +116,46 @@ function BookPage(props) {
                 <p className="cellText"></p>
               </div>
             </div>
-            {books.data.map((swap, index) => (
-              <div
-                key={index}
-                className={
-                  index < books.data.length - 1
-                    ? "tableRow borderBottom"
-                    : "tableRow"
-                }
-              >
-                <div className="tableCell borderRight">
-                  <p className="cellText">
-                    {swap.owner ? swap.owner.name : "Unknown"}
-                  </p>
-                </div>
-                <div className="tableCell borderRight">
-                  <p className="cellText">
-                    {swap.cost ? swap.cost : "Unknown"}
-                  </p>
-                </div>
-                <div className="tableCell borderRight">
-                  <p className="cellText">
-                    {swap.condition ? swap.condition : "Unknown"}
-                  </p>
-                </div>
-                <div className="tableCell borderRight">
-                  <p className="cellText">
-                    {swap.owner ? swap.owner.state : "Unknown"}, USA
-                  </p>
-                </div>
-                <div className="tableCell totalCenter">
-                  <Button onClick={() => bookPageRedirect(swap.id)}>
-                    More Info
-                  </Button>
-                </div>
-              </div>
-            ))}
+            {books.data.map((swap, index) => {
+              if (swap.status === "available") {
+                return (
+                  <div
+                    key={index}
+                    className={
+                      index < books.data.length - 1
+                        ? "tableRow borderBottom"
+                        : "tableRow"
+                    }
+                  >
+                    <div className="tableCell borderRight">
+                      <p className="cellText">
+                        {swap.owner ? swap.owner.name : "Unknown"}
+                      </p>
+                    </div>
+                    <div className="tableCell borderRight">
+                      <p className="cellText">
+                        {swap.cost ? swap.cost : "Unknown"}
+                      </p>
+                    </div>
+                    <div className="tableCell borderRight">
+                      <p className="cellText">
+                        {swap.condition ? swap.condition : "Unknown"}
+                      </p>
+                    </div>
+                    <div className="tableCell borderRight">
+                      <p className="cellText">
+                        {swap.owner ? swap.owner.state : "Unknown"}, USA
+                      </p>
+                    </div>
+                    <div className="tableCell totalCenter">
+                      <Button onClick={() => bookPageRedirect(swap.id)}>
+                        More Info
+                      </Button>
+                    </div>
+                  </div>
+                );
+              }
+            })}
           </div>
         )}
       </div>
