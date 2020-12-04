@@ -11,7 +11,6 @@
   align-items: center;
   margin: 10px;
   cursor: pointer;
-  
 }
 
 .buttonContainer:active {
@@ -23,5 +22,5 @@
   font-size: 18px;
   color: #fffaff;
   margin: 0;
-  text-align:center;
+  text-align: center;
 }

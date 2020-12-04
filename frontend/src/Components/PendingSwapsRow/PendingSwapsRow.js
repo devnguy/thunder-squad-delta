@@ -12,10 +12,8 @@ function Capitalize(str) {
 }
 
 function DateFormat(date) {
-
-  
-  if ((date) && (date !== null)) {
-    return date.slice(5,7) +"/" + date.slice(8,10) + "/" + date.slice(0,4)
+  if (date && date !== null) {
+    return date.slice(5, 7) + "/" + date.slice(8, 10) + "/" + date.slice(0, 4);
   }
 }
 
@@ -55,17 +53,17 @@ function PendingSwapsRow({
       <div className="pSwapCost pSwapCell">
         <p className="pSwapCostTxt"> {cost}</p>
       </div>
-      {status === "requested" && !isGet &&(
+      {status === "requested" && !isGet && (
         <div className="pSwapActions pSwapCell">
           <Button
             onClick={onAccept}
-            style={{ background: "#12BA85",  width: "100px" }}
+            style={{ background: "#12BA85", width: "100px" }}
           >
             Accept
           </Button>
           <Button
             onClick={onReject}
-            style={{ background: "#D8315B",  width: "100px" }}
+            style={{ background: "#D8315B", width: "100px" }}
           >
             Reject
           </Button>
@@ -78,7 +76,6 @@ function PendingSwapsRow({
             style={{
               background: "#0A2463",
               width: "120px",
-      
               height: "30%",
             }}
           >
@@ -101,17 +98,16 @@ function PendingSwapsRow({
         </div>
       )}
 
-      {isGet===false && (status !== "accepted" && status !== "requested") && 
-      <div className="pSwapActions pSwapCell"></div>}
+      {isGet === false && status !== "accepted" && status !== "requested" && (
+        <div className="pSwapActions pSwapCell"></div>
+      )}
 
-      {isGet===true && (status === "completed" || status === "requested" || status === "accepted") && 
-      <div className="pSwapActions pSwapCell"></div>}
-      {/* {(status !== "accepted" && status !== "requested" && !isGet) ||
-        (status === "completed") || (status === "shipping" && !isGet)&& (
+      {isGet === true &&
+        (status === "completed" ||
+          status === "requested" ||
+          status === "accepted") && (
           <div className="pSwapActions pSwapCell"></div>
         )}
-
-      {status === "completed" && <div className="pSwapActions pSwapCell"></div>} */}
     </div>
   );
 }
