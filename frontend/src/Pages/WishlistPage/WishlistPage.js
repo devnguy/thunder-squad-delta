@@ -120,9 +120,9 @@ const WishlistPage = () => {
                 {row.map((wishItem, wishIndex) => (
                   <Book
                     key={wishIndex}
-                    cover={wishItem.image}
-                    title={wishItem.title}
-                    author={wishItem.author}
+                    cover={wishItem.book.image}
+                    title={wishItem.book.title}
+                    author={wishItem.book.author}
                   />
                 ))}
               </div>

@@ -14,9 +14,9 @@ const LibraryPage = () => {
   const userSwaps = useApi(requests.getUserSwaps);
   const postSwap = useApi(requests.postSwap);
   const { userId } = useContext(AuthContext);
-  let history = useHistory();
   const [bookRows, setBookRows] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+  let history = useHistory();
 
   const defaultOptions = {
     loop: true,
@@ -29,6 +29,12 @@ const LibraryPage = () => {
 
   const goToWishlist = () => {
     history.push("/wishlist");
+  };
+
+  const goToSwapPage = (swapId) => {
+    if (swapId) {
+      history.push(`/book/${swapId}`);
+    }
   };
 
   const booksToRows = () => {
@@ -124,6 +130,7 @@ const LibraryPage = () => {
                     cover={swap.book.image}
                     title={swap.book.title}
                     author={swap.book.author}
+                    onClick={() => goToSwapPage(swap.id)}
                   />
                 ))}
               </div>

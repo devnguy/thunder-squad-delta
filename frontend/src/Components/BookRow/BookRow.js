@@ -5,17 +5,24 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import Lottie from "react-lottie";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import "./BookRow.css";
 import * as LoadingAnimation from "../../Assets/Animations/Loading.json";
 import Book from "../Book";
 
-function BookRow({ books, heading, headingLink, leftStart }) {
+function BookRow({
+  linkBooks = true,
+  books,
+  heading,
+  headingLink,
+  leftStart,
+}) {
   const [arrayOffset, setArrayOffset] = useState(
     leftStart || books.length < 5 ? 0 : Math.floor(books.length / 2)
   );
   const [booksArray, setBooksArray] = useState(null);
+  let history = useHistory();
 
   const defaultOptions = {
     loop: true,
@@ -24,6 +31,12 @@ function BookRow({ books, heading, headingLink, leftStart }) {
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
     },
+  };
+
+  const goToSwapPage = (swapId) => {
+    if (swapId) {
+      history.push(`/book/${swapId}`);
+    }
   };
 
   useEffect(() => {
@@ -52,19 +65,29 @@ function BookRow({ books, heading, headingLink, leftStart }) {
         <>
           {books
             .slice(arrayOffset, arrayOffset + 4)
-            .map(({ image, title, author }, index) => (
-              <Book key={index} cover={image} title={title} author={author} />
+            .map(({ id, book }, index) => (
+              <Book
+                key={index}
+                cover={book.image}
+                title={book.title}
+                author={book.author}
+                onClick={linkBooks ? () => goToSwapPage(id) : null}
+              />
             ))}
         </>
       );
     } else if (books && books.length <= arrayOffset + 4) {
       setBooksArray(
         <>
-          {books
-            .slice(arrayOffset, books.length)
-            .map(({ image, title, author }, index) => (
-              <Book key={index} cover={image} title={title} author={author} />
-            ))}
+          {books.slice(arrayOffset, books.length).map(({ id, book }, index) => (
+            <Book
+              key={index}
+              cover={book.image}
+              title={book.title}
+              author={book.author}
+              onClick={linkBooks ? () => goToSwapPage(id) : null}
+            />
+          ))}
         </>
       );
     }

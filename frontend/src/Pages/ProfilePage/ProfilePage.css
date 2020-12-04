@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;600;700&display=swap");
 
-
 .pageBody {
   display: flex;
   height: calc(40vh - 100px);
@@ -79,12 +78,11 @@
 
 /* Library Section (Right Column) */
 
-.librarySection {
+.profileLibrarySection {
   width: 65%;
   height: 85%;
   display: flex;
   flex-direction: column;
   min-height: 550px;
-  margin: 0px 2% 0px 2%;
-  /* background-color: green; */
+  margin: 0px 0px 0px 1%;
 }
