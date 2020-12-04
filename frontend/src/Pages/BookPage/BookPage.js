@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { useHistory, useParams } from "react-router-dom";
 
-
+import AuthContext from "../../Context/AuthContext";
 import BookCover from "../../Assets/Book Cover.png";
 import "./BookPage.css";
-import { SearchResultRow, SearchSort } from "../../Components";
+import { Button } from "../../Components";
 import useApi from "../../Api/useApi";
 import requests from "../../Api/requests";
+
 
 const filter_categories = ["Title", "Author", "Genre", "User"];
 const condition_categories = ["Perfect", "Great", "Good", "Poor"];
@@ -14,19 +15,24 @@ const condition_categories = ["Perfect", "Great", "Good", "Poor"];
 function BookPage(props) {
   const swap = useApi(requests.getBookDetails);
   const books = useApi(requests.getSearchResults);
+  const { userId } = useContext(AuthContext);
   let { swapId, filterTerm, searchTerm } = useParams();
+  let history = useHistory();
 
   useEffect(() => {
     swap.request(swapId);
-  }, []);
+  }, [swapId]);
 
-  const tableFill = () => {
-    setTimeout(() => { books.request(swap.data.book.title, 'Title'); }, 1000);
-  };
+  useEffect(() => {
+    if(swap.data.book){
+      books.request(swap.data.book.title, 'Title');
+      console.log(swap.data.book);
+      console.log(userId);
+    }
+  }, [swap.data]);
 
-  const print = () => {
-    console.log(swap.data);
-    console.log(books.data);
+  const bookPageRedirect = (id) => {
+    history.push(`/book/${id}`);
   };
 
   return (
@@ -34,15 +40,12 @@ function BookPage(props) {
       {swap.loading && (
         <p className="nowShowing">Loading Search Results...</p>
       )}
-      {swap.data.book && !books.data.length && (
-        tableFill()
-       )}
-      {books.data.length && (
+      {swap.data.book && !swap.loading && (
       <section className="container">
         <div className="bookImg">
           <img
             id="bookCover"
-            src={BookCover}
+            src={swap.data.book.image}
             alt="Man leaning on building for some reason"
           />
         </div>
@@ -72,74 +75,34 @@ function BookPage(props) {
           <div className="bookButtons">
             
             <div className="proposeButton">
-              <button id="proposeCurrent" onClick={() => print()}>ProposeTrade</button>
+              <button id="proposeCurrent" >ProposeTrade</button>
             </div>
-          </div>
-
-          <div className="AvailableTable">
-            <table>
-              <caption>Available Copies</caption>
-              <thead>
-                <tr>
-                  <th>User</th>
-                  <th>Condition</th>
-                  <th>Price</th>
-                  <th>Location</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>xxDragon_Sniperxx</td>
-                  <td>Bad</td>
-                  <td>10000 Book Points</td>
-                  <td>Sydney, Australia</td>
-                  <td>
-                    <button id="proposeTrade">ProposeTrade</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Paul Paulson</td>
-                  <td>Bad</td>
-                  <td>100 Book Points</td>
-                  <td>Oslo, Norway</td>
-                  <td>
-                    <button id="proposeTrade">ProposeTrade</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>daBabey44</td>
-                  <td>Bad</td>
-                  <td>99999 Book Points</td>
-                  <td>Charlotte, North Carolina</td>
-                  <td>
-                    <button id="proposeTrade">ProposeTrade</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>BookLvr</td>
-                  <td>Bad</td>
-                  <td>5 Book Points</td>
-                  <td>Nantucket, Massachussetts</td>
-                  <td>
-                    <button id="proposeTrade">ProposeTrade</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>goSox55</td>
-                  <td>Bad</td>
-                  <td>1 Book Points</td>
-                  <td>New York, New York</td>
-                  <td>
-                    <button id="proposeTrade">ProposeTrade</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </section>
       </section>
       )}
+      <div id="AvailableTableSection">
+        {books.data.length > 0 && (
+          <div id="AvailableTable">
+          <div className="TableRow">
+            <div className="TableCell BorderRight HeaderCell" ><p className="CellText">Name</p></div>
+            <div className="TableCell BorderRight HeaderCell"><p className="CellText">Cost</p></div>
+            <div className="TableCell BorderRight HeaderCell"><p className="CellText">Condition</p></div>
+            <div className="TableCell BorderRight HeaderCell"><p className="CellText">Location</p></div>
+            <div className="TableCell HeaderCell"><p className="CellText"></p></div>
+          </div>
+          {books.data.map((swap, index) => (
+          <div className="TableRow">
+            <div className="TableCell BorderRight" ><p className="CellText">{swap.owner.name}</p></div>
+            <div className="TableCell BorderRight"><p className="CellText">{swap.cost}</p></div>
+            <div className="TableCell BorderRight"><p className="CellText">{swap.condition}</p></div>
+            <div className="TableCell BorderRight"><p className="CellText">{swap.owner.state}</p></div>
+            <div className="TableCell"><Button onClick={() => bookPageRedirect(swap.id)}>More Info</Button></div>
+          </div>
+        ))}
+      </div>)}
+        
+      </div>
     </div>
   );
 }

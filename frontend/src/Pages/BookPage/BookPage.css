@@ -16,6 +16,7 @@
 
 .container {
   display: flex;
+  flex-direction: row;
 }
 
 .data {
@@ -217,4 +218,34 @@ td:first-child, th:first-child {
   justify-content: center;
   color: white;
   border: 0px;
+}
+
+/* Table */
+#AvailableTableSection{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#AvailableTable{
+  width: 90%;
+  border: 1px solid black;
+}
+
+.TableRow{
+  height: 50px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid black;
+}
+
+.TableCell{
+  height: 100%;
+  width: 20%;
+}
+
+.BorderRight{
+  border-right: 1px solid black;
 }
