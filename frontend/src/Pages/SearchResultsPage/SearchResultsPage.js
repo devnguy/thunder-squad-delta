@@ -48,8 +48,8 @@ function SearchResultsPage(props) {
   };
 
   useEffect(() => {
+    setBookArray(books.data);
     if (books.data.length > 0) {
-      setBookArray(books.data);
       sortBy();
     }
   }, [books.data]);

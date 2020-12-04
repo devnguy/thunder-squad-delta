@@ -7,6 +7,9 @@
   align-items: center;
   width: 80%;
   min-width: 875px;
+  height: 265px;
+  min-height: 265px;
+  max-height: 265px;
   margin-left: 10%;
   font-family: Montserrat;
   border-bottom: 1px solid black;
@@ -37,16 +40,21 @@
 }
 
 .titleTxt {
-  font-size: 2.2em;
+  font-size: 2em;
   text-align: center;
   margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 
 .authorTxt {
   font-size: 1.2em;
   text-align: center;
   color: #d8315b;
-  margin-top: 5px;
+  margin: 12px 0px 12px 0px;
 }
 
 .byTxt {
