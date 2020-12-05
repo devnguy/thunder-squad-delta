@@ -90,6 +90,7 @@ function PendingSwapsPage(props) {
                   }}
                   onReject={() => {
                     statusChange.request(id, "available");
+                    pointChange.request(receiver.id, cost);
                     setNewData(!newData);
                   }}
                   isGet={false}
