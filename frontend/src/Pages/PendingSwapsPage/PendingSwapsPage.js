@@ -81,7 +81,11 @@ function PendingSwapsPage(props) {
                   dateRequested={date_requested}
                   {...{ status }}
                   openShip={() => {
-                    setCurrentSwap(allSwaps.data.owned[index]);
+                    setCurrentSwap(
+                      allSwaps.data.owned.filter(
+                        (swap) => swap.status && swap.status !== "available"
+                      )[index]
+                    );
                     setShippingVisible(true);
                   }}
                   onAccept={() => {
