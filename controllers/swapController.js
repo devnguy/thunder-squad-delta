@@ -2,28 +2,77 @@ const SQL = require('sql-template-strings')
 const db = require('../lib/db')
 
 const formatSwaps = require('./util/formatSwaps')
+const {
+  MissingAttributeError,
+  UserNotFoundError,
+  SwapNotFoundError,
+  DatabaseError,
+  SwapInProgressError,
+  BookNotFoundError,
+} = require('../errors')
 
-// Search for swaps.
-// There is some nastiness below. I would parameterize the table that's being
-// searched, but sql tables cannot be parameterized inside a query. All of the
-// queries in this function are the same except for the WHERE clause. Added to
-// the code debt and created a switch based on 'searchby'. A better solution
-// would be nice. Sombody smell this.
-exports.getSwaps = async function (req, res) {
-  if (!req.query.q || !req.query.searchby) {
-    return res.status(400).json({ status: false, id: null, msg: 'Query required' })
+
+exports.getAllSwaps = async function (req, res, next) {
+  try {
+    const swaps = await db.query(SQL
+      `SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, date_requested, 
+      owner.user_id as owner_id, owner.name as owner_name,
+      owner.street as owner_street, owner.city as owner_city, owner.state as owner_state, owner.zip as
+      owner_zip, receiver_id,
+      book.book_id, book.title, book.author, book.genre, book.description, book.year_published, book.publisher, book.image
+      FROM swap
+      JOIN book ON swap.book_id = book.book_id
+      JOIN user AS owner on swap.owner_id = owner.user_id
+      WHERE receiver_id IS NULL
+      ORDER BY swap_id DESC;
+      `)
+
+    if (swaps.error) throw new DatabaseError(swaps.error)
+
+    return res.status(200).json(formatSwaps(swaps))
+  } catch (error) {
+    return next(error)
   }
-  const searchTerm = `%${req.query.q}%`
+}
+// Search for swaps either by query and searchby, or bookid.
+exports.getSwaps = async function (req, res, next) {
+  try {
+    if ((!req.query.q || !req.query.searchby) && !req.query.bookid) {
+      throw new MissingAttributeError('Query and searchby, or bookid required')
+    }
+    if (req.query.q && req.query.searchby) {
+      return res
+        .status(200)
+        .json(formatSwaps(await searchSwapsByTerm(req.query.q, req.query.searchby)))
+    }
+    if (req.query.bookid) {
+      return res.status(200).json(formatSwaps(await searchSwapsByBookId(req.query.bookid)))
+    }
+  } catch (error) {
+    return next(error)
+  }
+}
+
+/**
+ * Queries the database and returns swaps based on search parameters.
+ * @param {string} q : Query string
+ * @param {string} searchby : One of: 'title', 'author', 'genre', 'user'
+ */
+async function searchSwapsByTerm(q, searchby) {
+  const searchTerm = `%${q}%`
   try {
     let swaps = undefined
     // Query a different column based on searchby value.
-    switch (req.query.searchby.toLowerCase()) {
+    switch (searchby.toLowerCase()) {
       case 'title':
         swaps = await db.query(SQL`
-          SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, owner.user_id as
-          owner_id, owner.name as owner_name, receiver.user_id as receiver_id, receiver.name 
-          as receiver_name, book.book_id, book.title, book.author, book.genre, book.description,
-          book.year_published, book.publisher, book.image
+          SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, date_requested, 
+            owner.user_id as owner_id, owner.name as owner_name, receiver.user_id as receiver_id,
+            receiver.name as receiver_name, book.book_id, book.title, book.author, book.genre,
+            book.description, book.year_published, book.publisher, book.image, owner.street as
+            owner_street, owner.city as owner_city, owner.state as owner_state, owner.zip as
+            owner_zip, receiver.street as receiver_street, receiver.city as receiver_city, 
+            receiver.state as receiver_state, receiver.zip as receiver_zip
           FROM swap
           JOIN book ON swap.book_id = book.book_id
           LEFT JOIN user AS receiver ON swap.receiver_id = receiver.user_id
@@ -34,10 +83,13 @@ exports.getSwaps = async function (req, res) {
         break
       case 'author':
         swaps = await db.query(SQL`
-          SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, owner.user_id as
-          owner_id, owner.name as owner_name, receiver.user_id as receiver_id, receiver.name 
-          as receiver_name, book.book_id, book.title, book.author, book.genre, book.description,
-          book.year_published, book.publisher, book.image
+          SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, date_requested, 
+            owner.user_id as owner_id, owner.name as owner_name, receiver.user_id as receiver_id,
+            receiver.name as receiver_name, book.book_id, book.title, book.author, book.genre,
+            book.description, book.year_published, book.publisher, book.image, owner.street as
+            owner_street, owner.city as owner_city, owner.state as owner_state, owner.zip as
+            owner_zip, receiver.street as receiver_street, receiver.city as receiver_city, 
+            receiver.state as receiver_state, receiver.zip as receiver_zip
           FROM swap
           JOIN book ON swap.book_id = book.book_id
           LEFT JOIN user AS receiver ON swap.receiver_id = receiver.user_id
@@ -48,10 +100,13 @@ exports.getSwaps = async function (req, res) {
         break
       case 'genre':
         swaps = await db.query(SQL`
-          SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, owner.user_id as
-          owner_id, owner.name as owner_name, receiver.user_id as receiver_id, receiver.name 
-          as receiver_name, book.book_id, book.title, book.author, book.genre, book.description,
-          book.year_published, book.publisher, book.image
+          SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, date_requested, 
+            owner.user_id as owner_id, owner.name as owner_name, receiver.user_id as receiver_id,
+            receiver.name as receiver_name, book.book_id, book.title, book.author, book.genre,
+            book.description, book.year_published, book.publisher, book.image, owner.street as
+            owner_street, owner.city as owner_city, owner.state as owner_state, owner.zip as
+            owner_zip, receiver.street as receiver_street, receiver.city as receiver_city, 
+            receiver.state as receiver_state, receiver.zip as receiver_zip
           FROM swap
           JOIN book ON swap.book_id = book.book_id
           LEFT JOIN user AS receiver ON swap.receiver_id = receiver.user_id
@@ -62,10 +117,13 @@ exports.getSwaps = async function (req, res) {
         break
       case 'user':
         swaps = await db.query(SQL`
-          SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, owner.user_id as
-          owner_id, owner.name as owner_name, receiver.user_id as receiver_id, receiver.name 
-          as receiver_name, book.book_id, book.title, book.author, book.genre, book.description,
-          book.year_published, book.publisher, book.image
+          SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, date_requested, 
+            owner.user_id as owner_id, owner.name as owner_name, receiver.user_id as receiver_id,
+            receiver.name as receiver_name, book.book_id, book.title, book.author, book.genre,
+            book.description, book.year_published, book.publisher, book.image, owner.street as
+            owner_street, owner.city as owner_city, owner.state as owner_state, owner.zip as
+            owner_zip, receiver.street as receiver_street, receiver.city as receiver_city, 
+            receiver.state as receiver_state, receiver.zip as receiver_zip
           FROM swap
           JOIN book ON swap.book_id = book.book_id
           LEFT JOIN user AS receiver ON swap.receiver_id = receiver.user_id
@@ -77,123 +135,207 @@ exports.getSwaps = async function (req, res) {
       default:
         break
     }
-    if (!swaps) {
-      return res.status(400).json({ status: false, id: null, msg: 'Invalid searchby value' })
-    }
-    if (swaps.error) return res.status(500).json(swaps.error)
+    if (swaps === undefined) throw new MissingAttributeError('Invalid searchby value')
+    if (swaps.error) throw new DatabaseError(swaps.error)
 
-    return res.status(200).json(formatSwaps(swaps))
+    return swaps
   } catch (error) {
-    console.log(error)
-    return res.json(error)
+    throw error
   }
 }
 
-// Get all swaps owned by one user.
-exports.getSwapsByUserId = async function (req, res) {
+/**
+ * Queries the database and returns all swaps matching the given bookId.
+ * @param {int} bookId : Id of the book
+ */
+async function searchSwapsByBookId(bookId) {
   try {
+    // Confirm book exists.
+    const book = await db.query(SQL`SELECT * from book WHERE book_id = ${bookId}`)
+    if (!book.length) throw new BookNotFoundError()
+
     const swaps = await db.query(SQL`
-      SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, owner.user_id as owner_id,
-        owner.name as owner_name, receiver.user_id as receiver_id, receiver.name as receiver_name,
-        book.book_id, book.title, book.author, book.genre, book.description, book.year_published,
-        book.publisher, book.image
+      SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, date_requested, 
+        owner.user_id as owner_id, owner.name as owner_name, receiver.user_id as receiver_id,
+        receiver.name as receiver_name, book.book_id, book.title, book.author, book.genre,
+        book.description, book.year_published, book.publisher, book.image, owner.street as
+        owner_street, owner.city as owner_city, owner.state as owner_state, owner.zip as
+        owner_zip, receiver.street as receiver_street, receiver.city as receiver_city, 
+        receiver.state as receiver_state, receiver.zip as receiver_zip
       FROM swap
       JOIN book ON swap.book_id = book.book_id
       LEFT JOIN user AS receiver ON swap.receiver_id = receiver.user_id
       JOIN user AS owner on swap.owner_id = owner.user_id
-      WHERE owner.user_id = ${req.params.userId};
+      WHERE book.book_id = ${bookId};
     `)
-    if (!swaps) return res.status(404).json({ error: 'No user with this user_id exists' })
-    if (swaps.error) return res.status(500).json(swaps.error)
-
-    return res.status(200).json(formatSwaps(swaps))
+    if (swaps.error) throw new DatabaseError(swaps.error)
+    return swaps
   } catch (error) {
-    console.log(error)
-    return res.json(error)
+    throw error
   }
 }
 
-// Get all swaps for a specific book.
-exports.getSwapsByBookId = async function (req, res) {
+// Get all swaps owned/requested by one user.
+exports.getSwapsByUserId = async function (req, res, next) {
   try {
+    // Confirm user exists.
+    const user = await db.query(SQL`SELECT * from user WHERE user_id = ${req.params.userId}`)
+    if (!user.length) throw new UserNotFoundError()
+
     const swaps = await db.query(SQL`
-      SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, owner.user_id as owner_id,
-        owner.name as owner_name, receiver.user_id as receiver_id, receiver.name as receiver_name,
-        book.book_id, book.title, book.author, book.genre, book.description, book.year_published,
-        book.publisher, book.image
+      SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, date_requested, 
+        owner.user_id as owner_id, owner.name as owner_name, receiver.user_id as receiver_id,
+        receiver.name as receiver_name, book.book_id, book.title, book.author, book.genre,
+        book.description, book.year_published, book.publisher, book.image, owner.street as
+        owner_street, owner.city as owner_city, owner.state as owner_state, owner.zip as
+        owner_zip, receiver.street as receiver_street, receiver.city as receiver_city, 
+        receiver.state as receiver_state, receiver.zip as receiver_zip
       FROM swap
       JOIN book ON swap.book_id = book.book_id
       LEFT JOIN user AS receiver ON swap.receiver_id = receiver.user_id
       JOIN user AS owner on swap.owner_id = owner.user_id
-      WHERE book.book_id = ${req.params.bookId};
+      WHERE owner.user_id = ${req.params.userId}
+      OR receiver.user_id = ${req.params.userId};
     `)
-    if (!swaps) return res.status(404).json({ error: 'No book with this book_id exists' })
-    if (swaps.error) return res.status(500).json(swaps.error)
+    if (swaps.error) throw new DatabaseError(swaps.error)
 
-    return res.status(200).json(formatSwaps(swaps))
+    return res.status(200).json({
+      owned: formatSwaps(swaps.filter((swap) => swap.owner_id == req.params.userId)),
+      requested: formatSwaps(swaps.filter((swap) => swap.receiver_id == req.params.userId)),
+    })
   } catch (error) {
-    console.log(error)
-    return res.json(error)
+    return next(error)
+  }
+}
+
+// Get one swap by its id.
+exports.getSwapById = async function (req, res, next) {
+  try {
+    const swap = await db.query(SQL`
+      SELECT swap_id, \`condition\`, \`status\`, cost, creation_date, date_requested, 
+        owner.user_id as owner_id, owner.name as owner_name, receiver.user_id as receiver_id,
+        receiver.name as receiver_name, book.book_id, book.title, book.author, book.genre,
+        book.description, book.year_published, book.publisher, book.image, owner.street as
+        owner_street, owner.city as owner_city, owner.state as owner_state, owner.zip as
+        owner_zip, receiver.street as receiver_street, receiver.city as receiver_city, 
+        receiver.state as receiver_state, receiver.zip as receiver_zip
+      FROM swap
+      JOIN book ON swap.book_id = book.book_id
+      LEFT JOIN user AS receiver ON swap.receiver_id = receiver.user_id
+      JOIN user AS owner on swap.owner_id = owner.user_id
+      WHERE swap_id = ${req.params.swapId}
+    `)
+    if (swap.error) throw new DatabaseError(swap.error)
+
+    return res.status(200).json(formatSwaps(swap)[0])
+  } catch (error) {
+    return next(error)
   }
 }
 
 // Create a swap.
-exports.createSwap = async function (req, res) {
-  // Confirm required fields were passed.
-  if (!req.body.bookId || !req.body.condition || !req.body.cost) {
-    return res.status(400).json({
-      status: false,
-      id: null,
-      msg: 'The request is object missing at least one of the required attributes',
-    })
-  }
+exports.createSwap = async function (req, res, next) {
   try {
     // Confirm user exists.
     const checkUser = await db.query(SQL`SELECT * from user WHERE user_id = ${req.params.userId}`)
-    if (!checkUser.length) {
-      return res
-        .status(400)
-        .json({ status: false, id: null, msg: 'No user with that user_id exists' })
+    if (!checkUser.length) throw new UserNotFoundError()
+
+    // Confirm required fields were passed.
+    if (!req.body.bookId || !req.body.condition || !req.body.cost) {
+      throw new MissingAttributeError()
     }
+
     const response = await db.query(SQL`
-      INSERT INTO swap (owner_id, book_id, \`condition\`, cost)
-      VALUES ($${req.body.bookId}, ${req.body.condition}, ${req.body.cost}) 
+      INSERT INTO swap (owner_id, book_id, \`condition\`, cost, status)
+      VALUES (${req.params.userId}, ${req.body.bookId}, ${req.body.condition}, ${req.body.cost}, \'available\')
     `)
-    if (response.error) return res.status(500).json(response.error)
+    if (response.error) throw new DatabaseError(response.error)
+
     // Prepare and return swap info.
     return res.status(201).json({
       status: true,
       id: response.insertId,
     })
   } catch (error) {
-    console.log(error)
-    return res.json(error)
+    return next(error)
   }
 }
 
-// Complete a swap by setting 'completed' property to true.
-// This needs to be updated with new 'status' column.
-exports.completeSwap = async function (req, res) {
+// Update a swap's status and/or receiver.
+exports.updateSwap = async function (req, res, next) {
   try {
+    if (
+      req.body.status !== 'available' &&
+      req.body.status !== 'requested' &&
+      req.body.status !== 'shipping' &&
+      req.body.status !== 'completed' &&
+      req.body.status !== 'accepted'
+    ) {
+      throw new MissingAttributeError('Invalid status value')
+    }
+    let updateResponse = undefined
     const [swap] = await db.query(SQL`SELECT * FROM swap WHERE swap_id = ${req.params.swapId}`)
     if (!swap) {
-      return res.status(404).json({ status: false, msg: 'No swap with that swap_id exists' })
+      throw new SwapNotFoundError()
     }
     // Don't update the swap if it's already completed.
-    if (swap.completed) {
-      return res.status(400).json({ error: 'This swap has already been completed' })
+    if (swap.status === 'completed') {
+      throw new SwapInProgressError('Swap already completed')
     }
-    const response = await db.query(SQL`
-      UPDATE swap
-      SET completed = true
-      WHERE swap_id = ${req.params.swapId}
-    `)
-    if (response.error) {
-      return res.status(500).json(response.error)
+    switch (req.body.status.toLowerCase()) {
+      case 'available':
+        updateResponse = await db.query(SQL`
+          UPDATE swap
+          SET status = ${req.body.status},
+              receiver_id = null,
+              date_requested = null
+          WHERE swap_id = ${req.params.swapId}
+        `)
+        break
+      case 'requested':
+        updateResponse = await db.query(SQL`
+          UPDATE swap
+          SET status = ${req.body.status},
+              receiver_id = ${req.body.receiverId},
+              date_requested = CURRENT_TIMESTAMP
+          WHERE swap_id = ${req.params.swapId}
+        `)
+        break
+      default:
+        updateResponse = await db.query(SQL`
+          UPDATE swap
+          SET status = ${req.body.status}
+          WHERE swap_id = ${req.params.swapId}
+        `)
+        break
     }
-    return res.status(200).json({ success: `Swap with swap_id ${req.params.swapId} completed` })
+    if (updateResponse.error) throw new DatabaseError(updateResponse.error)
+    return res.status(200).json({ status: true, msg: updateResponse.message })
   } catch (error) {
-    console.log(error)
-    return res.status(400).json(error)
+    return next(error)
+  }
+}
+
+// Delete a swap
+exports.deleteSwap = async function (req, res, next) {
+  try {
+    // Check if the swap exists before deleting
+    const swap = await db.query(SQL`SELECT * FROM swap WHERE swap_id = ${req.params.swapId}`)
+    if (swap.error) throw new DatabaseError(swap.error)
+    if (!swap.length) throw new SwapNotFoundError()
+    // if the swap with the given ID is valid AND
+    // status != complete or status != in progress, delete it
+    if (swap[0].status == 'available' || swap[0].status == 'requested') {
+      const result = await db.query(SQL`DELETE FROM swap WHERE swap_id = ${req.params.swapId}`)
+      if (result.error) throw new DatabaseError(result.error)
+      return res.status(200).json({
+        status: true,
+        message: 'Swap successfully deleted!',
+      })
+    } else {
+      throw new SwapInProgressError()
+    }
+  } catch (error) {
+    return next(error)
   }
 }

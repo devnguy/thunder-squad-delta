@@ -4,79 +4,34 @@
 
 .loginPage {
   display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding: 50px 100px 0px 100px;
   background-color: #fffaff;
-  font-family: 'Montserrat';
-  height: 100%;
+  height: calc(100vh - 150px);
+  min-width: 900px;
 }
 
-.loginFlow{
-  display:flex;
-  flex:1;
-  flex-wrap:wrap;
+#loginIconSection {
+  width: 30%;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+#loginFormSection {
+  height: 400px;
+  width: 30%;
+  justify-self: center;
+  display: flex;
   flex-direction: column;
-}
-.loginForm {
-  display:flex;
-  flex: 0 0 100%;
-  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
 }
 
-.fieldLogin {
-  background-color: #fffaff;
-display: block;
-margin: 2%;
-height: 40px;
-border-radius: 20px;
-padding-left: 30px;
-width: 59%;
-font-size: 2em;
-font-family:montserrat;
-border: 1px solid #1E1B18;
-
-}
-
-.title {
+.loginTitle {
   display: flex;
-  flex: 0 0 100%;
-  font-size: 3em;
-  font-family: 'Inconsolata';
-}
-
-#links {
-  display: flex;
-  height: 10px;
-  flex: 0 0 100%;
-  font-size: 1em;
-  font-family: 'Inconsolata';
-  color: #0A2463;
-}
-
-.labels{
-  display: flex;
-  flex: 0 0 100%;
-  flex-direction: column;
-  height:85px;
-}
-
-.fieldLogin:focus{
-    outline-width:0;
-}
-
-#regIcon{  
-  display:flex;
-  flex:1;
-}
-
-.imgLogin{
-    max-width: 90%;
-    height:auto;
-}
-
-#LoginSubmit{
-  display: flex;
-  justify-content: flex-start;
-  flex: 0 0 30%;
-  background-color: #D8315B ;
-  color: #fffaff;
-  text-align: left;
+  font-size: 36px;
+  font-family: "Inconsolata";
 }

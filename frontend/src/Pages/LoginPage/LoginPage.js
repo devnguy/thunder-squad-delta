@@ -1,79 +1,68 @@
-import React, { useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { Link, useHistory } from "react-router-dom";
+
 import "./LoginPage.css";
+import LoginIcon from "../../Assets/LoginIcon.png";
 import useApi from "../../Api/useApi";
 import requests from "../../Api/requests";
-import LoginIcon from "../../Assets/LoginIcon.png";
-import { Link, useHistory } from "react-router-dom";
 import AuthContext from "../../Context/AuthContext";
-
-
+import { CustomInputField, Button } from "../../Components";
 
 function Login() {
-  const Login = useApi(requests.loginUser);
-  const[userName, setuserName] = React.useState("");
-  const[passWord, setpassWord] = React.useState("");
-  const {userId, setUserId} = useContext(AuthContext);
+  const login = useApi(requests.loginUser);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { setUserId } = useContext(AuthContext);
   let history = useHistory();
 
-  function handleUsername(event) {
-    setuserName(event.target.value);
-  }
+  useEffect(() => {
+    if (login.data.status === true) {
+      loginUser();
+    }
+  }, [login.data]);
 
-  
-  function handlepassWord(event) {
-    setpassWord(event.target.value);
-  }
-
-useEffect(()=>{
-  if (Login.data.status === true){
-    console.log(Login.data.id);
-    setUserId(Login.data.id);
+  const loginUser = () => {
+    setUserId(login.data.id);
     history.push(`/`);
-  }
-  else if(Login.data.status === false) {
-    console.log("Error");
-  }  
-}, [Login.data.status]);
+  };
 
-function LoginUser(e) {
-    Login.request(userName, passWord);
-  }
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      login.request(email, password);
+    }
+  };
 
+  const goToRegistration = () => {
+    history.push("/register");
+  };
 
   return (
     <div className="loginPage">
-      <div id="regIcon">
-          <img src={LoginIcon} alt="Woman reading"/>
-        </div>
-      <div className="loginFlow">
-          <div className="loginForm">
-            <h2 className="title"> Login </h2>
-            <div className="labels">
-                <input 
-                className="fieldLogin"
-                placeholder="Username"
-                type="text" 
-                name="Username" 
-                value={userName} 
-                onChange={handleUsername} 
-                />
-              <input
-                type="password"
-                placeholder="Password"
-                name="password"
-                className="fieldLogin"
-                value={passWord}
-                onChange={handlepassWord}
-              />
-            </div>
-			      <div id="links">
-              <h4>
-                <Link to="/Register">Sign Up</Link>
-              </h4>
-            </div>
-            <button id="LoginSubmit" className="fieldLogin" onClick={LoginUser}>Submit</button>
-          </div>
-        </div>
+      <div id="loginIconSection">
+        <img src={LoginIcon} alt="Woman reading" />
+      </div>
+      <div id="loginFormSection">
+        <p className="loginTitle">Login</p>
+        <CustomInputField
+          name="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          type="text"
+        />
+        <CustomInputField
+          name="Password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={handleKeyDown}
+        />
+        <Button onClick={() => login.request(email, password)}>
+          Log In
+        </Button>
+        <Button outline color="blue" onClick={goToRegistration}>
+          No Account? Register
+        </Button>
+      </div>
     </div>
   );
 }

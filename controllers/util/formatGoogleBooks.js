@@ -1,5 +1,10 @@
 function formatGoogleBooks(books) {
-    if (books.items) {
+
+    let formattedBooks;
+    if (books.totalItems === 0 ){
+        formattedBooks = []
+      }
+    else if (books) {
         formattedBooks = books.items.map((book) => ({
             title: book.volumeInfo.title,
             author: book.volumeInfo.authors[0],
@@ -11,8 +16,7 @@ function formatGoogleBooks(books) {
         }))
         return formattedBooks
     }
-    else return []
-
+    return [];
 }
 
 module.exports = formatGoogleBooks

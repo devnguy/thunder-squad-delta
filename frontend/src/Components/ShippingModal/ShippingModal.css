@@ -1,0 +1,53 @@
+.shippingModal {
+  position: fixed;
+  z-index: 1000;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: row;
+  background-color: #3A3768;
+  font-family: Montserrat;
+  color: white;
+  width: 30%;
+  min-width: 500px;
+  height: 300px;
+  border-radius: 10px;
+  justify-content: space-evenly;
+  padding: 30px;
+  font-size: 20px;
+}
+
+.leftShippingModal {
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.pSwapAddressHolder {
+  padding-left: 40px;
+  padding-top: 10px;
+}
+
+.pSwapAddressTxt{
+  margin: 4px;
+}
+
+.rightShippingModal {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: center;
+}
+
+.modalButtonHolder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 80px;
+  padding-right: 40px;
+  width: 150px;
+}

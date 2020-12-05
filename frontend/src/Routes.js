@@ -3,6 +3,7 @@ import { Switch, Route } from "react-router-dom";
 
 import {
   HomePage,
+  LibraryPage,
   ProfilePage,
   AboutPage,
   RegistrationPage,
@@ -11,6 +12,8 @@ import {
   BookPage,
   LoginPage,
   ResetPasswordPage,
+  PendingSwapsPage,
+  WishlistPage,
 } from "./Pages";
 
 export default function Routes() {
@@ -22,11 +25,14 @@ export default function Routes() {
       <Route path="/about">
         <AboutPage />
       </Route>
-      <Route path="/book">
+      <Route path="/book/:swapId">
         <BookPage />
       </Route>
       <Route path="/browse">
         <BrowsePage />
+      </Route>
+      <Route path="/library">
+        <LibraryPage />
       </Route>
       <Route path="/login">
         <LoginPage />
@@ -42,6 +48,12 @@ export default function Routes() {
       </Route>
       <Route path="/search/:filterTerm/:searchTerm">
         <SearchResultsPage />
+      </Route>
+      <Route path="/pending">
+        <PendingSwapsPage />
+      </Route>
+      <Route path="/wishlist">
+        <WishlistPage />
       </Route>
     </Switch>
   );

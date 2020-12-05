@@ -1,26 +1,68 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { SearchResultRow, SearchSort } from "../../Components";
+import { SearchResultRow, Dropdown } from "../../Components";
 import useApi from "../../Api/useApi";
 import requests from "../../Api/requests";
-
 import "./SearchResultsPage.css";
+
+const filterCategories = [
+  "Cost (↓)",
+  "Cost (↑)",
+  "Condition (↓)",
+  "Condition (↑)",
+];
 
 function SearchResultsPage(props) {
   const books = useApi(requests.getSearchResults);
-  const [bookArray, setBookArray] = useState([]);
   let { filterTerm, searchTerm } = useParams();
+  const [sortTerm, setSortTerm] = useState("Cost (↑)");
+  const [bookArray, setBookArray] = useState([]);
 
-  useEffect(() => {
+  const handleSearch = () => {
     books.request(searchTerm, filterTerm);
-  }, []);
+  };
+
+  const sortBy = () => {
+    if (sortTerm === "Cost (↑)") {
+      let sorted = [...books.data].sort((a, b) => {
+        return a.cost - b.cost;
+      });
+      setBookArray(sorted);
+    } else if (sortTerm === "Cost (↓)") {
+      let sorted = [...books.data].sort((a, b) => {
+        return b.cost - a.cost;
+      });
+      setBookArray(sorted);
+    } else if (sortTerm === "Condition (↑)") {
+      let sorted = [...books.data].sort((a, b) => {
+        return a.condition - b.condition;
+      });
+      setBookArray(sorted);
+    } else if (sortTerm === "Condition (↓)") {
+      let sorted = [...books.data].sort((a, b) => {
+        return b.condition - a.condition;
+      });
+      setBookArray(sorted);
+    }
+  };
 
   useEffect(() => {
-    if (books.data !== []) {
-      setBookArray(books.data);
+    setBookArray(books.data);
+    if (books.data.length > 0) {
+      sortBy();
     }
   }, [books.data]);
+
+  useEffect(() => {
+    if (books.data.length > 0) {
+      sortBy();
+    }
+  }, [sortTerm]);
+
+  useEffect(() => {
+    handleSearch();
+  }, [searchTerm, filterTerm]);
 
   return (
     <div className="searchPageContainer">
@@ -28,33 +70,40 @@ function SearchResultsPage(props) {
         {books.loading && (
           <p className="nowShowing">Loading Search Results...</p>
         )}
-        {!books.loading && bookArray !== [] && (
+        {!books.loading && (
           <p className="nowShowing">
-            Showing {bookArray.length} results for "{searchTerm}"
+            Showing{" "}
+            {books.data.filter((swap) => swap.status === "available").length}{" "}
+            results for "{searchTerm}"
           </p>
-        )}
-        {!books.loading && bookArray === [] && (
-          <p className="nowShowing">Showing 0 results for "{searchTerm}"</p>
         )}
         <div className="sortContainer">
           <p className="sortLabel">Sort Results By: </p>
-          <SearchSort className="searchSortStyle" />
+          <Dropdown
+            title="Cost (↑)"
+            options={filterCategories}
+            buttonHeight="50px"
+            onSelect={setSortTerm}
+          />
         </div>
       </div>
       <div className="rowHolder">
-        {bookArray && bookArray !== [] && (
+        {!books.loading && bookArray && (
           <>
-            {bookArray.map(({ book, owner, condition, cost }, index) => (
-              <SearchResultRow
-                cover={book.image}
-                title={book.title}
-                author={book.author}
-                giver={owner.name}
-                {...{ condition }}
-                {...{ cost }}
-                key={index}
-              />
-            ))}
+            {bookArray
+              .filter((swap) => swap.status === "available")
+              .map(({ id, book, owner, condition, cost }, index) => (
+                <SearchResultRow
+                  id={id}
+                  cover={book.image}
+                  title={book.title}
+                  author={book.author}
+                  giver={owner.name}
+                  {...{ condition }}
+                  {...{ cost }}
+                  key={index}
+                />
+              ))}
           </>
         )}
       </div>

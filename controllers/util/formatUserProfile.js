@@ -34,6 +34,26 @@ function formatLibrary(user) {
             return bookArray;
         }, [])
     }
-
+    function formatLibrarySwaps(user, userId) {
+        return user.reduce((swapArray, swap) => {
+            if (swap.swap_id != null && swap.owner_id == userId) {
+                const newSwap = {
+                    id: swap.swap_id,
+                    condition: swap.condition,
+                    status: swap.status,
+                    cost: swap.cost,
+                    creation_date: swap.creation_date,
+                    owner: {
+                      id: swap.owner_id,
+                      name: swap.name,
+                    },
+                    receiver: swap.receiver_id ? { id: swap.receiver_id} : null,
+            }
+                swapArray.push(newSwap);
+            }
+            return swapArray;
+        }, [])
+    }
         module.exports.formatLibrary = formatLibrary
         module.exports.formatWishlist = formatWishlist
+        module.exports.formatLibrarySwaps = formatLibrarySwaps

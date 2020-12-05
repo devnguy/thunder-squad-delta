@@ -1,193 +1,195 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faSearch,
-  faChevronDown,
-  faChevronUp,
-} from "@fortawesome/free-solid-svg-icons";
+import React, { useEffect, useContext, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
 
-import BookCover from "../../Assets/Book Cover.png";
 import "./BookPage.css";
-
-const filter_categories = ["Title", "Author", "Genre", "User"];
-const condition_categories = ["Perfect", "Great", "Good", "Poor"];
+import AuthContext from "../../Context/AuthContext";
+import useApi from "../../Api/useApi";
+import requests from "../../Api/requests";
+import { Button } from "../../Components";
 
 function BookPage(props) {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filterOpen, setFilterOpen] = useState(false);
-  const [filterTerm, setFilterTerm] = useState("Filter");
+  const swap = useApi(requests.getBookDetails);
+  const books = useApi(requests.getSearchResults);
+  const update = useApi(requests.updateSwap);
+  const userDetails = useApi(requests.getUser);
+  const pointChange = useApi(requests.changePoints);
+  const { userId } = useContext(AuthContext);
+  const [buttonTxt, setButtonTxt] = useState("Request Trade");
+  let { swapId } = useParams();
+  let history = useHistory();
+  const [requested, setRequested] = useState(false);
+  const [swapArray, setSwapArray] = useState(null);
 
-  const [conditionOpen, setConditionOpen] = useState(false);
-  const [conditionTerm, setConditionTerm] = useState("Condition");
+  useEffect(() => {
+    swap.request(swapId);
+    if (userId) {
+      userDetails.request(userId);
+    }
+  }, [swapId]);
+
+  useEffect(() => {
+    if (swap.data.book) {
+      books.request(swap.data.book.title, "Title");
+      if (swap.data.status !== "available") {
+        setRequested(true);
+        if (swap.data.receiver && swap.data.receiver.id === userId) {
+          setButtonTxt("Requested!");
+        } else {
+          setButtonTxt("Unavailable");
+        }
+      }
+    }
+  }, [swap.data]);
+
+  useEffect(() => {
+    if (books.data.length > 0) {
+      let filtered = [...books.data].filter(
+        (other) => other.status === "available" && other.id !== swap.data.id
+      );
+      setSwapArray(filtered);
+    }
+  }, [books.data]);
+
+  useEffect(() => {
+    if (update.data.status && update.data.status === true) {
+      pointChange.request(userId, swap.data.cost * -1);
+      setRequested(true);
+      setButtonTxt("Requested!");
+    }
+  }, [update.data]);
+
+  const bookPageRedirect = (id) => {
+    history.push(`/book/${id}`);
+  };
+
+  const proposeTrade = () => {
+    if (userId && userDetails.data.points >= swap.data.cost) {
+      update.request(swapId, "requested", userId);
+    } else {
+      setButtonTxt("Not Enough Points");
+    }
+  };
+
   return (
     <div className="bookPage">
-      <div className="bookSearchContainer">
-        <div className="bookFilterContainer">
-          <button
-            className="bookFilterButton bookFilterText"
-            onClick={() => setFilterOpen((filterOpen) => !filterOpen)}
-          >
-            {filterTerm}
-            {filterOpen && (
-              <FontAwesomeIcon icon={faChevronUp} size="sm" color="#fffaff" />
-            )}
-            {!filterOpen && (
-              <FontAwesomeIcon icon={faChevronDown} size="sm" color="#fffaff" />
-            )}
-          </button>
-          {filterOpen && (
-            <div className="bookDropdown">
-              {filter_categories.map((category, index) => (
-                <button
-                  key={index}
-                  className={
-                    index < 3
-                      ? "bookDropdownCell bookFilterText bookCellWithBorder"
-                      : "bookDropdownCell bookFilterText"
-                  }
-                  onClick={() => {
-                    setFilterTerm(category);
-                    setConditionOpen(false);
-                  }}
-                >
-                  {category}
-                </button>
-              ))}
+      <div className="upperPageSection">
+        <div className="bookCoverContainer">
+          <img
+            id="bookCover"
+            src={swap.data.book ? swap.data.book.image : null}
+            alt="Book Cover"
+          />
+        </div>
+        <div className="bookDataContainer">
+          <div className="dataContainer">
+            <p id="bookTitle">
+              {swap.data.book ? swap.data.book.title : "Unknown"}
+            </p>
+            <p id="bookAuthor">
+              {" "}
+              by {swap.data.book ? swap.data.book.author : "Unknown"}
+            </p>
+          </div>
+          <div id="bookInfoRow">
+            <p className="bookInfoText">
+              {swap.data.condition ? swap.data.condition : "Unknown"}
+              {" Condition"}
+            </p>
+            <p className="bookInfoText">
+              {swap.data.cost ? swap.data.cost : "Unknown"}
+              {" Points"}
+            </p>
+            <p className="bookInfoText">
+              {swap.data.owner ? swap.data.owner.name : "Unknown"}
+            </p>
+            <p className="bookInfoText">
+              {swap.data.owner ? swap.data.owner.state : "Unknown"}, USA
+            </p>
+          </div>
+          <div id="descContainer">
+            <p id="descText">
+              {swap.data.book ? swap.data.book.description : ""}
+            </p>
+          </div>
+          {userId && swap.data.owner && userId !== swap.data.owner.id && (
+            <div id="proposeContainer">
+              <Button onClick={!requested ? proposeTrade : null}>
+                {buttonTxt}
+              </Button>
             </div>
           )}
         </div>
-        <form className="bookSearchBar">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="bookSearchBarPrompt"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <button className="bookSearchButton">
-            <Link to="/BookPage">
-              <FontAwesomeIcon icon={faSearch} size="2x" color="#fffaff" />
-            </Link>
-          </button>
-        </form>
       </div>
-      <section className="container">
-        <div className="bookImg">
-          <img
-            id="bookCover"
-            src={BookCover}
-            alt="Man leaning on building for some reason"
-          />
-        </div>
-        <section className="data">
-          <div className="return">
-            <p>
-              <Link to="/">Return to Search</Link>
-            </p>
-          </div>
-          <div className="Title">
-            <h2 id="titlePlaceholder">Title: </h2>
-            <h2 id="bookTitle">The Hobbit</h2>
-          </div>
-          <div className="conditionContainer">
-            <button
-              className="conditionButton conditionText"
-              onClick={() =>
-                setConditionOpen((conditionOpen) => !conditionOpen)
-              }
-            >
-              {conditionTerm}
-              {conditionOpen && (
-                <FontAwesomeIcon icon={faChevronUp} size="sm" color="#fffaff" />
-              )}
-              {!conditionOpen && (
-                <FontAwesomeIcon
-                  icon={faChevronDown}
-                  size="sm"
-                  color="#fffaff"
-                />
-              )}
-            </button>
-            {conditionOpen && (
-              <div className="conditionDropdown">
-                {condition_categories.map((category, index) => (
-                  <button
-                    key={index}
-                    className={
-                      index < 3
-                        ? "dropdownCell filterText cellWithBorder"
-                        : "dropdownCell filterText"
-                    }
-                    onClick={() => {
-                      setConditionTerm(category);
-                      setConditionOpen(false);
-                    }}
-                  >
-                    {category}
-                  </button>
-                ))}
+      <div id="tableTitleContainer">
+        {swapArray && swapArray.length > 0 ? (
+          <p id="tableTitle">Other Available Copies</p>
+        ) : (
+          <p id="tableTitle">No Other Available Copies</p>
+        )}
+      </div>
+      <div id="lowerPageSection">
+        {swapArray && swapArray.length > 0 && (
+          <div id="availableTable">
+            <div className="tableRow borderBottom">
+              <div className="tableCell borderRight headerCell">
+                <p className="cellText">Owner</p>
               </div>
-            )}
+              <div className="tableCell borderRight headerCell">
+                <p className="cellText">Cost</p>
+              </div>
+              <div className="tableCell borderRight headerCell">
+                <p className="cellText">Condition</p>
+              </div>
+              <div className="tableCell borderRight headerCell">
+                <p className="cellText">Location</p>
+              </div>
+              <div className="tableCell headerCell">
+                <p className="cellText"></p>
+              </div>
+            </div>
+            {swapArray &&
+              swapArray.map((swap, index) => (
+                <div
+                  key={index}
+                  className={
+                    index < swapArray.length - 1
+                      ? "tableRow borderBottom"
+                      : "tableRow"
+                  }
+                >
+                  <div className="tableCell borderRight">
+                    <p className="cellText">
+                      {swap.owner ? swap.owner.name : "Unknown"}
+                    </p>
+                  </div>
+                  <div className="tableCell borderRight">
+                    <p className="cellText">
+                      {swap.cost ? swap.cost : "Unknown"}
+                    </p>
+                  </div>
+                  <div className="tableCell borderRight">
+                    <p className="cellText">
+                      {swap.condition ? swap.condition : "Unknown"}
+                    </p>
+                  </div>
+                  <div className="tableCell borderRight">
+                    <p className="cellText">
+                      {swap.owner ? swap.owner.state : "Unknown"}, USA
+                    </p>
+                  </div>
+                  <div className="tableCell totalCenter">
+                    <Button
+                      color="blue"
+                      onClick={() => bookPageRedirect(swap.id)}
+                    >
+                      More Info
+                    </Button>
+                  </div>
+                </div>
+              ))}
           </div>
-
-          <div className="AvailableTable">
-            <table>
-              <caption>Available Copies</caption>
-              <thead>
-                <tr>
-                  <th>User</th>
-                  <th>Price</th>
-                  <th>Location</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>xxDragon_Sniperxx</td>
-                  <td>10000 Book Points</td>
-                  <td>Sydney, Australia</td>
-                  <td>
-                    <button id="proposeTrade">ProposeTrade</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Paul Paulson</td>
-                  <td>100 Book Points</td>
-                  <td>Oslo, Norway</td>
-                  <td>
-                    <button id="proposeTrade">ProposeTrade</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>daBabey44</td>
-                  <td>99999 Book Points</td>
-                  <td>Charlotte, North Carolina</td>
-                  <td>
-                    <button id="proposeTrade">ProposeTrade</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>BookLvr</td>
-                  <td>5 Book Points</td>
-                  <td>Nantucket, Massachussetts</td>
-                  <td>
-                    <button id="proposeTrade">ProposeTrade</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>goSox55</td>
-                  <td>1 Book Points</td>
-                  <td>New York, New York</td>
-                  <td>
-                    <button id="proposeTrade">ProposeTrade</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-      </section>
+        )}
+      </div>
     </div>
   );
 }

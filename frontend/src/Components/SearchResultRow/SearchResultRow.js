@@ -1,12 +1,17 @@
 import React from "react";
-
 import "./SearchResultRow.css";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
-function SearchResultRow({ cover, title, author, condition, giver, cost }) {
+function SearchResultRow({ id, cover, title, author, condition, giver, cost }) {
+  let history = useHistory();
+
+  const bookPageRedirect = () => {
+    history.push(`/book/${id}`);
+  };
+
   return (
     <div className="searchRow">
-      <div className="coverHolder">
+      <div className="bookImgContainer">
         <img className="bookImg" alt="" src={cover} />
       </div>
       <div className="bookDetails">
@@ -16,7 +21,7 @@ function SearchResultRow({ cover, title, author, condition, giver, cost }) {
           {author}
         </p>
         <p className="conditionTxt">
-          <span className="condWord">Condition: </span> {condition}
+          <span className="condWord">{condition} </span>Condition
         </p>
       </div>
       <div className="swapDetails">
@@ -26,9 +31,9 @@ function SearchResultRow({ cover, title, author, condition, giver, cost }) {
         </p>
         <p className="costTxt">{cost} Points</p>
       </div>
-      <div className="infoButtonHolder">
-        <button className="infoButton">
-          <Link to="/book">More Info</Link>
+      <div className="infoButtonContainer">
+        <button className="infoButton" onClick={() => bookPageRedirect(id)}>
+          More Info
         </button>
       </div>
     </div>

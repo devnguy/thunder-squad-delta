@@ -1,0 +1,221 @@
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;600;700&display=swap");
+
+/* Body Styles */
+
+#postModalBody {
+  width: 400px;
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  padding: 10px 0px 10px 0px;
+
+  border: 2px solid #3e92cc;
+  border-radius: 20px;
+  background-color: white;
+  z-index: 1000;
+}
+
+/* Header Section */
+
+#postBookHeaderContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 7% 0px 7%;
+}
+
+#postBookHeader {
+  font-family: Inconsolata;
+  font-weight: 400;
+  font-size: 30px;
+  color: #000000;
+  margin: 5px 0px 5px 0px;
+}
+
+#closeModalIcon {
+  cursor: pointer;
+}
+
+#closeModalIcon:active {
+  opacity: 50%;
+}
+
+/* Fields */
+
+#postBookFieldsContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Upper Fields */
+
+#upperFieldsContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 5px 0px 0px 0px;
+  background-color: #fffaff;
+}
+
+/* Book Suggestion Section */
+
+#bookSuggestionHeading {
+  font-size: 18px;
+  font-family: montserrat;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.6);
+  margin: 10px 0px 10px 0px;
+}
+
+#bookSuggestionContainer {
+  width: 90%;
+  height: 150px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 8px;
+}
+
+#suggestedBookCover {
+  height: 145px;
+  border-radius: 10px;
+}
+
+#suggestedBookInfoContainer {
+  height: 140px;
+  width: 250px;
+  padding: 5px 0px 5px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+#suggestedBookTitle {
+  font-family: Inconsolata;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  color: #000000;
+  margin: 0px 0px 3px 0px;
+  text-align: left;
+  text-overflow: ellipsis;
+}
+
+#suggestedBookAuthor {
+  font-family: Inconsolata;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  color: #d8315b;
+  margin: 0px 0px 8px 0px;
+  text-align: left;
+}
+
+#suggestedBookDesc {
+  font-family: montserrat;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.6);
+  margin: 0;
+}
+
+/* Thumbs Buttons */
+
+#thumbsContainer {
+  width: 80%;
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.thumbButton {
+  height: 40px;
+  width: 40px;
+  border-radius: 999px;
+  border: 3px solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Report Section */
+
+#reportSectionContainer {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0;
+  padding: 0px 10px 5px 10px;
+}
+
+.reportSectionHeading {
+  font-size: 18px;
+  font-family: montserrat;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.6);
+  margin: 10px 0px 5px 0px;
+  padding-left: 2%;
+}
+
+.reportSectionBulletItem {
+  font-size: 14px;
+  font-family: montserrat;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.6);
+  margin: 5px 0px 5px 0px;
+  padding-left: 2%;
+  width: 100%;
+}
+
+/* Lower Fields (Submission Box) */
+
+#lowerFieldsContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-bottom: 5px;
+  padding: 0px 0px 5px 0px;
+}
+
+/* Condition Dropdown */
+
+#conditionContainer {
+  width: 70%;
+  height: 40px;
+  margin: 3%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  overflow: visible;
+}
+
+#conditionLabelContainer {
+  height: 100%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#conditionLabel {
+  font-size: 20px;
+  font-family: montserrat;
+}
+
+
+

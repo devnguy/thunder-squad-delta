@@ -1,0 +1,104 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+.pSwapPageContainer {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  min-width: 980px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.pSwapTitle {
+  position: relative;
+  top: 20px;
+  font-size: 40px;
+  font-family: Inconsolata;
+  margin-left: 10%;
+  font-weight: 500;
+}
+
+.pSwapTabHolder {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+
+  left: 45%;
+  height: 50px;
+  top: 1px;
+  background-color: white;
+}
+
+.pSwapTab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 15%;
+  margin-right: 40px;
+  background-color: white;
+  border: 1px solid black;
+  border-bottom: 0;
+  border-radius: 10px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  z-index: 1;
+  cursor: pointer;
+  font-family: Inconsolata;
+  font-size: 40px;
+  font-weight: 400;
+}
+
+.pSwapTableSeparator {
+  position: relative;
+  height: 10px;
+  width: calc(92% + 10px);
+  margin-left: 4%;
+  border: 1px solid black;
+  border-bottom: 0;
+}
+
+.pSwapTableHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 4%;
+  width: 100%;
+}
+
+.pSwapHeaderCell {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  height: 50px;
+  font-family: Inconsolata;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.pSwapHeaderStatus {
+  width: 15%;
+}
+
+.pSwapHeaderBookDetails {
+  width: 25%;
+}
+
+.pSwapHeaderDate {
+  width: 12%;
+  text-align: center;
+}
+
+.pSwapHeaderOtherUser {
+  width: 12%;
+}
+
+.pSwapHeaderCost {
+  width: 12%;
+}
+
+.pSwapHeaderActions {
+  width: 16%;
+}

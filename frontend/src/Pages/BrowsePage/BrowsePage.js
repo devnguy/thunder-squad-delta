@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { Library, SearchBar } from "../../Components";
 import useApi from "../../Api/useApi";
@@ -6,22 +6,28 @@ import requests from "../../Api/requests";
 
 import HeaderImage from "../../Assets/BrowseHeader.png";
 import "./BrowsePage.css";
+import AuthContext from "../../Context/AuthContext";
 
-const headings = ["Recommended for you", "Trending", "Top All Time"];
+const headings = ["Recently Added", "Trending", "Top All Time"];
 
 function BrowsePage(props) {
-  const books = useApi(requests.getBooks);
-  const [bookArray, setBookArray] = useState(null);
+  const swaps = useApi(requests.getAllSwaps);
+  const [swapArray, setSwapArray] = useState(null);
+  const { userId } = useContext(AuthContext);
 
   useEffect(() => {
-    books.request();
+    swaps.request();
   }, []);
 
   useEffect(() => {
-    if (books.data !== []) {
-      setBookArray(books.data);
+    if (swaps.data !== []) {
+      setSwapArray(
+        swaps.data.filter(
+          (swap) => swap.status === "available" && swap.owner.id !== userId
+        )
+      );
     }
-  }, [books.data]);
+  }, [swaps.data]);
 
   return (
     <div>
@@ -32,11 +38,17 @@ function BrowsePage(props) {
         <SearchBar />
       </div>
       <div className="librarySection">
-        <Library
-          headings={headings}
-          book_arrays={[bookArray, bookArray, bookArray]}
-          left_start
-        />
+        {swapArray && (
+          <Library
+            headings={headings}
+            book_arrays={[
+              swapArray.slice(0, 4),
+              swapArray.slice(4, 8),
+              swapArray.slice(8, 12),
+            ]}
+            leftStart
+          />
+        )}
       </div>
     </div>
   );
