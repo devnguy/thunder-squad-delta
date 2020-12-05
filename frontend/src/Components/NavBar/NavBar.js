@@ -14,12 +14,12 @@ const dropdown_buttons = [
     link: "/profile",
   },
   {
-    title: "My Library",
-    link: "/library",
-  },
-  {
     title: "Pending Swaps",
     link: "/pending",
+  },
+  {
+    title: "My Library",
+    link: "/library",
   },
   {
     title: "Wishlist",

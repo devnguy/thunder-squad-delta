@@ -32,7 +32,11 @@ function BookPage(props) {
       books.request(swap.data.book.title, "Title");
       if (swap.data.status !== "available") {
         setRequested(true);
-        setButtonTxt("Requested!");
+        if (swap.data.receiver && swap.data.receiver.id === userId) {
+          setButtonTxt("Requested!");
+        } else {
+          setButtonTxt("Unavailable");
+        }
       }
     }
   }, [swap.data]);
@@ -40,10 +44,7 @@ function BookPage(props) {
   useEffect(() => {
     if (books.data.length > 0) {
       let filtered = [...books.data].filter(
-        (other) =>
-          other.status === "available" &&
-          other.owner.id !== userId &&
-          other.id !== swap.data.id
+        (other) => other.status === "available" && other.id !== swap.data.id
       );
       setSwapArray(filtered);
     }
@@ -84,34 +85,33 @@ function BookPage(props) {
             <p id="bookTitle">
               {swap.data.book ? swap.data.book.title : "Unknown"}
             </p>
-          </div>
-          <div className="dataContainer">
             <p id="bookAuthor">
-              {swap.data.book ? swap.data.book.author : "Unknown"}
+              {" "}
+              by {swap.data.book ? swap.data.book.author : "Unknown"}
             </p>
           </div>
-          <div className="dataContainer">
+          <div id="bookInfoRow">
             <p className="bookInfoText">
-              Condition: {swap.data.condition ? swap.data.condition : "Unknown"}
+              {swap.data.condition ? swap.data.condition : "Unknown"}
+              {" Condition"}
             </p>
-          </div>
-          <div className="dataContainer">
             <p className="bookInfoText">
-              Cost: {swap.data.cost ? swap.data.cost : "Unknown"} Points
+              {swap.data.cost ? swap.data.cost : "Unknown"}
+              {" Points"}
             </p>
-          </div>
-          <div className="dataContainer">
             <p className="bookInfoText">
-              Owner: {swap.data.owner ? swap.data.owner.name : "Unknown"}
+              {swap.data.owner ? swap.data.owner.name : "Unknown"}
             </p>
-          </div>
-          <div className="dataContainer">
             <p className="bookInfoText">
-              Location: {swap.data.owner ? swap.data.owner.state : "Unknown"},
-              USA
+              {swap.data.owner ? swap.data.owner.state : "Unknown"}, USA
             </p>
           </div>
-          {userId && (
+          <div id="descContainer">
+            <p id="descText">
+              {swap.data.book ? swap.data.book.description : ""}
+            </p>
+          </div>
+          {userId && swap.data.owner && userId !== swap.data.owner.id && (
             <div id="proposeContainer">
               <Button onClick={!requested ? proposeTrade : null}>
                 {buttonTxt}

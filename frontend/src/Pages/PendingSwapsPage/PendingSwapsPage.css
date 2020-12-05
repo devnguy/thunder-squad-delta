@@ -4,9 +4,11 @@
   display: flex;
   flex-direction: column;
   max-width: 100%;
+  min-width: 980px;
   overflow-x: hidden;
   overflow-y: hidden;
 }
+
 .pSwapTitle {
   position: relative;
   top: 20px;
@@ -32,18 +34,18 @@
   justify-content: center;
   align-items: center;
   width: 15%;
-  z-index: 1;
   margin-right: 40px;
-  font-family: Inconsolata;
-  font-size: 40px;
   background-color: white;
   border: 1px solid black;
   border-bottom: 0;
   border-radius: 10px;
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
-  font-weight: bold;
+  z-index: 1;
   cursor: pointer;
+  font-family: Inconsolata;
+  font-size: 40px;
+  font-weight: 400;
 }
 
 .pSwapTableSeparator {
@@ -54,6 +56,7 @@
   border: 1px solid black;
   border-bottom: 0;
 }
+
 .pSwapTableHeader {
   display: flex;
   flex-direction: row;
@@ -61,6 +64,7 @@
   margin-left: 4%;
   width: 100%;
 }
+
 .pSwapHeaderCell {
   align-items: center;
   display: flex;

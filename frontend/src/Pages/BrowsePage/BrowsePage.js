@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { Library, SearchBar } from "../../Components";
 import useApi from "../../Api/useApi";
@@ -6,12 +6,14 @@ import requests from "../../Api/requests";
 
 import HeaderImage from "../../Assets/BrowseHeader.png";
 import "./BrowsePage.css";
+import AuthContext from "../../Context/AuthContext";
 
 const headings = ["Recently Added", "Trending", "Top All Time"];
 
 function BrowsePage(props) {
   const swaps = useApi(requests.getAllSwaps);
   const [swapArray, setSwapArray] = useState(null);
+  const { userId } = useContext(AuthContext);
 
   useEffect(() => {
     swaps.request();
@@ -19,7 +21,11 @@ function BrowsePage(props) {
 
   useEffect(() => {
     if (swaps.data !== []) {
-      setSwapArray(swaps.data.filter((swap) => swap.status === "available"));
+      setSwapArray(
+        swaps.data.filter(
+          (swap) => swap.status === "available" && swap.owner.id !== userId
+        )
+      );
     }
   }, [swaps.data]);
 
