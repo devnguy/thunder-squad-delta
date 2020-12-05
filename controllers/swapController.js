@@ -246,8 +246,8 @@ exports.createSwap = async function (req, res, next) {
     }
 
     const response = await db.query(SQL`
-      INSERT INTO swap (owner_id, book_id, \`condition\`, cost) 
-      VALUES (${req.params.userId}, ${req.body.bookId}, ${req.body.condition}, ${req.body.cost}) 
+      INSERT INTO swap (owner_id, book_id, \`condition\`, cost, status)
+      VALUES (${req.params.userId}, ${req.body.bookId}, ${req.body.condition}, ${req.body.cost}, \'available\')
     `)
     if (response.error) throw new DatabaseError(response.error)
 
