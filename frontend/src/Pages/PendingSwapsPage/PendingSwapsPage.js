@@ -81,8 +81,12 @@ function PendingSwapsPage(props) {
                   dateRequested={date_requested}
                   {...{ status }}
                   openShip={() => {
+                    setCurrentSwap(
+                      allSwaps.data.owned.filter(
+                        (swap) => swap.status && swap.status !== "available"
+                      )[index]
+                    );
                     setShippingVisible(true);
-                    setCurrentSwap(allSwaps.data.owned[index]);
                   }}
                   onAccept={() => {
                     statusChange.request(id, "accepted");
@@ -129,7 +133,7 @@ function PendingSwapsPage(props) {
             )
           )}
       </div>
-      {shippingVisible && (
+      {shippingVisible && currentSwap && (
         <ShippingModal
           currentSwap={currentSwap}
           closeModal={() => setShippingVisible(false)}
