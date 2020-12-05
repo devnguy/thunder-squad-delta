@@ -1,26 +1,29 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 
 import "./ShippingModal.css";
 
 import Button from "../Button";
-import useApi from "../../Api/useApi";
-import requests from "../../Api/requests";
 
 function ShippingModal({ closeModal, currentSwap, onShipped }) {
   return (
     <div className="shippingModal">
       <div className="leftShippingModal">
         <p className="pleaseTxt">
-          Please ship "{currentSwap.book.title}" to the address below:
+          Please ship "{currentSwap.book ? currentSwap.book.title : ""}" to the
+          address below:
         </p>
         <div className="pSwapAddressHolder">
-          <p className="pSwapAddressTxt"> {currentSwap.receiver.name} </p>
-          <p className="pSwapAddressTxt"> {currentSwap.receiver.street} </p>
           <p className="pSwapAddressTxt">
-            {" "}
-            {currentSwap.receiver.city}, {currentSwap.receiver.state}{" "}
+            {currentSwap.receiver ? currentSwap.receiver.name : ""}{" "}
+          </p>
+          <p className="pSwapAddressTxt">
+            {currentSwap.receiver ? currentSwap.receiver.street : ""}{" "}
+          </p>
+          <p className="pSwapAddressTxt">
+            {currentSwap.receiver ? currentSwap.receiver.city : ""},{" "}
+            {currentSwap.receiver ? currentSwap.receiver.state : ""}
           </p>
         </div>
       </div>
