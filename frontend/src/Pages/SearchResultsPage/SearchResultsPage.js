@@ -92,7 +92,7 @@ function SearchResultsPage(props) {
           <>
             {bookArray
               .filter((swap) => swap.status === "available")
-              .map(({ id, status, book, owner, condition, cost }, index) => (
+              .map(({ id, book, owner, condition, cost }, index) => (
                 <SearchResultRow
                   id={id}
                   cover={book.image}

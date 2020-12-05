@@ -18,6 +18,7 @@ function BookPage(props) {
   let { swapId } = useParams();
   let history = useHistory();
   const [requested, setRequested] = useState(false);
+  const [swapArray, setSwapArray] = useState(null);
 
   useEffect(() => {
     swap.request(swapId);
@@ -29,14 +30,30 @@ function BookPage(props) {
   useEffect(() => {
     if (swap.data.book) {
       books.request(swap.data.book.title, "Title");
+      if (swap.data.status !== "available") {
+        setRequested(true);
+        setButtonTxt("Requested!");
+      }
     }
   }, [swap.data]);
+
+  useEffect(() => {
+    if (books.data.length > 0) {
+      let filtered = [...books.data].filter(
+        (other) =>
+          other.status === "available" &&
+          other.owner.id !== userId &&
+          other.id !== swap.data.id
+      );
+      setSwapArray(filtered);
+    }
+  }, [books.data]);
 
   useEffect(() => {
     if (update.data.status && update.data.status === true) {
       pointChange.request(userId, swap.data.cost * -1);
       setRequested(true);
-      setButtonTxt("Request Complete");
+      setButtonTxt("Requested!");
     }
   }, [update.data]);
 
@@ -104,10 +121,14 @@ function BookPage(props) {
         </div>
       </div>
       <div id="tableTitleContainer">
-        <p id="tableTitle">All Available Copies</p>
+        {swapArray && swapArray.length > 0 ? (
+          <p id="tableTitle">Other Available Copies</p>
+        ) : (
+          <p id="tableTitle">No Other Available Copies</p>
+        )}
       </div>
       <div id="lowerPageSection">
-        {books.data.length > 0 && (
+        {swapArray && swapArray.length > 0 && (
           <div id="availableTable">
             <div className="tableRow borderBottom">
               <div className="tableCell borderRight headerCell">
@@ -126,16 +147,12 @@ function BookPage(props) {
                 <p className="cellText"></p>
               </div>
             </div>
-            {books.data
-              .filter((swap) => swap.status === "available")
-              .map((swap, index) => (
+            {swapArray &&
+              swapArray.map((swap, index) => (
                 <div
                   key={index}
                   className={
-                    index <
-                    books.data.filter((swap) => swap.status === "available")
-                      .length -
-                      1
+                    index < swapArray.length - 1
                       ? "tableRow borderBottom"
                       : "tableRow"
                   }
@@ -161,7 +178,10 @@ function BookPage(props) {
                     </p>
                   </div>
                   <div className="tableCell totalCenter">
-                    <Button onClick={() => bookPageRedirect(swap.id)}>
+                    <Button
+                      color="blue"
+                      onClick={() => bookPageRedirect(swap.id)}
+                    >
                       More Info
                     </Button>
                   </div>
