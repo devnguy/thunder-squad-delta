@@ -63,7 +63,6 @@ const WishlistPage = () => {
 
   useEffect(() => {
     if (userWishes.data.length !== 0) {
-      console.log("Change!");
       booksToRows();
     }
   }, [userWishes.data]);

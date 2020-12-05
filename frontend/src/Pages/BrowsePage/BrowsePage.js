@@ -19,7 +19,7 @@ function BrowsePage(props) {
 
   useEffect(() => {
     if (swaps.data !== []) {
-      setSwapArray(swaps.data);
+      setSwapArray(swaps.data.filter((swap) => swap.status === "available"));
     }
   }, [swaps.data]);
 

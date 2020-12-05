@@ -126,46 +126,47 @@ function BookPage(props) {
                 <p className="cellText"></p>
               </div>
             </div>
-            {books.data.map((swap, index) => {
-              if (swap.status === "available") {
-                return (
-                  <div
-                    key={index}
-                    className={
-                      index < books.data.length - 1
-                        ? "tableRow borderBottom"
-                        : "tableRow"
-                    }
-                  >
-                    <div className="tableCell borderRight">
-                      <p className="cellText">
-                        {swap.owner ? swap.owner.name : "Unknown"}
-                      </p>
-                    </div>
-                    <div className="tableCell borderRight">
-                      <p className="cellText">
-                        {swap.cost ? swap.cost : "Unknown"}
-                      </p>
-                    </div>
-                    <div className="tableCell borderRight">
-                      <p className="cellText">
-                        {swap.condition ? swap.condition : "Unknown"}
-                      </p>
-                    </div>
-                    <div className="tableCell borderRight">
-                      <p className="cellText">
-                        {swap.owner ? swap.owner.state : "Unknown"}, USA
-                      </p>
-                    </div>
-                    <div className="tableCell totalCenter">
-                      <Button onClick={() => bookPageRedirect(swap.id)}>
-                        More Info
-                      </Button>
-                    </div>
+            {books.data
+              .filter((swap) => swap.status === "available")
+              .map((swap, index) => (
+                <div
+                  key={index}
+                  className={
+                    index <
+                    books.data.filter((swap) => swap.status === "available")
+                      .length -
+                      1
+                      ? "tableRow borderBottom"
+                      : "tableRow"
+                  }
+                >
+                  <div className="tableCell borderRight">
+                    <p className="cellText">
+                      {swap.owner ? swap.owner.name : "Unknown"}
+                    </p>
                   </div>
-                );
-              }
-            })}
+                  <div className="tableCell borderRight">
+                    <p className="cellText">
+                      {swap.cost ? swap.cost : "Unknown"}
+                    </p>
+                  </div>
+                  <div className="tableCell borderRight">
+                    <p className="cellText">
+                      {swap.condition ? swap.condition : "Unknown"}
+                    </p>
+                  </div>
+                  <div className="tableCell borderRight">
+                    <p className="cellText">
+                      {swap.owner ? swap.owner.state : "Unknown"}, USA
+                    </p>
+                  </div>
+                  <div className="tableCell totalCenter">
+                    <Button onClick={() => bookPageRedirect(swap.id)}>
+                      More Info
+                    </Button>
+                  </div>
+                </div>
+              ))}
           </div>
         )}
       </div>

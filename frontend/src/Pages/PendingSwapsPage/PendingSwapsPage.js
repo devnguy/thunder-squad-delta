@@ -67,10 +67,10 @@ function PendingSwapsPage(props) {
       <div className="pSwapRowHolder ">
         {tabSelect === "give" &&
           allSwaps.data.owned &&
-          allSwaps.data.owned.map(
-            ({ status, book, date_requested, receiver, cost, id }, index) =>
-              status != "available" &&
-              status != null && (
+          allSwaps.data.owned
+            .filter((swap) => swap.status && swap.status !== "available")
+            .map(
+              ({ status, book, date_requested, receiver, cost, id }, index) => (
                 <PendingSwapsRow
                   key={index}
                   cover={book.image}
@@ -95,7 +95,7 @@ function PendingSwapsPage(props) {
                   isGet={false}
                 />
               )
-          )}
+            )}
 
         {tabSelect === "get" &&
           allSwaps.data.requested &&
@@ -119,10 +119,10 @@ function PendingSwapsPage(props) {
                   pointChange.request(owner.id, cost);
                   setNewData(!newData);
                 }}
-                onCancel={()=> {
+                onCancel={() => {
                   update.request(id, "available", null);
-                  pointChange.request(userId, cost)
-                  setNewData(arg => !arg);
+                  pointChange.request(userId, cost);
+                  setNewData((arg) => !arg);
                 }}
               />
             )

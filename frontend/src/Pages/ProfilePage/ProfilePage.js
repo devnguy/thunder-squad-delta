@@ -22,15 +22,8 @@ function ProfilePage(props) {
       userDetails.request(userId);
       library.request(userId);
       wishlist.request(userId);
-      console.log(userId);
     }
   }, []);
-
-  useEffect(() => {
-    if (userDetails.data.user_id) {
-      console.log(userDetails.data.user_id);
-    }
-  }, [userDetails.data]);
 
   return (
     <div className="pageBody">
