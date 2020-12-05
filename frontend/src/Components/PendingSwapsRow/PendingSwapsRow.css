@@ -25,9 +25,6 @@
   width: 15%;
 }
 
-
-
-
 .pSwapBookDetails {
   display: flex;
   flex-direction: row;
@@ -35,34 +32,29 @@
   width: 25%;
 }
 
-
 .pSwapTitleTxt {
   display: flex;
   flex-direction: column;
-  width: 70%;
-
 }
 
-.pSwapBookImg{
-    width: 20%;
-    height: auto;
+.pSwapBookImg {
+  height: 80%;
+  margin-left: 20px;
 }
-
 
 .pSwapDate {
   width: 12%;
 }
 
-
 .pSwapOtherUser {
-    width: 12%;
-  }
+  width: 12%;
+}
 
 .pSwapCost {
   width: 12%;
 }
 
-.pSwapActions { 
+.pSwapActions {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;

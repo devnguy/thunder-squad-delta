@@ -19,8 +19,8 @@
   flex-direction: row;
   align-items: center;
   justify-content: flex-end;
-  width: 47%;
-  padding-right: 3%;
+  width: 44%;
+  margin: 0px 3% 0px 3%;
 }
 
 #bookCover {
@@ -33,16 +33,25 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  width: 47%;
-  padding-left: 3%;
+  align-items: flex-start;
+  width: 44%;
+  margin: 0px 3% 0px 3%;
+}
+
+#bookInfoRow {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  text-align: left;
+  margin-bottom: 20px;
 }
 
 .dataContainer {
   display: flex;
-  width: 90%;
+  flex-direction: column;
   justify-content: flex-start;
-  align-content: center;
+  align-content: flex-start;
 }
 
 #bookTitle {
@@ -52,7 +61,8 @@
   font-size: 36px;
   color: #000000;
   margin: 10px 0px 10px 0px;
-  text-align: center;
+  text-align: left;
+  justify-content: center;
 }
 
 #bookAuthor {
@@ -60,9 +70,9 @@
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
-  margin: 10px 0px 10px 0px;
+  margin: 0px 0px 20px 0px;
   color: #d8315b;
-  text-align: center;
+  text-align: left;
 }
 
 .bookInfoText {
@@ -70,13 +80,28 @@
   font-size: 16px;
   color: #000000;
   margin: 10px 0px 10px 0px;
-  text-align: center;
+  text-align: left;
 }
 
 #proposeContainer {
   width: 70%;
   margin: 10px 0px 10px 0px;
   align-self: flex-start;
+}
+
+/* Description */
+
+#descContainer {
+  max-height: 50%;
+  overflow: scroll;
+}
+
+#descText {
+  font-family: Montserrat;
+  font-size: 16px;
+  color: #000000;
+  margin: 10px 0px 10px 0px;
+  text-align: left;
 }
 
 /* Table Section */
